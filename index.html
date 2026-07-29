@@ -839,8 +839,8 @@
         <!-- §5 -->
         <section id="development" class="reveal">
           <div class="clause">§5 — Development</div>
-          <h2>Developed in the open, deliberately lightweight.</h2>
-          <p class="say">Guardian is a static front end with no build step, together with an optional database. That decision is what allows it to run from a handset, a laptop, low-cost hosting or a self-hosted server on your own network — and what allows it to continue operating when connectivity is lost mid-shift.</p>
+          <h2>Engineered to be dependable, deliberately lightweight.</h2>
+          <p class="say">Guardian is a lightweight front end with an optional managed database behind it. That architecture is what allows it to run from a handset, a laptop, or a private server inside your own network — and what allows it to keep operating when connectivity is lost mid-shift. Deployments are provisioned per organisation, with data held in an environment you control.</p>
           <div class="principle reveal">
             <p>A safety tool that hedges at the moment of decision is worse than no tool, because it launders a doubtful permit into a signed one.</p>
             <span>Design principle</span>
@@ -849,9 +849,9 @@
           <div class="split">
             <div class="panel">
               <h3>How it's put together</h3>
-              <div class="stackline"><b>App</b><span>single-file HTML · CSS · vanilla JS</span></div>
-              <div class="stackline"><b>Offline launch</b><span>service worker, network-first</span></div>
-              <div class="stackline"><b>Accounts &amp; data</b><span>Supabase · Postgres row-level security</span></div>
+              <div class="stackline"><b>Application</b><span>browser-based · no installation</span></div>
+              <div class="stackline"><b>Offline launch</b><span>installed application, always current</span></div>
+              <div class="stackline"><b>Accounts &amp; data</b><span>managed Postgres · row-level security</span></div>
               <div class="stackline"><b>Evidence files</b><span>private storage, per-organisation</span></div>
               <div class="stackline"><b>AI layer</b><span>your provider · your key · your device</span></div>
               <div class="stackline"><b>Analytics</b><span>CSV export · PySpark / Spark SQL</span></div>
@@ -882,9 +882,9 @@
             <div class="stp"><b>Open it</b><p>Open <a href="./app.html">the application</a>. All functions are available immediately — permits, audits, register, documents and the offline reference. No account is required.</p></div>
             <div class="stp"><b>Install it on the phone</b><p>Open Guardian in the browser and select <em>Add to home screen</em> or <em>Install app</em>. It then opens as a native application and launches without a connection.</p></div>
             <div class="stp"><b>Connect a model (optional)</b><p>In Settings, select the assistant: Claude, an OpenAI-compatible provider, or a local Ollama model. Enter the key and use <code>Test connection</code>. Where none is configured, the offline engine responds.</p></div>
-            <div class="stp"><b>Set up your organisation (optional)</b><p>Create a Supabase project, run <code>supabase-setup.sql</code>, and enter the project URL and publishable key in the application. Personnel are then added from the administration console against their job titles — EHS officer, permit holder, site engineer, SME, project manager — with each duty enforced by the database.</p></div>
+            <div class="stp"><b>Provision your organisation</b><p>Your organisation's environment is provisioned and connected during onboarding. Personnel are then added against their job titles — EHS officer, permit holder, site engineer, SME, project manager — with each duty enforced at the database level.</p></div>
           </div>
-          <p class="say" style="margin-top:22px">Complete configuration notes, the database script and deployment procedure are held in the repository <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>README</a>. Administrators sign in at <a class="mono" href="./admin.html" rel="nofollow">/admin.html</a>.</p>
+          <p class="say" style="margin-top:22px">Configuration notes, the deployment procedure and administrator access are issued to your organisation during onboarding. <a href="mailto:CHANGE-ME@example.com?subject=Guardian%20—%20deployment%20enquiry">Request the deployment pack</a>.</p>
 
           <div class="faq">
             <details><summary>Is Guardian free?</summary><p>Yes. The application is free to use and every core function operates without an account. Organisations requiring configuration, tailoring to their sites and ongoing support can arrange this as a service.</p></details>
@@ -955,10 +955,10 @@
       </div>
       <div class="foot-col">
         <h4>Resources</h4>
-        <a href="./#docs">Documentation</a>
-        <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>Source code</a>
-        <a href="./admin.html" rel="nofollow">Administrator sign-in</a>
-        <a href="https://arunwilliams.github.io">Arun Williams</a>
+        <a href="./#docs">Getting started</a>
+        <a href="./#uses">Sectors served</a>
+        <a href="mailto:CHANGE-ME@example.com?subject=Guardian%20—%20enquiry">Request a briefing</a>
+        <a href="mailto:CHANGE-ME@example.com?subject=Guardian%20—%20support">Client support</a>
       </div>
     </div>
     <div class="foot-legal">
@@ -1006,14 +1006,6 @@
       });
     },{rootMargin:'-30% 0px -60% 0px'});
     secs.forEach(s=>io.observe(s));
-  })();
-
-  /* repository links follow wherever this site is hosted */
-  (function(){
-    const m=location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
-    if(!m)return;
-    const url='https://github.com/'+m[1]+'/'+location.hostname;
-    document.querySelectorAll('[data-repo]').forEach(a=>a.href=url);
   })();
 </script>
 <script>
