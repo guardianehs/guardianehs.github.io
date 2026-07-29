@@ -645,6 +645,16 @@
   }
 
   /* ---------------- LinkedIn profile badges ---------------- */
+  .badgecell{position:relative}
+  .bc-cap{text-align:center;margin-bottom:12px}
+  .bc-cap b{display:block;font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:15.5px;color:var(--ink)}
+  .bc-cap span{display:block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .bc-link{display:none;font-size:13px;font-weight:600}
+  .badgecell.nobadge .bc-link{display:inline-block;margin-top:2px}
+  .badgecell.nobadge .badge-base{display:none}
+  .badgecell.pending .badge-base{display:none}
+
   .badgewrap{margin-top:40px;padding-top:34px;border-top:1px solid var(--line)}
   .badgewrap h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:6px}
   .badgewrap p.note2{font-size:14px;color:var(--ink-2);margin-bottom:22px;max-width:60ch}
@@ -737,31 +747,28 @@
       <p class="note2">Profiles for the people behind Guardian. Enquiries are welcome directly, or through the address below.</p>
       <div class="badges">
 
-        <div class="badgecell">
-          <!-- Arun: replace ARUN-LINKEDIN-VANITY below with the last part of your LinkedIn
-               profile URL. If your profile is linkedin.com/in/arun-w-123abc then the value
-               to paste in is: arun-w-123abc -->
+        <div class="badgecell" data-vanity="ARUN-LINKEDIN-VANITY">
+          <div class="bc-cap"><b>Arun Williams</b><span>Co-founder &amp; Engineer</span></div>
+          <!-- Replace ARUN-LINKEDIN-VANITY in BOTH places below with the last part of your
+               LinkedIn profile URL. If the profile is linkedin.com/in/arun-w-123abc the
+               value to paste is: arun-w-123abc -->
           <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light"
-               data-type="VERTICAL" data-vanity="ARUN-LINKEDIN-VANITY" data-version="v1">
-            <span class="fallback"><b>Arun Williams</b>Co-founder &amp; Engineer ·
-              <a href="https://arunwilliams.github.io">arunwilliams.github.io</a></span>
-          </div>
+               data-type="VERTICAL" data-vanity="ARUN-LINKEDIN-VANITY" data-version="v1"></div>
+          <a class="bc-link" href="https://arunwilliams.github.io">arunwilliams.github.io →</a>
         </div>
 
-        <div class="badgecell">
+        <div class="badgecell" data-vanity="jobel-george-6abb46184">
+          <div class="bc-cap"><b>Jobel George</b><span>Co-founder</span></div>
           <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light"
-               data-type="VERTICAL" data-vanity="jobel-george-6abb46184" data-version="v1">
-            <a class="badge-base__link LI-simple-link fallback"
-               href="https://www.linkedin.com/in/jobel-george-6abb46184?trk=profile-badge"><b>Jobel George</b>Co-founder</a>
-          </div>
+               data-type="VERTICAL" data-vanity="jobel-george-6abb46184" data-version="v1"></div>
+          <a class="bc-link" href="https://www.linkedin.com/in/jobel-george-6abb46184">View profile on LinkedIn →</a>
         </div>
 
-        <div class="badgecell">
+        <div class="badgecell" data-vanity="sajil-krk-518ab8249">
+          <div class="bc-cap"><b>Sajil K</b><span>Psychologist · Contributor</span></div>
           <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light"
-               data-type="VERTICAL" data-vanity="sajil-krk-518ab8249" data-version="v1">
-            <a class="badge-base__link LI-simple-link fallback"
-               href="https://www.linkedin.com/in/sajil-krk-518ab8249?trk=profile-badge"><b>Sajil K</b>Psychologist · Contributor</a>
-          </div>
+               data-type="VERTICAL" data-vanity="sajil-krk-518ab8249" data-version="v1"></div>
+          <a class="bc-link" href="https://www.linkedin.com/in/sajil-krk-518ab8249">View profile on LinkedIn →</a>
         </div>
 
       </div>
@@ -860,5 +867,23 @@ document.querySelectorAll('img').forEach(function(im){
 })();
 </script>
 <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+<script>
+/* A LinkedIn badge only renders when that profile is public and badge-enabled.
+   If it doesn't appear, show a plain link instead of an empty box. */
+(function(){
+  var cells=[].slice.call(document.querySelectorAll('.badgecell'));
+  cells.forEach(function(c){
+    if((c.dataset.vanity||'').indexOf('ARUN-LINKEDIN')===0){c.classList.add('nobadge');}
+  });
+  setTimeout(function(){
+    cells.forEach(function(c){
+      if(c.classList.contains('nobadge'))return;
+      var holder=c.querySelector('.badge-base');
+      if(!holder||!holder.querySelector('iframe'))c.classList.add('nobadge');
+    });
+  },3000);
+})();
+</script>
+
 </body>
 </html>
