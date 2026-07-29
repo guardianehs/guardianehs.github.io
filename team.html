@@ -16,6 +16,38 @@
 <meta property="og:url" content="https://guardianehs.github.io/team.html" />
 <meta property="og:image" content="https://guardianehs.github.io/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Guardian EHS",
+  "url": "https://guardianehs.github.io/",
+  "description": "An environment, health and safety management platform with an integrated AI assistant.",
+  "founder": [
+    {
+      "@type": "Person",
+      "name": "Arun Williams",
+      "jobTitle": "Co-founder & Engineer",
+      "description": "EHS professional in Bengaluru, India, working in project health, safety and environment.",
+      "url": "https://arunwilliams.github.io",
+      "sameAs": ["https://arunwilliams.github.io"]
+    },
+    {
+      "@type": "Person",
+      "name": "Jobel George",
+      "jobTitle": "Co-founder",
+      "sameAs": ["https://www.linkedin.com/in/jobel-george-6abb46184/"]
+    }
+  ],
+  "member": {
+    "@type": "Person",
+    "name": "Sajil K",
+    "jobTitle": "Psychologist, Contributor",
+    "description": "Psychologist working on human factors in safety — behaviour, fatigue, reporting culture and wellbeing at work.",
+    "sameAs": ["https://www.linkedin.com/in/sajil-krk-518ab8249/"]
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -612,6 +644,20 @@
     .win-url{font-size:9.5px}
   }
 
+  /* ---------------- LinkedIn profile badges ---------------- */
+  .badgewrap{margin-top:40px;padding-top:34px;border-top:1px solid var(--line)}
+  .badgewrap h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:6px}
+  .badgewrap p.note2{font-size:14px;color:var(--ink-2);margin-bottom:22px;max-width:60ch}
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+  .badgecell{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:16px;
+    display:flex;flex-direction:column;align-items:center;min-height:120px;justify-content:center;overflow:hidden}
+  .badgecell .badge-base{max-width:100%}
+  .badgecell iframe{max-width:100%!important;border-radius:6px}
+  .badgecell .fallback{font-size:13.5px;color:var(--ink-2);text-align:center}
+  .badgecell .fallback b{display:block;font-family:"Hanken Grotesk",sans-serif;font-size:15px;color:var(--ink);margin-bottom:3px}
+  @media(max-width:860px){.badges{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.badges{grid-template-columns:1fr}}
+
 </style>
 
 </head>
@@ -682,6 +728,42 @@
         <h3>Advisory practitioners</h3>
         <div class="role">By invitation</div>
         <p>Senior EHS professionals who trial modules on live sites and report where the platform does not reflect practice in their jurisdiction. Participation is by invitation and covered by a mutual confidentiality agreement.</p>
+      </div>
+    </div>
+
+
+    <div class="badgewrap">
+      <h3>Connect</h3>
+      <p class="note2">Profiles for the people behind Guardian. Enquiries are welcome directly, or through the address below.</p>
+      <div class="badges">
+
+        <div class="badgecell">
+          <!-- Arun: replace ARUN-LINKEDIN-VANITY below with the last part of your LinkedIn
+               profile URL. If your profile is linkedin.com/in/arun-w-123abc then the value
+               to paste in is: arun-w-123abc -->
+          <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light"
+               data-type="VERTICAL" data-vanity="ARUN-LINKEDIN-VANITY" data-version="v1">
+            <span class="fallback"><b>Arun Williams</b>Co-founder &amp; Engineer ·
+              <a href="https://arunwilliams.github.io">arunwilliams.github.io</a></span>
+          </div>
+        </div>
+
+        <div class="badgecell">
+          <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light"
+               data-type="VERTICAL" data-vanity="jobel-george-6abb46184" data-version="v1">
+            <a class="badge-base__link LI-simple-link fallback"
+               href="https://www.linkedin.com/in/jobel-george-6abb46184?trk=profile-badge"><b>Jobel George</b>Co-founder</a>
+          </div>
+        </div>
+
+        <div class="badgecell">
+          <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light"
+               data-type="VERTICAL" data-vanity="sajil-krk-518ab8249" data-version="v1">
+            <a class="badge-base__link LI-simple-link fallback"
+               href="https://www.linkedin.com/in/sajil-krk-518ab8249?trk=profile-badge"><b>Sajil K</b>Psychologist · Contributor</a>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -777,5 +859,6 @@ document.querySelectorAll('img').forEach(function(im){
   if(t)t.onclick=function(){scrollTo({top:0,behavior:'smooth'});};
 })();
 </script>
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
 </body>
 </html>
