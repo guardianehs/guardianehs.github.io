@@ -2040,6 +2040,139 @@ function offCalcThresholds(q){
   return out.length?out.join('\n\n'):null;
 }
 /* what to do next, in the language of the open workspace */
+/* ---- activity library: hazards with controls in hierarchy order ---- */
+const OFF_ACTIVITIES=[
+ {n:'Hot work (welding, cutting, grinding)',k:['hot work','welding','weld','cutting','grinding','brazing','gas cutting','torch'],
+  permits:['Hot work permit','Confined space entry if inside a vessel or pit'],
+  ppe:['Welding shield / goggles','Leather apron and gauntlets','Flame-retardant coverall','Safety boots','Hearing protection for grinding'],
+  h:[['Fire or explosion from sparks and hot slag','Remove combustibles within 11 m or shield them; gas test before starting; fire watch during and 60 min after; extinguisher and water at hand'],
+     ['Radiation burns to eyes (arc eye) and skin','Screens around the arc; correct shade filter; cover exposed skin; exclude passers-by'],
+     ['Fume and gas inhalation (metal fume, ozone, CO)','Local exhaust ventilation at source; general ventilation; respiratory protection where LEV cannot reach; never hot work on galvanised or coated metal without extraction'],
+     ['Cylinder failure or flashback','Flashback arrestors both lines; cylinders upright, secured, out of the work area; leak test with soap solution; no oil on fittings'],
+     ['Falling sparks reaching lower levels','Barricade and clear the area below; fire blankets over openings; check floor penetrations']]},
+ {n:'Work at height',k:['work at height','height','roof','rooftop','edge','harness','mewp','scaffold platform','fall'],
+  permits:['Work at height permit','Roof access permit where applicable'],
+  ppe:['Full-body harness with double lanyard','Helmet with chin strap','Non-slip boots'],
+  h:[['Fall from an open edge, opening or leading edge','Avoid the work if possible; guard rails and toe boards; cover and secure openings; restraint before arrest; anchor above shoulder height'],
+     ['Falling tools and materials striking people below','Exclusion zone and hard barricade below; tool tethers; toe boards and debris netting; no material stored at the edge'],
+     ['Failure of access equipment','Inspect scaffolds and MEWPs before each shift; scaffold tag current; trained operator; ground conditions checked; do not overload'],
+     ['Suspension trauma after an arrested fall','Rescue plan and equipment on site before work starts; nominated rescuers; never work alone at height'],
+     ['Weather — wind, rain, lightning','Define stop-work wind speed; stop for lightning and resume 30 min after the last strike; re-inspect after heavy rain']]},
+ {n:'Confined space entry',k:['confined space','vessel','tank entry','manhole','silo','sewer','pit entry','chamber'],
+  permits:['Confined space entry permit','Isolation (LOTO) certificate','Hot work permit if any ignition source'],
+  ppe:['Harness with retrieval line','Gas detector (personal)','Appropriate respiratory protection','Intrinsically safe lighting'],
+  h:[['Oxygen deficiency or enrichment','Test O₂ before entry and continuously (19.5–23.5%); forced ventilation; never rely on smell or feel'],
+     ['Flammable atmosphere','LEL at 0% before entry and hot work; purge and ventilate; intrinsically safe equipment only'],
+     ['Toxic atmosphere (H₂S, CO, residues)','Test at all levels including the bottom; ventilate; escape set and RPE as assessed; know the exposure limits'],
+     ['Engulfment or entrapment by product or water','Positive isolation of all inlets — lock, tag and prove; drain and clean; no work while lines can be opened'],
+     ['Inability to rescue','Trained standby person at the entry at all times; entry log; retrieval equipment rigged; rescue team briefed — never enter to rescue without equipment']]},
+ {n:'Excavation',k:['excavation','trench','digging','dig','shoring','earthwork','pit'],
+  permits:['Excavation permit','Utility clearance / dial-before-dig'],
+  ppe:['Helmet','High-visibility vest','Safety boots','Gloves'],
+  h:[['Collapse of sides burying a worker','Batter, bench or shore at 1.2 m and deeper; design to soil type; competent inspection before each shift and after rain'],
+     ['Striking buried services — cable, gas, water','Drawings plus cable locator; hand-dig trial holes; permit sign-off before mechanical digging; assume live until proven dead'],
+     ['People or plant falling in','Hard barricade the full perimeter; edge protection; stop blocks for plant; lighting at night'],
+     ['Fall of material from the edge','Spoil and plant kept at least 1 m back; no stacking at the edge'],
+     ['Water ingress and unstable ground','Dewatering; re-inspect after rain; treat previously dug ground as unstable']]},
+ {n:'Lifting operations',k:['lifting','crane','sling','rigging','hoist','shackle','load','tandem lift','forklift'],
+  permits:['Lifting permit for critical or tandem lifts','Lift plan approved by a competent person'],
+  ppe:['Helmet','Gloves','Safety boots','High-visibility vest'],
+  h:[['Load falling from the sling or hook','Certified, inspected and colour-coded tackle; correct sling angle and SWL; secondary retention; never side-load a hook'],
+     ['Crane overturning','Ground bearing check and mats; outriggers fully extended; work within the load chart; wind limit observed'],
+     ['Person struck by the load','Exclusion zone under and around the load; tag lines instead of hands; nobody under a suspended load'],
+     ['Contact with overhead lines or structures','Survey the swing path; goal posts and spotters; isolate or maintain minimum approach distance'],
+     ['Failure of communication','Appointed person, trained slinger and signaller; single agreed signal set; radio checks before the lift']]},
+ {n:'Electrical work',k:['electrical','electricity','live work','panel','busbar','cable termination','wiring','loto'],
+  permits:['Electrical work permit','Isolation (LOTO) certificate'],
+  ppe:['Arc-rated clothing for live-risk tasks','Insulating gloves rated to the voltage','Face shield','Insulated tools'],
+  h:[['Electric shock or electrocution','Work dead — isolate, lock, tag and prove dead at the point of work; only authorised competent persons; permit-controlled live work with a second person'],
+     ['Arc flash and blast','Arc study or table-based boundary; arc-rated PPE; door closed operation where possible; no unnecessary personnel'],
+     ['Damaged temporary supply','RCD/RCCB protection on every circuit; PAT-tested leads; IP-rated enclosures; cables routed off the floor'],
+     ['Stored energy in capacitors or drives','Wait the stated discharge time; earth down before touching; treat drives as live until proven'],
+     ['Fire from overload or poor joints','Sized cabling and correct protection; thermographic checks; no daisy-chained boards']]},
+ {n:'Demolition',k:['demolition','dismantling','breaking','wrecking'],
+  permits:['Demolition permit','Method statement approved by a structural engineer'],
+  ppe:['Helmet','Dust mask or respirator','Goggles','Hearing protection','Gloves','Boots'],
+  h:[['Uncontrolled or premature collapse','Structural survey and engineered sequence; no deviation without re-approval; temporary propping; nobody inside the collapse zone'],
+     ['Hazardous materials — asbestos, lead, silica','Pre-demolition survey; licensed removal before work; water suppression for silica; air monitoring'],
+     ['Falling debris','Exclusion zone sized to the drop; chutes and enclosed scaffolds; no free dropping of material'],
+     ['Noise and vibration','Quieter methods; limit exposure time; hearing protection; rotate operators'],
+     ['Services still live in the structure','Prove all supplies dead and disconnected before the first strike']]},
+ {n:'Handling hazardous substances',k:['chemical','hazardous substance','solvent','acid','paint','thinner','coshh','sds','msds'],
+  permits:['Chemical handling permit where required','Confined space or hot work permit if combined'],
+  ppe:['Chemical-resistant gloves to the SDS','Goggles or face shield','Apron or chemical suit','RPE per the SDS'],
+  h:[['Skin and eye contact — burns, dermatitis','Substitute for a less hazardous product; closed transfer; gloves and eye protection to the SDS; eyewash and shower within reach'],
+     ['Inhalation of vapour or mist','Ventilate or extract at source; monitor against exposure limits; RPE with face-fit testing'],
+     ['Fire or reaction from incompatible storage','Segregate by class per the SDS; bunded, ventilated store; no ignition sources; earth and bond during decanting'],
+     ['Spill to ground or drainage','Bunding and drip trays; spill kit sized to the largest container; drains covered; trained responders'],
+     ['Unlabelled or decanted containers','No unlabelled containers on site; label every decant; SDS available at the point of use']]},
+ {n:'Manual handling',k:['manual handling','lifting by hand','carrying','ergonomic','bags','cement bag'],
+  permits:[],
+  ppe:['Gloves with grip','Safety boots'],
+  h:[['Back and shoulder injury from load weight','Mechanise with trolley or hoist; reduce package size; team lift with a nominated leader above ~25 kg'],
+     ['Awkward posture and twisting','Store between knee and shoulder height; turn with the feet, not the spine; clear the route first'],
+     ['Repetition and fatigue','Rotate tasks; scheduled breaks; limit repetition rate'],
+     ['Dropped load crushing feet or hands','Grip check and clean handles; boots with toe protection; never carry above eye level'],
+     ['Poor route — slips, trips, obstructions','Walk the route first; clear and light it; two trips instead of one overload']]},
+ {n:'Site transport and mobile plant',k:['driving','vehicle','transport','reversing','banksman','forklift traffic','plant movement'],
+  permits:['Vehicle entry permit where applicable'],
+  ppe:['High-visibility clothing','Helmet','Boots','Seatbelt worn at all times'],
+  h:[['Pedestrian struck by plant or vehicle','Segregate routes with barriers; designated crossings; eye contact protocol; nobody in the blind spot'],
+     ['Reversing collision','One-way routes designed to avoid reversing; banksman with agreed signals; reversing alarms and cameras'],
+     ['Overturning on slopes or soft ground','Ground survey and compaction; slope limits per the machine; no travel across steep gradients'],
+     ['Load shifting or falling from the vehicle','Secure and sheet loads; do not exceed the rated capacity; check before every movement'],
+     ['Driver fatigue or unfitness','Journey planning and break schedule; fitness-to-drive checks; no phone use']]}
+];
+function offJSA(q){
+  const t=String(q).toLowerCase();
+  if(!/(risk assessment|\bjsa\b|\bhira\b|hazard|hazards|controls?|what could go wrong|method statement|\btra\b)/.test(t))return null;
+  const raw=' '+t.replace(/[^a-z0-9₂\s]/g,' ').replace(/\s+/g,' ')+' ';
+  const toks=new Set(offTokens(t));
+  let best=null,bs=0;
+  OFF_ACTIVITIES.forEach(a=>{
+    let sc=0;
+    a.k.forEach(k=>{ if(k.includes(' ')){ if(raw.includes(' '+k))sc+=6; } else if(toks.has(offSing(k)))sc+=4; });
+    if(sc>bs){bs=sc;best=a;}
+  });
+  if(!best||bs<4)return null;
+  const out=['**Risk assessment — '+best.n+'**','_Offline draft. Score each line Likelihood × Severity for your own site, then re-score the residual risk._',''];
+  best.h.forEach((row,i)=>{
+    out.push('**'+(i+1)+'. '+row[0]+'**');
+    out.push('Controls: '+row[1]);
+  });
+  if(best.permits.length)out.push('','**Permits / certificates:** '+best.permits.join(' · '));
+  out.push('**PPE (after higher controls):** '+best.ppe.join(' · '));
+  out.push('','_This is a starting point, not a site-specific assessment. Walk the job, add what is peculiar to your location, and have a competent person approve it._');
+  return out.join('\n');
+}
+
+/* ---- injury classification from a description ---- */
+function offClassify(q){
+  const t=' '+String(q).toLowerCase().replace(/\s+/g,' ')+' ';
+  const asks=/(classify|classification|what class|is (this|it) (an? )?(lti|recordable|reportable|first aid|near ?miss)|first aid or|lti or|mtc or|recordable\?|near ?miss\?)/.test(t);
+  const hasInjury=/(injur|cut|laceration|fracture|burn|sprain|strain|crush|amputat|stitch|suture|hurt|wound|bruise|dislocat)/.test(t);
+  const hasOutcome=/(off work|lost (time|day|shift)|days away|light dut|restrict|alternate (work|dut)|unfit for duty|returned next|first aid only)/.test(t);
+  if(!asks&&!hasInjury&&!hasOutcome)return null;
+  const cues=[];
+  let cls=null,note='';
+  if(/fatal|died|death|fatality/.test(t)){cls='Fatality';cues.push('death reported');
+    note='Statutory notification is immediate — notify the regulator and the client, preserve the scene, and do not disturb anything beyond making it safe.';}
+  else if(/lost (time|day|shift)|off work|could not (return|work)|absent|days away|next (shift|day) off|unfit for duty/.test(t)){cls='Lost-time injury (LTI)';cues.push('time lost beyond the day of the incident');
+    note='Counts in LTIFR. Record the days away and review the return-to-work plan; a day-of-injury absence alone is not an LTI.';}
+  else if(/restrict|light dut|alternate (work|dut)|modified dut|desk dut/.test(t)){cls='Restricted work case (RWC)';cues.push('restricted or alternative duties');
+    note='Recordable in most schemes but not an LTI. Document the restriction, who authorised it and the review date.';}
+  else if(/stitch|suture|prescription|antibiotic|physiotherap|fracture|broken bone|dislocat|surgery|sutured|x-ray show|cast|plaster cast/.test(t)){cls='Medical treatment case (MTC)';cues.push('treatment beyond first aid');
+    note='Treatment beyond first aid makes it recordable. Note the clinician\'s findings — a negative x-ray taken as a precaution is diagnostic, not treatment.';}
+  else if(/first aid|dressing|plaster|band-?aid|antiseptic|ice pack|eye ?wash|cleaned and covered|observation only/.test(t)){cls='First-aid case';cues.push('first aid only, no further treatment');
+    note='Not recordable in OSHA terms, but still log it — first-aid trends are an early warning, and single first-aid cases often share a cause with serious events.';}
+  else if(/nobody|no one|no-one|near miss|near-miss|nearly hit|almost|could have|no injury|not injured|uninjured/.test(t)){cls='Near miss';cues.push('no injury occurred');
+    note='Score the potential worst case, not the actual outcome, and flag it HiPo if it could have killed or seriously injured.';}
+  if(!cls)return null;
+  return '**Likely classification: '+cls+'**\n'
+    +'Basis: '+cues.join('; ')+'.\n'+note
+    +'\n\n_Rules of thumb only. The final classification follows your own scheme — OSHA 29 CFR 1904, the Factories Act register, or IOGP definitions — and where treatment is involved it needs the treating clinician\'s opinion, not the supervisor\'s._';
+}
+
 const OFF_MODE_STEPS={
   incident:'**Triage steps for this event**\n1. Make safe and care for the injured — treatment before paperwork.\n2. Preserve the scene and take photos before anything is moved.\n3. Classify: first aid · MTC · restricted work · LTI · fatality (see Injury classification).\n4. Notify per your matrix — supervisor and EHS immediately; statutory notification for serious injury, dangerous occurrence or fatality.\n5. Start the investigation within 24 h; capture names, times, conditions and the equipment involved while memory is fresh.\n6. Actions in hierarchy-of-controls order, with owners and dates.',
   nearmiss:'**Near-miss capture**\n1. Record it even though nobody was hurt — this is the free lesson.\n2. Score the **potential** worst case (Likelihood × Severity); flag **HiPo** if it could have killed or seriously injured.\n3. Immediate cause, then underlying causes (5-Whys) — look for the system, not the person.\n4. Corrective actions with owner and date; verify they held.\n5. Share it at the next toolbox talk — a near miss shared is an incident prevented.',
@@ -2049,6 +2182,42 @@ const OFF_MODE_STEPS={
 const OFF_EMERGENCY=/not breathing|no pulse|unconscious|unresponsive|cardiac arrest|electrocut|severe bleed|bleeding heavily|amputat|crush(ed|ing)? (by|under)|trapped|buried|fatality|fell from|collapsed on|choking/i;
 /* follow-ups ("what about at night?") inherit the last topic — only when they can't stand alone */
 let offLastQ='';
+/* pull the clause that actually answers a specific question, and lead with it */
+function offDirect(q,entry){
+  const body=String(entry.a||'');
+  if(body.length<200)return null;                          /* short entries answer themselves */
+  const qq=String(q).trim();
+  if(!/^(what|how|when|who|which|is|are|does|do|can|should|must|at what|how many|how often|how long|how much)\b/i.test(qq))return null;
+  const SYN={oxygen:['o₂','o2','oxygen'],lel:['lel','flammable','explosive'],harness:['harness','fall arrest'],
+    depth:['deep','depth','1.2'],height:['height','1.8','2 m'],inspect:['inspect','inspection','check'],
+    frequency:['every','daily','weekly','shift'],noise:['db','noise'],limit:['limit','≤','<','max'],
+    range:['–','-','between','to'],ventilation:['ventilat'],rescue:['rescue','retrieval']};
+  let toks=[...new Set(offTokens(qq))].filter(w=>w.length>3);
+  toks.forEach(w=>{if(SYN[w])toks=toks.concat(SYN[w]);});
+  toks=[...new Set(toks)];
+  if(!toks.length)return null;
+  const numeric=/how (many|often|long|much)|what (is the )?(limit|level|depth|height|frequency|range|value|ratio)/i.test(qq);
+  const clean=body.replace(/\*\*/g,'');
+  const title=String(entry.t||'').toLowerCase();
+  const segs=clean
+    .split(/\n+|\s·\s|(?:\.\s+)|;\s+/)
+    .map(x=>x.trim())
+    .filter((x,i)=>x.length>24&&x.length<300&&!/^\d+\.$/.test(x)
+      &&!(i===0&&/—\s*(key|essential)/i.test(x))          /* the entry's own heading */
+      &&!/^[^.]{0,60}—\s*(key controls|key checks|essentials|controls \(in order\))/i.test(x)
+      &&x.toLowerCase()!==title);
+  let best=null,bs=0;
+  segs.forEach(seg=>{
+    const low=seg.toLowerCase();
+    let sc=toks.reduce((a,w)=>a+(low.includes(w)?1:0),0);
+    if(numeric&&/\d/.test(seg))sc+=1.4;
+    if(/^(permit required|test|inspect|check)/i.test(seg))sc+=0.3;
+    if(sc>bs){bs=sc;best=seg;}
+  });
+  if(!best||bs<1.6)return null;
+  if(best.length>body.length*0.85)return null;             /* that's the whole entry, not an answer */
+  return best.replace(/[·\s]+$/,'')+(/[.!?]$/.test(best)?'':'.');
+}
 function offlineAnswer(q0,quiet){
   let q=String(q0||'').trim();
   if(offLastQ&&offRank(q).scored.filter(x=>x.sc>=2).length===0&&
@@ -2059,7 +2228,7 @@ function offlineAnswer(q0,quiet){
     parts.push('_This is a permit. For the full offline audit — blockers, unanswered checks, gas readings against limits, PPE gaps, expiry and missing references — use **Review with Guardian** on the permit page; it runs the complete rule set. Notes below cover the topics in it._');
   if(OFF_EMERGENCY.test(String(q)))
     parts.push('⚠︎ **If this is happening right now:** call emergency services first (India **112** · US **911** · EU/UK **112**), send a trained first-aider, and make the area safe before approaching. What follows is a reminder for trained responders, not a substitute for them.');
-  const calc=[offCalcRisk(q),offCalcRates(q),offCalcGas(q),offCalcThresholds(q)].filter(Boolean);
+  const calc=[offClassify(q),offJSA(q),offCalcRisk(q),offCalcRates(q),offCalcGas(q),offCalcThresholds(q)].filter(Boolean);
   calc.forEach(c=>parts.push(c));
   const ranked=offRank(q);const meaningful=ranked.meaningful;
   const scored=ranked.scored.filter(x=>x.sc>=2);   /* below this it's noise, not a match */
@@ -2075,6 +2244,9 @@ function offlineAnswer(q0,quiet){
   const cover=meaningful.length?[...best.hit].filter(w=>meaningful.includes(w)).length/meaningful.length:0;
   const weak=best.sc<7&&cover<0.34;
   if(weak&&!calc.length)parts.push('_No exact match offline — this is the closest topic I hold._');
+  let lead=calc.length?null:offDirect(q,best.e);
+  if(!lead&&!calc.length&&scored[1])lead=offDirect(q,scored[1].e);   /* the answer may sit in the next topic */
+  if(lead)parts.push('**Short answer.** '+lead);
   parts.push(best.e.a);
   /* second topic only when it answers a genuinely different part of the question */
   const second=scored[1];
