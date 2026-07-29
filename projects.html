@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0F766E" />
-<title>Projects — Guardian EHS modules, roadmap and future models | Arun Williams</title>
+<title>Projects — Guardian EHS platform modules, roadmap and future AI models | Arun Williams</title>
 <meta name="description" content="Every Guardian module and its honest status: permit to work, audits, daily register, offline engine, realtime sync, plus planned work including fine-tuned EHS models and self-hosted deployment." />
 <meta name="author" content="Arun Williams" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -37,15 +37,29 @@
       <a href="./team.html">Team</a>
       <a href="./#docs">Docs</a>
     </nav>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+      <svg class="m" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
     <a class="btn btn-primary" href="./app.html">Try Guardian</a>
   </div>
 </header>
+  <div class="mobilemenu" id="mobilemenu">
+    <nav>
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+      <a href="./app.html">Try Guardian →</a>
+    </nav>
+  </div>
 
 <main>
   <div class="wrap page-head">
     <div class="eyebrow">Projects</div>
     <h1>What's built, what's being built, and what's still an idea.</h1>
-    <p class="lede">Guardian is a set of modules rather than one lump of software. Each one exists because a real task needed it. This page is the honest status of all of them — including the parts that are still research.</p>
+    <p class="lede">Guardian is an EHS management platform assembled from modules rather than one lump of software. Each one exists because a real task needed it. This page is the honest status of all of them — including the parts that are still research.</p>
   </div>
   <div class="plain">
     <div class="tiles">
@@ -103,6 +117,18 @@
               <p>A packaged install for a private server or a Raspberry Pi on the site network — for organisations that will not put safety data on someone else's cloud.</p>
               <div class="meta">Research</div>
             </div>
+            <div class="tile">
+              <span class="tag tag-idea">Planned</span>
+              <h3>Project management assistant</h3>
+              <p>The second model on the platform: programme risk, schedule pressure, resource loading and readiness — answered against the same site record the safety side already keeps, so a delay and its safety consequence stop being separate conversations.</p>
+              <div class="meta">Next model after EHS</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-idea">Planned</span>
+              <h3>Cyber-security assistant</h3>
+              <p>For teams whose site systems, cameras and OT networks need the same discipline as physical safety — access control, patching, incident response and the reporting that follows. Same permissions model, same offline-first behaviour.</p>
+              <div class="meta">Research</div>
+            </div>
     </div>
 
     <figure>
@@ -132,6 +158,20 @@
   if(!m)return;
   var url='https://github.com/'+m[1]+'/'+location.hostname;
   document.querySelectorAll('[data-repo]').forEach(function(a){a.href=url;});
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('navtoggle'),m=document.getElementById('mobilemenu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  m.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');}
+  });
 })();
 </script>
 </body>
