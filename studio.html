@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0F766E" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Guardian · Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--paper:#FFF;--tint:#F7F8F8;--line:#E4E6E6;--line-2:#D3D7D6;--ink:#111D1B;--ink-2:#4B5755;--ink-3:#7B8886;
+    --teal:#0F766E;--deep:#0B5A54;--mist:#ECF4F3;--ok:#2C7A45;--amber:#B87200;--crit:#A8261F;
+    --sh:0 1px 3px rgba(17,29,27,.06),0 8px 24px rgba(17,29,27,.05)}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--tint);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.6}
+  h1,h2,h3{font-family:"Hanken Grotesk",sans-serif;letter-spacing:-.02em}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  a{color:var(--teal);text-decoration:none} a:hover{text-decoration:underline}
+  button{font-family:inherit;cursor:pointer}
+  .wrap{max-width:1080px;margin:0 auto;padding:26px 22px calc(50px + env(safe-area-inset-bottom))}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+  .logo{width:38px;height:38px;border-radius:9px;background:var(--teal);display:grid;place-items:center}
+  .logo svg{width:21px;height:21px}
+  .top h1{font-size:19px}.top .sub{font-size:12px;color:var(--ink-3)}
+  .who{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-2)}
+  .who button{border:1px solid var(--line-2);background:#fff;border-radius:8px;padding:7px 13px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:var(--sh);margin-bottom:16px}
+  .card h2{font-size:16px;margin-bottom:4px}
+  .card .m-sub{font-size:13px;color:var(--ink-2);margin-bottom:18px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px}
+  .field input,.field select,.field textarea{width:100%;border:1px solid var(--line-2);border-radius:8px;padding:11px 13px;
+    font-size:16px;font-family:inherit;background:var(--paper);color:var(--ink)}
+  .field textarea{min-height:340px;resize:vertical;line-height:1.7;font-size:15px}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,118,110,.14)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .btn{border:none;border-radius:8px;padding:12px 20px;font-size:14px;font-weight:600;background:var(--teal);color:#fff}
+  .btn:hover{background:var(--deep)}
+  .btn.ghost{background:#fff;border:1px solid var(--line-2);color:var(--ink-2)}
+  .btn.ghost:hover{background:var(--tint)}
+  .btn.warn{background:#fff;border:1px solid #EBC9C6;color:var(--crit)}
+  .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .msg{font-size:13px;margin-top:12px;min-height:18px}
+  .msg.bad{color:var(--crit)}.msg.ok{color:var(--ok)}.msg.wait{color:var(--ink-3)}
+  .hidden{display:none!important}
+  .list{display:flex;flex-direction:column;gap:8px}
+  .item{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:9px;padding:12px 14px;flex-wrap:wrap}
+  .item b{font-size:14.5px}
+  .item .meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+  .pill{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+    border-radius:4px;padding:3px 8px;border:1px solid transparent}
+  .p-draft{background:#F2F4F3;color:var(--ink-3);border-color:var(--line)}
+  .p-pub{background:#EBF5EE;color:var(--ok);border-color:#D3E8DA}
+  .p-mem{background:#FAF3E4;color:var(--amber);border-color:#EDE0C4}
+  .item .go{margin-left:auto;display:flex;gap:8px}
+  .item .go button{border:1px solid var(--line-2);background:#fff;border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--ink-2)}
+  .hint{font-size:12px;color:var(--ink-3);margin-top:8px;line-height:1.55}
+  .gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line-2);background:#fff;
+    border-radius:8px;padding:11px;font-size:14px;font-weight:600;color:var(--ink);margin-top:10px}
+  .assist{border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:16px;background:var(--tint)}
+  .assist h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:4px}
+  .assist .sub2{font-size:12.5px;color:var(--ink-2);margin-bottom:14px}
+  .aacts{display:flex;gap:8px;flex-wrap:wrap}
+  .aacts button{border:1px solid var(--line-2);background:#fff;border-radius:7px;padding:8px 13px;font-size:12.5px;
+    font-weight:600;color:var(--ink-2);transition:.14s}
+  .aacts button:hover{border-color:var(--teal);color:var(--teal)}
+  .aacts button:disabled{opacity:.5;cursor:not-allowed}
+  .aacts .sep{width:1px;background:var(--line);margin:2px 4px}
+  .aout{margin-top:14px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:16px;display:none}
+  .aout.show{display:block}
+  .aout .txt{font-size:14.5px;line-height:1.7;white-space:pre-wrap;max-height:340px;overflow:auto;color:var(--ink)}
+  .aout .bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);align-items:center}
+  .aout .bar .who2{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-right:auto}
+  .aout .bar button{border:1px solid var(--line-2);background:#fff;border-radius:7px;padding:7px 13px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+  .aout .bar button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+  .stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3)}
+  .stats b{color:var(--ink);font-weight:500}
+  .nomodel{font-size:12.5px;color:var(--amber);margin-top:12px}
+  @media(max-width:640px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <div><h1>Guardian · Studio</h1><div class="sub">Write, draft and publish to the journal</div></div>
+    <div class="who hidden" id="who"><span class="mono" id="whoTxt"></span><button id="signOut">Sign out</button></div>
+  </div>
+
+  <!-- sign in -->
+  <div class="card hidden" id="authCard" style="max-width:420px">
+    <h2>Author sign-in</h2>
+    <p class="m-sub">Publishing is limited to authorised authors. Access is granted by the administrator.</p>
+    <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" /></div>
+    <div class="field"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" /></div>
+    <button class="btn" id="signIn" style="width:100%">Sign in</button>
+    <button class="gbtn" id="gSignIn"><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.6 39.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Sign in with Google</button>
+    <div class="msg" id="authMsg"></div>
+  </div>
+
+  <!-- studio -->
+  <div class="hidden" id="studio">
+    <div class="card">
+      <h2 id="edTitle">New article</h2>
+      <p class="m-sub">Drafts are private to you. Publishing makes the article live on the journal immediately.</p>
+      <div class="row">
+        <div class="field"><label for="f_title">Title</label><input id="f_title" placeholder="Working headline" /></div>
+        <div class="field"><label for="f_slug">Address (slug)</label><input id="f_slug" class="mono" placeholder="auto-generated" /></div>
+      </div>
+      <div class="field"><label for="f_excerpt">Standfirst — one or two sentences shown on the journal index</label><input id="f_excerpt" /></div>
+      <div class="row">
+        <div class="field"><label for="f_vis">Access</label><select id="f_vis">
+          <option value="public">Public — anyone can read</option>
+          <option value="members">Members only — signed-in members</option>
+        </select></div>
+        <div class="field"><label for="f_cover">Cover image URL (optional)</label><input id="f_cover" class="mono" placeholder="./blog-permit.png" /></div>
+      </div>
+      <div class="field"><label for="f_body">Article</label>
+        <textarea id="f_body" placeholder="Write here.
+
+## A heading
+
+A paragraph. Use **bold** where it matters.
+
+- a point
+- another point
+
+&gt; A pulled quote."></textarea>
+        <div class="hint">Formatting: <span class="mono">## heading</span> · <span class="mono">**bold**</span> · <span class="mono">- list item</span> · <span class="mono">&gt; quote</span> · blank line between paragraphs.</div>
+      </div>
+      <div class="assist">
+        <h3>Guardian assist</h3>
+        <p class="sub2">The same model you use in the application, working on this draft. Nothing is changed until you apply it.</p>
+        <div class="aacts">
+          <button type="button" data-act="outline">Outline from the title</button>
+          <button type="button" data-act="continue">Continue writing</button>
+          <button type="button" data-act="tighten">Tighten the draft</button>
+          <button type="button" data-act="headline">Suggest headlines</button>
+          <button type="button" data-act="standfirst">Write a standfirst</button>
+          <span class="sep"></span>
+          <button type="button" data-act="review">Review for accuracy &amp; clarity</button>
+          <button type="button" id="aStats">Readability check</button>
+        </div>
+        <div class="stats" id="statsOut"></div>
+        <div class="nomodel" id="noModel"></div>
+        <div class="aout" id="aOut">
+          <div class="txt" id="aTxt"></div>
+          <div class="bar">
+            <span class="who2" id="aWho"></span>
+            <button type="button" id="aApply" class="primary">Apply to article</button>
+            <button type="button" id="aAppend">Append</button>
+            <button type="button" id="aCopy">Copy</button>
+            <button type="button" id="aUndo">Undo last apply</button>
+            <button type="button" id="aClose">Dismiss</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="acts">
+        <button class="btn ghost" id="saveDraft">Save draft</button>
+        <button class="btn" id="publish">Publish</button>
+        <button class="btn ghost" id="newPost">New article</button>
+        <button class="btn warn hidden" id="unpublish">Unpublish</button>
+      </div>
+      <div class="msg" id="edMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2>Your articles</h2>
+      <p class="m-sub">Drafts and published pieces. Select one to continue editing.</p>
+      <div class="list" id="list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CLOUD={url:'https://yhiwmwkrtvqkeevcgkqj.supabase.co',anonKey:'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ'};
+const $=s=>document.querySelector(s);
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let sb=null,me=null,prof=null,editing=null;
+
+function show(id,v){$(id).classList.toggle('hidden',!v)}
+function msg(sel,t,c){const m=$(sel);m.className='msg '+(c||'');m.textContent=t||'';}
+function slugify(s){return String(s||'').toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,70)}
+
+async function boot(){
+  await new Promise((res,rej)=>{const x=document.createElement('script');
+    x.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    x.onload=res;x.onerror=rej;document.head.appendChild(x);}).catch(()=>{});
+  if(!window.supabase){show('#authCard',true);msg('#authMsg','Could not load the sign-in library — check your connection.','bad');return;}
+  sb=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{detectSessionInUrl:true}});
+  sb.auth.onAuthStateChange((ev,s)=>{
+    if(s&&!me){me=s.user;afterSignIn();}
+    else if(ev==='SIGNED_OUT'){me=null;prof=null;render();}
+  });
+  const qs=new URLSearchParams(location.search);
+  const code=qs.get('code'),err=qs.get('error_description');
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){if(!me){me=session.user;afterSignIn();}}
+  else if(err){show('#authCard',true);msg('#authMsg',decodeURIComponent(err).replace(/\+/g,' '),'bad');}
+  else if(code){
+    show('#authCard',true);msg('#authMsg','Completing sign-in…','wait');
+    const {error}=await sb.auth.exchangeCodeForSession(code);
+    history.replaceState(null,'',location.pathname);
+    if(error&&!me)msg('#authMsg',error.message,'bad');
+  } else render();
+}
+async function afterSignIn(){
+  if(location.hash&&/access_token=/.test(location.hash))history.replaceState(null,'',location.pathname);
+  const {data,error}=await sb.from('profiles').select('full_name,title,role,can_publish').eq('id',me.id).single();
+  prof=data||null;
+  render();
+  if(error){msg('#authMsg','Signed in, but your profile could not be loaded: '+error.message,'bad');return;}
+  if(!prof||!(prof.can_publish||prof.role==='master')){
+    msg('#authMsg','Signed in as '+esc(me.email)+' — this account does not have publishing access yet.','bad');return;
+  }
+  loadList();
+}
+function canWrite(){return !!(prof&&(prof.can_publish||prof.role==='master'))}
+function render(){
+  show('#authCard',!canWrite());
+  show('#studio',canWrite());
+  show('#who',!!me);
+  if(me)$('#whoTxt').textContent=(prof&&prof.full_name?prof.full_name:me.email)+(prof&&prof.title?' · '+prof.title:'');
+}
+$('#signIn').onclick=async()=>{
+  const email=$('#email').value.trim(),pw=$('#pw').value;
+  if(!email||!pw){msg('#authMsg','Enter email and password.','bad');return;}
+  msg('#authMsg','Signing in…','wait');
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  if(error){msg('#authMsg',error.message,'bad');return;}
+  me=data.user;msg('#authMsg','');afterSignIn();
+};
+$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#signIn').click()});
+$('#gSignIn').onclick=async()=>{
+  msg('#authMsg','Redirecting to Google…','wait');
+  const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});
+  if(error)msg('#authMsg',error.message,'bad');
+};
+$('#signOut').onclick=async()=>{await sb.auth.signOut();};
+
+/* ---------- editor ---------- */
+$('#f_title').addEventListener('input',()=>{ if(!editing && !$('#f_slug').dataset.touched) $('#f_slug').value=slugify($('#f_title').value); });
+$('#f_slug').addEventListener('input',()=>{$('#f_slug').dataset.touched='1';});
+function clearEditor(){
+  editing=null;
+  ['f_title','f_slug','f_excerpt','f_cover','f_body'].forEach(id=>$('#'+id).value='');
+  $('#f_vis').value='public';delete $('#f_slug').dataset.touched;
+  $('#edTitle').textContent='New article';show('#unpublish',false);msg('#edMsg','');
+}
+$('#newPost').onclick=clearEditor;
+
+function payload(status){
+  return {
+    slug:slugify($('#f_slug').value||$('#f_title').value),
+    title:$('#f_title').value.trim(),
+    excerpt:$('#f_excerpt').value.trim()||null,
+    cover:$('#f_cover').value.trim()||null,
+    body:$('#f_body').value,
+    visibility:$('#f_vis').value,
+    status:status,
+    author_id:me.id,
+    author_name:(prof&&prof.full_name)||me.email,
+    author_role:(prof&&prof.title)||null,
+    updated_at:new Date().toISOString(),
+    published_at:status==='published'?new Date().toISOString():null
+  };
+}
+async function save(status){
+  if(!$('#f_title').value.trim()){msg('#edMsg','A title is required.','bad');return;}
+  if(!$('#f_body').value.trim()){msg('#edMsg','The article is empty.','bad');return;}
+  msg('#edMsg',status==='published'?'Publishing…':'Saving…','wait');
+  const p=payload(status);
+  let error;
+  if(editing){ ({error}=await sb.from('posts').update(p).eq('id',editing)); }
+  else {
+    const r=await sb.from('posts').insert(p).select('id').single();
+    error=r.error; if(!error)editing=r.data.id;
+  }
+  if(error){
+    msg('#edMsg',/duplicate|unique/i.test(error.message)
+      ? 'That address is already used by another article — change the slug.'
+      : error.message,'bad');
+    return;
+  }
+  msg('#edMsg',status==='published'?'Published — live on the journal now.':'Draft saved.','ok');
+  show('#unpublish',status==='published');
+  loadList();
+}
+$('#saveDraft').onclick=()=>save('draft');
+$('#publish').onclick=()=>{ if(confirm('Publish this article to the journal?')) save('published'); };
+$('#unpublish').onclick=async()=>{
+  if(!editing||!confirm('Return this article to draft? It will disappear from the journal.'))return;
+  const {error}=await sb.from('posts').update({status:'draft',published_at:null}).eq('id',editing);
+  msg('#edMsg',error?error.message:'Returned to draft.',error?'bad':'ok');
+  show('#unpublish',false);loadList();
+};
+
+/* ---------- list ---------- */
+async function loadList(){
+  const box=$('#list');box.innerHTML='<div class="msg wait">Loading…</div>';
+  const {data,error}=await sb.from('posts')
+    .select('id,slug,title,status,visibility,updated_at,author_name')
+    .order('updated_at',{ascending:false});
+  if(error){box.innerHTML='<div class="msg bad">'+esc(error.message)+'</div>';return;}
+  if(!data||!data.length){box.innerHTML='<div class="msg wait">Nothing written yet.</div>';return;}
+  box.innerHTML='';
+  data.forEach(p=>{
+    const el=document.createElement('div');el.className='item';
+    el.innerHTML='<div><b>'+esc(p.title)+'</b><div class="meta">/'+esc(p.slug)+' · '+new Date(p.updated_at).toLocaleString()
+      +(p.author_name?' · '+esc(p.author_name):'')+'</div></div>'
+      +'<span class="pill '+(p.status==='published'?'p-pub':'p-draft')+'">'+p.status+'</span>'
+      +(p.visibility==='members'?'<span class="pill p-mem">members</span>':'')
+      +'<span class="go"><button data-a="edit">Edit</button>'
+      +(p.status==='published'?'<button data-a="view">View</button>':'')
+      +'<button data-a="del">Delete</button></span>';
+    el.querySelector('[data-a="edit"]').onclick=async()=>{
+      const {data:full,error:e2}=await sb.from('posts').select('*').eq('id',p.id).single();
+      if(e2){msg('#edMsg',e2.message,'bad');return;}
+      editing=full.id;
+      $('#f_title').value=full.title||'';$('#f_slug').value=full.slug||'';$('#f_slug').dataset.touched='1';
+      $('#f_excerpt').value=full.excerpt||'';$('#f_cover').value=full.cover||'';
+      $('#f_body').value=full.body||'';$('#f_vis').value=full.visibility||'public';
+      $('#edTitle').textContent='Editing — '+full.title;
+      show('#unpublish',full.status==='published');
+      msg('#edMsg','');window.scrollTo({top:0,behavior:'smooth'});
+    };
+    const v=el.querySelector('[data-a="view"]');
+    if(v)v.onclick=()=>window.open('./post.html?slug='+encodeURIComponent(p.slug),'_blank');
+    el.querySelector('[data-a="del"]').onclick=async()=>{
+      if(!confirm('Delete "'+p.title+'" permanently?'))return;
+      const {error:e3}=await sb.from('posts').delete().eq('id',p.id);
+      if(e3){msg('#edMsg',e3.message,'bad');return;}
+      if(editing===p.id)clearEditor();
+      loadList();
+    };
+    box.appendChild(el);
+  });
+}
+/* ================= Guardian assist =================
+   Reuses the model configured in the application (same origin,
+   same settings). Output is always reviewed before it is applied. */
+const AST={
+  get cfgAll(){try{return JSON.parse(localStorage.getItem('guardian.cfg')||'null')||null}catch(e){return null}},
+  get provider(){return localStorage.getItem('guardian.provider')||'offline'}
+};
+function modelReady(){
+  const p=AST.provider,c=AST.cfgAll;
+  if(p==='offline'||!c||!c[p])return false;
+  if(p==='anthropic')return !!c.anthropic.key;
+  if(p==='openai')return !!(c.openai.baseUrl&&c.openai.model);
+  if(p==='ollama')return !!(c.ollama.baseUrl&&c.ollama.model);
+  return false;
+}
+function modelLabel(){
+  const p=AST.provider,c=AST.cfgAll||{};
+  if(p==='anthropic')return 'Claude · '+(c.anthropic&&c.anthropic.model||'');
+  if(p==='openai')return (c.openai&&c.openai.model)||'connected model';
+  if(p==='ollama')return 'local · '+((c.ollama&&c.ollama.model)||'');
+  return 'offline';
+}
+function checkModel(){
+  const el=$('#noModel');
+  const ok=modelReady();
+  el.textContent=ok?'':'No model connected — open the application, choose a copilot in Settings, and it will be available here. Readability check works without one.';
+  document.querySelectorAll('.aacts button[data-act]').forEach(b=>{b.disabled=!ok;});
+  return ok;
+}
+
+const VOICE='You are the writing assistant for Guardian, a platform for environment, health and safety professionals. '
+ +'House style: plain, precise, practitioner-grounded British English. Short sentences. No hype, no marketing adjectives, no exclamation marks. '
+ +'Be concrete about hazards, controls, standards and consequences. Never invent regulations, clause numbers, statistics or case studies — if a figure is needed, mark it clearly as [check]. '
+ +'Formatting available: ## heading, **bold**, - list item, > quote, blank line between paragraphs. Return only the requested text, with no preamble or commentary.';
+
+const PROMPTS={
+  outline:d=>'Draft a structure for an article titled "'+d.title+'".'+(d.excerpt?' Standfirst: '+d.excerpt:'')
+    +' Return 4 to 6 ## headings, each with one sentence underneath describing what that section argues. Ground it in real site practice.',
+  continue:d=>'Continue this article in the same voice, adding roughly 200 words that advance the argument rather than repeating it. Return only the new text.\n\n---\n'+d.body.slice(-3000),
+  tighten:d=>'Rewrite the article below to be tighter and clearer without losing substance or changing any factual claim. Keep the structure and the formatting marks. Return the complete rewritten article.\n\n---\n'+d.body,
+  headline:d=>'Suggest 5 headlines for this article. Each on its own line, no numbering, no quotation marks. Plain and specific — no clickbait.\n\n---\nCurrent title: '+d.title+'\n\n'+d.body.slice(0,2500),
+  standfirst:d=>'Write a standfirst for this article: one or two sentences, maximum 40 words, that tell a busy safety professional why to read it. Return the sentence only.\n\n---\nTitle: '+d.title+'\n\n'+d.body.slice(0,2500),
+  review:d=>'Review the draft below as an experienced EHS professional and editor. List, as short bullets: any claim that needs verification before publication, anything technically wrong or misleading about safety practice, anything unclear, and anything that reads as marketing rather than practice. Do not rewrite it.\n\n---\n'+d.body
+};
+const LABEL={outline:'Outline',continue:'Continuation',tighten:'Tightened draft',headline:'Headline options',standfirst:'Standfirst',review:'Editorial review'};
+const APPLY_TARGET={tighten:'body',outline:'body',continue:'append',headline:'none',standfirst:'excerpt',review:'none'};
+
+let lastApply=null,currentAct=null;
+async function callModel(prompt){
+  const p=AST.provider,c=AST.cfgAll[p];
+  let url,headers,body;
+  if(p==='anthropic'){
+    url='https://api.anthropic.com/v1/messages';
+    headers={'content-type':'application/json','x-api-key':c.key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+    body={model:c.model,max_tokens:1800,system:VOICE,messages:[{role:'user',content:prompt}]};
+  }else{
+    url=(c.baseUrl||'').replace(/\/+$/,'')+'/chat/completions';
+    headers={'content-type':'application/json'};
+    if(c.key)headers['authorization']='Bearer '+c.key;
+    body={model:c.model,max_tokens:1800,messages:[{role:'system',content:VOICE},{role:'user',content:prompt}]};
+  }
+  const res=await fetch(url,{method:'POST',headers,body:JSON.stringify(body)});
+  if(!res.ok){let m='Request failed ('+res.status+').';try{const j=await res.json();if(j.error&&j.error.message)m=j.error.message}catch(e){}throw new Error(m)}
+  const j=await res.json();
+  if(j.content&&j.content.length)return j.content.map(x=>x.text||'').join('').trim();
+  if(j.choices&&j.choices.length)return (j.choices[0].message.content||'').trim();
+  return '';
+}
+function showOut(text,who){
+  $('#aTxt').textContent=text;
+  $('#aWho').textContent=who;
+  $('#aOut').classList.add('show');
+  $('#aApply').style.display=(APPLY_TARGET[currentAct]==='none')?'none':'';
+  $('#aAppend').style.display=(APPLY_TARGET[currentAct]==='none')?'none':'';
+  $('#aUndo').style.display=lastApply?'':'none';
+}
+document.querySelectorAll('.aacts button[data-act]').forEach(b=>{
+  b.onclick=async()=>{
+    if(!checkModel())return;
+    currentAct=b.dataset.act;
+    const d={title:$('#f_title').value.trim(),excerpt:$('#f_excerpt').value.trim(),body:$('#f_body').value};
+    if(currentAct!=='outline'&&currentAct!=='headline'&&!d.body.trim()){msg('#edMsg','Write something first — there is nothing to work on.','bad');return;}
+    if(currentAct==='outline'&&!d.title){msg('#edMsg','Give the article a title first.','bad');return;}
+    const old=b.textContent;b.textContent='Working…';b.disabled=true;msg('#edMsg','');
+    try{
+      const out=await callModel(PROMPTS[currentAct](d));
+      showOut(out||'(empty response)',LABEL[currentAct]+' · '+modelLabel());
+    }catch(e){msg('#edMsg','Assist failed: '+e.message,'bad');}
+    b.textContent=old;b.disabled=false;checkModel();
+  };
+});
+$('#aApply').onclick=()=>{
+  const t=APPLY_TARGET[currentAct],txt=$('#aTxt').textContent;
+  if(t==='body'){lastApply={field:'f_body',prev:$('#f_body').value};$('#f_body').value=txt;}
+  else if(t==='excerpt'){lastApply={field:'f_excerpt',prev:$('#f_excerpt').value};$('#f_excerpt').value=txt;}
+  else if(t==='append'){lastApply={field:'f_body',prev:$('#f_body').value};$('#f_body').value=($('#f_body').value.trim()+'\n\n'+txt).trim();}
+  msg('#edMsg','Applied to the draft — review it, then save.','ok');
+  $('#aUndo').style.display='';
+};
+$('#aAppend').onclick=()=>{
+  lastApply={field:'f_body',prev:$('#f_body').value};
+  $('#f_body').value=($('#f_body').value.trim()+'\n\n'+$('#aTxt').textContent).trim();
+  msg('#edMsg','Appended to the draft.','ok');$('#aUndo').style.display='';
+};
+$('#aCopy').onclick=()=>{navigator.clipboard.writeText($('#aTxt').textContent).then(()=>msg('#edMsg','Copied.','ok'),()=>{});};
+$('#aUndo').onclick=()=>{
+  if(!lastApply)return;
+  $('#'+lastApply.field).value=lastApply.prev;lastApply=null;
+  $('#aUndo').style.display='none';msg('#edMsg','Reverted to the previous text.','ok');
+};
+$('#aClose').onclick=()=>$('#aOut').classList.remove('show');
+
+/* readability — works with no model at all */
+$('#aStats').onclick=()=>{
+  const t=$('#f_body').value.replace(/\s+/g,' ').trim();
+  if(!t){$('#statsOut').textContent='Nothing written yet.';return;}
+  const words=t.split(/\s+/).length;
+  const sentences=t.split(/[.!?]+\s/).filter(x=>x.trim().length>1);
+  const longOnes=sentences.filter(x=>x.split(/\s+/).length>32).length;
+  const heads=($('#f_body').value.match(/^##\s+/gm)||[]).length;
+  const mins=Math.max(1,Math.round(words/220));
+  $('#statsOut').innerHTML='<span>Words <b>'+words+'</b></span><span>Reading time <b>'+mins+' min</b></span>'
+    +'<span>Sentences <b>'+sentences.length+'</b></span><span>Over 32 words <b>'+longOnes+'</b></span>'
+    +'<span>Headings <b>'+heads+'</b></span>'
+    +(longOnes?'<span style="color:var(--amber)">Consider splitting the long sentences</span>':'<span style="color:var(--ok)">Sentence length is comfortable</span>');
+};
+
+checkModel();
+boot();
+</script>
+</body>
+</html>

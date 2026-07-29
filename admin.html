@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0F766E" />
+<meta name="robots" content="noindex" />
+<title>Guardian · Master admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FBFBFA;--surface:#FFFFFF;--surface-2:#F4F4F2;--border:#E7E7E4;--border-2:#DDDDD8;
+    --text:#1A1A18;--text-2:#5A5A55;--text-3:#8A8A83;
+    --accent:#0F766E;--accent-hover:#0C5F58;--accent-soft:#EDF5F4;--accent-ring:rgba(15,118,110,.18);
+    --ok:#2E7D43;--warn:#9A6B00;--bad:#B3261E;--purple:#7C5CD6;--blue:#1F6FB2;
+    --shadow:0 1px 2px rgba(26,26,24,.05),0 4px 16px rgba(26,26,24,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{overscroll-behavior:none}
+  body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+  h1,h2,h3{font-family:"Hanken Grotesk",sans-serif;letter-spacing:-.01em}
+  button{font-family:inherit;cursor:pointer}
+  .mono{font-family:"IBM Plex Mono",monospace}
+
+  .wrap{max-width:860px;margin:0 auto;padding:28px 20px calc(40px + env(safe-area-inset-bottom))}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+  .logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#0F766E,#0C5F58);display:grid;place-items:center;box-shadow:var(--shadow)}
+  .brand h1{font-size:19px}
+  .brand .sub{font-size:12px;color:var(--text-3)}
+  .who{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-2)}
+  .who button{border:1px solid var(--border-2);background:var(--surface);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:var(--text-2)}
+  .who button:hover{border-color:var(--accent);color:var(--accent)}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
+  .card h2{font-size:16px;margin-bottom:4px}
+  .card .m-sub{font-size:12.5px;color:var(--text-2);margin-bottom:16px;line-height:1.5}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+  .field input{width:100%;border:1px solid var(--border-2);border-radius:10px;padding:11px 13px;font-size:16px;font-family:inherit;background:var(--bg);color:var(--text)}
+  .field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
+  .btn{width:100%;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:600;background:var(--accent);color:#fff;transition:.13s}
+  .btn:hover{background:var(--accent-hover)}
+  .btn.ghost{background:var(--surface);border:1px solid var(--border-2);color:var(--text-2);width:auto;padding:9px 14px;font-size:12.5px}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--border-2);background:var(--surface);border-radius:10px;padding:11px;font-size:14px;font-weight:600;color:var(--text);margin-top:10px}
+  .gbtn:hover{background:var(--surface-2)}
+  .msg{font-size:12.5px;line-height:1.5;margin:10px 0 0;min-height:16px}
+  .msg.bad{color:var(--bad)} .msg.ok{color:var(--ok)} .msg.wait{color:var(--text-3)}
+
+  .tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{border:1px solid var(--border-2);background:var(--surface);border-radius:999px;padding:8px 15px;font-size:12.5px;font-weight:600;color:var(--text-2);transition:.13s}
+  .tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+  .kpi .v{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:24px}
+  .kpi .l{font-size:11px;color:var(--text-2);margin-top:3px;line-height:1.3}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  .row{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:11px;padding:11px 13px;margin-bottom:8px;background:var(--surface);flex-wrap:wrap}
+  .row .meta{flex:1;min-width:160px}
+  .row .meta b{font-size:13.5px;display:block}
+  .row .meta span{font-size:11.5px;color:var(--text-3);line-height:1.5}
+  .row select,.row .act{border:1px solid var(--border-2);background:var(--bg);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:600;color:var(--text-2);font-family:inherit}
+  .row .act:hover{border-color:var(--accent);color:var(--accent)}
+  .chip{font-size:10.5px;font-weight:700;border-radius:999px;padding:4px 10px;letter-spacing:.03em;color:#fff}
+  .chip.pending{background:#E9C46A;color:#5C4300}.chip.approved{background:#CDE8D3;color:#1E5A2E}.chip.rejected{background:#F3C9C6;color:#7C1A15}
+  .sec{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin:14px 0 8px}
+  .note{font-size:11.5px;color:var(--text-3);line-height:1.5;border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><h1>Guardian · Master admin</h1><div class="sub">Organizations · users · duty roles · permit approvals</div></div>
+    <div class="who hidden" id="who"><span id="whoTxt" class="mono"></span><button id="signOut">Sign out</button></div>
+  </div>
+
+  <!-- Sign in -->
+  <div class="card" id="authCard" style="max-width:420px">
+    <h2>Administrator sign-in</h2>
+    <p class="m-sub">This console is for the master administrator. Every action is enforced by database row-level security — this page grants nothing by itself.</p>
+    <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" /></div>
+    <div class="field"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" /></div>
+    <button class="btn" id="signIn">Sign in</button>
+    <button class="gbtn" id="gSignIn"><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.6 39.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Sign in with Google</button>
+    <div class="msg" id="authMsg"></div>
+  </div>
+
+  <!-- PIN gate -->
+  <div class="card hidden" id="pinCard" style="max-width:420px">
+    <h2 id="pinTitle">Admin PIN</h2>
+    <p class="m-sub" id="pinSub">Second factor — verified server-side, rate-limited, master accounts only.</p>
+    <div class="field"><label for="pin" id="pinLbl">Enter PIN</label><input id="pin" type="password" autocomplete="off" class="mono" /></div>
+    <div class="field hidden" id="pin2W"><label for="pin2">Confirm PIN</label><input id="pin2" type="password" autocomplete="off" class="mono" /></div>
+    <button class="btn" id="pinGo">Unlock</button>
+    <div class="msg" id="pinMsg"></div>
+  </div>
+
+  <!-- Console -->
+  <div class="hidden" id="console">
+    <div class="stats" id="stats"></div>
+    <div class="tabs">
+      <button class="tab on" data-t="users">Users &amp; organizations</button>
+      <button class="tab" data-t="reqs">Permit requests</button>
+    </div>
+    <div class="card" id="tabBody"></div>
+  </div>
+</div>
+
+<script>
+const CLOUD={url:'https://yhiwmwkrtvqkeevcgkqj.supabase.co',anonKey:'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ'};
+const $=s=>document.querySelector(s);
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let sb=null,me=null,role=null,unlocked=false,tab='users';
+const ROLES=['viewer','ehs_executive','sme','org_admin','master'];
+
+function show(id,v){$(id).classList.toggle('hidden',!v)}
+function msg(sel,t,c){const m=$(sel);m.className='msg '+(c||'');m.textContent=t||'';}
+
+async function boot(){
+  await new Promise((res,rej)=>{const x=document.createElement('script');
+    x.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    x.onload=res;x.onerror=()=>rej();document.head.appendChild(x);})
+    .catch(()=>{msg('#authMsg','Could not load the auth library — check your connection.','bad');});
+  if(!window.supabase)return;
+  sb=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{detectSessionInUrl:true}});
+  sb.auth.onAuthStateChange((ev,s)=>{
+    if(s&&!me){me=s.user;afterSignIn();}
+    else if(ev==='SIGNED_OUT'){me=null;role=null;unlocked=false;render();}
+  });
+  const hash=new URLSearchParams(location.hash.replace(/^#/,''));
+  const qs=new URLSearchParams(location.search);
+  const err=hash.get('error_description')||qs.get('error_description');
+  const code=qs.get('code');
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){if(!me){me=session.user;afterSignIn();}}
+  else if(err){msg('#authMsg',decodeURIComponent(err).replace(/\+/g,' '),'bad');history.replaceState(null,'',location.pathname);}
+  else if(code){
+    msg('#authMsg','Completing Google sign-in…','wait');
+    const {error}=await sb.auth.exchangeCodeForSession(code);
+    history.replaceState(null,'',location.pathname);
+    if(error&&!me)msg('#authMsg',error.message,'bad');
+  }
+  render();
+}
+async function afterSignIn(){
+  if(location.hash&&/access_token=/.test(location.hash))history.replaceState(null,'',location.pathname);
+  const {data,error}=await sb.from('profiles').select('role,full_name').eq('id',me.id).single();
+  role=data?data.role:null;
+  render();
+  if(error){msg('#authMsg','Signed in, but profile could not be loaded: '+error.message,'bad');return;}
+  if(role!=='master'){msg('#authMsg','Signed in as '+esc(me.email)+' — this account is not the master administrator.','bad');return;}
+  pinFlow();
+}
+function render(){
+  show('#authCard',!me||role!=='master');
+  show('#pinCard',!!me&&role==='master'&&!unlocked);
+  show('#console',!!me&&role==='master'&&unlocked);
+  show('#who',!!me);
+  if(me)$('#whoTxt').textContent=(me.email||'')+(role?' · '+role:'');
+}
+$('#signIn').onclick=async()=>{
+  const email=$('#email').value.trim(),pw=$('#pw').value;
+  if(!email||!pw){msg('#authMsg','Enter email and password.','bad');return;}
+  msg('#authMsg','Signing in…','wait');
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  if(error){msg('#authMsg',error.message,'bad');return;}
+  me=data.user;msg('#authMsg','');afterSignIn();
+};
+$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#signIn').click()});
+$('#gSignIn').onclick=async()=>{
+  msg('#authMsg','Redirecting to Google…','wait');
+  const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});
+  if(error)msg('#authMsg',error.message,'bad');
+};
+$('#signOut').onclick=async()=>{await sb.auth.signOut();};
+
+/* ---- PIN ---- */
+async function pinFlow(){
+  render();
+  let exists=false;
+  try{const {data,error}=await sb.rpc('admin_pin_exists');if(error)throw error;exists=!!data;}
+  catch(e){msg('#pinMsg','PIN functions not installed — run the "Admin panel PIN" section of supabase-setup.sql.','bad');return;}
+  const setup=!exists;
+  $('#pinTitle').textContent=setup?'Create the admin PIN':'Admin PIN';
+  $('#pinLbl').textContent=setup?'New PIN (min 6 characters)':'Enter PIN';
+  $('#pinGo').textContent=setup?'Set PIN & open console':'Unlock';
+  show('#pin2W',setup);
+  $('#pin').focus();
+  $('#pinGo').onclick=async()=>{
+    const p=$('#pin').value;
+    if(setup){
+      if(p.length<6){msg('#pinMsg','PIN must be at least 6 characters.','bad');return;}
+      if(p!==$('#pin2').value){msg('#pinMsg',"PINs don't match.",'bad');return;}
+      msg('#pinMsg','Saving…','wait');
+      const {error}=await sb.rpc('set_admin_pin',{pin:p});
+      if(error){msg('#pinMsg',error.message,'bad');return;}
+      unlocked=true;render();loadConsole();return;
+    }
+    msg('#pinMsg','Verifying…','wait');
+    const {data,error}=await sb.rpc('verify_admin_pin',{pin:p});
+    if(error){msg('#pinMsg',error.message,'bad');return;}
+    if(data){unlocked=true;msg('#pinMsg','');render();loadConsole();}
+    else{msg('#pinMsg','Wrong PIN.','bad');$('#pin').value='';$('#pin').focus();}
+  };
+  [$('#pin'),$('#pin2')].forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')$('#pinGo').click()}));
+}
+
+/* ---- console ---- */
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  tab=b.dataset.t;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
+  renderTab();
+});
+async function loadConsole(){
+  const cnt=async(t,f)=>{let q=sb.from(t).select('id',{count:'exact',head:true});if(f)q=f(q);const {count}=await q;return count??0;};
+  const [orgs,users,pending,days]=await Promise.all([
+    cnt('organizations'),cnt('profiles'),
+    cnt('permit_requests',q=>q.eq('status','pending')),
+    sb.from('daily_entries').select('date',{count:'exact',head:true}).then(({count})=>count??0)
+  ]);
+  $('#stats').innerHTML=[[orgs,'Organizations'],[users,'Users'],[pending,'Pending permit requests'],[days,'Register days (all orgs)']]
+    .map(([v,l])=>'<div class="kpi"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>').join('');
+  renderTab();
+}
+function renderTab(){tab==='reqs'?renderReqs():renderUsers();}
+
+async function renderUsers(){
+  const box=$('#tabBody');box.innerHTML='<div class="msg wait">Loading…</div>';
+  const [{data:orgs,error:e1},{data:profs,error:e2}]=await Promise.all([
+    sb.from('organizations').select('id,name').order('name'),
+    sb.from('profiles').select('id,full_name,role,org_id,title')
+  ]);
+  if(e1||e2){box.innerHTML='<div class="msg bad">'+esc((e1||e2).message)+'</div>';return;}
+  const orgOpt=o=>'<option value="">— no org —</option>'+orgs.map(x=>'<option value="'+x.id+'"'+(x.id===o?' selected':'')+'>'+esc(x.name)+'</option>').join('');
+  const TITLES={'EHS Officer':'ehs_executive','Permit Holder':'ehs_executive','Site Engineer':'ehs_executive','SME':'sme','Project Manager':'org_admin','Other':'viewer'};
+  box.innerHTML='<div class="sec">Add user</div>'
+    +'<div class="row" id="addUserRow" style="align-items:flex-end">'
+    +'<div class="meta" style="min-width:130px"><b style="font-size:11px;color:var(--text-2);font-weight:600">Full name</b><input id="nu_name" style="width:100%;border:1px solid var(--border-2);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;background:var(--bg)" /></div>'
+    +'<div class="meta" style="min-width:170px"><b style="font-size:11px;color:var(--text-2);font-weight:600">Email</b><input id="nu_email" type="email" style="width:100%;border:1px solid var(--border-2);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;background:var(--bg)" /></div>'
+    +'<div class="meta" style="min-width:120px"><b style="font-size:11px;color:var(--text-2);font-weight:600">Temp password</b><input id="nu_pw" style="width:100%;border:1px solid var(--border-2);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;background:var(--bg)" class="mono" /></div>'
+    +'<select id="nu_title">'+Object.keys(TITLES).map(t=>'<option>'+t+'</option>').join('')+'</select>'
+    +'<select id="nu_org"><option value="">— org —</option>'+orgs.map(x=>'<option value="'+x.id+'">'+esc(x.name)+'</option>').join('')+'</select>'
+    +'<button class="act" id="nu_go">Create</button>'
+    +'</div><div class="msg" id="nu_msg"></div>'
+    +'<div class="sec">Organizations ('+orgs.length+') <button class="btn ghost" id="newOrg" style="margin-left:10px">+ New</button></div>'
+    +(orgs.map(o=>'<div class="row"><div class="meta"><b>'+esc(o.name)+'</b><span>'+profs.filter(p=>p.org_id===o.id).length+' member(s)</span></div></div>').join('')||'<div class="msg wait">None yet.</div>')
+    +'<div class="sec">Users ('+profs.length+')</div>'
+    +profs.map(p=>'<div class="row" data-uid="'+p.id+'"><div class="meta"><b>'+esc(p.full_name||p.id.slice(0,8))+'</b><span>'+esc(p.title||'—')+' · '+esc(p.role)+'</span></div>'
+      +'<select data-f="role">'+ROLES.map(r=>'<option'+(p.role===r?' selected':'')+'>'+r+'</option>').join('')+'</select>'
+      +'<select data-f="org">'+orgOpt(p.org_id)+'</select>'
+      +'<button class="act" data-f="save">Save</button></div>').join('')
+    +'<div class="note">Duties: viewer = dashboard only · ehs_executive = requester · sme = review &amp; suggestions · org_admin = verify &amp; issue · master = everything. Use “Add user” above to create accounts — job title sets the default duty (adjustable per row). Share the temp password securely; users can change it later.</div>';
+  $('#newOrg').onclick=async()=>{
+    const name=prompt('Organization name:');if(!name)return;
+    const {error}=await sb.from('organizations').insert({name});
+    if(error)alert(error.message);renderUsers();
+  };
+  $('#nu_go').onclick=async()=>{
+    const name=$('#nu_name').value.trim(),email=$('#nu_email').value.trim(),pw=$('#nu_pw').value,
+          title=$('#nu_title').value,org=$('#nu_org').value||null,duty=TITLES[title]||'viewer';
+    if(!name||!email||pw.length<6){msg('#nu_msg','Name, email and a temp password of 6+ characters are required.','bad');return;}
+    msg('#nu_msg','Creating account…','wait');
+    /* isolated client: creating the account must not replace the admin session */
+    const tmp=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+    const {data,error}=await tmp.auth.signUp({email,password:pw,options:{data:{full_name:name,title}}});
+    if(error){msg('#nu_msg',error.message+(/(signups?|disabled)/i.test(error.message)?' — enable "Allow new users to sign up" in Supabase → Authentication → Sign In / Providers → Email.':''),'bad');return;}
+    const uid=data.user&&data.user.id;
+    if(uid){const {error:e2}=await sb.from('profiles').update({role:duty,org_id:org,title}).eq('id',uid);
+      if(e2){msg('#nu_msg','Account created, but duty assignment failed: '+e2.message,'bad');renderUsers();return;}}
+    msg('#nu_msg','Created '+email+' as '+title+' ('+duty+')'+(data.session?'':' — if email confirmation is ON, they must confirm before first sign-in')+'. Share the temp password securely.','ok');
+    loadConsole();
+  };
+  box.querySelectorAll('[data-uid]').forEach(row=>{
+    row.querySelector('[data-f="save"]').onclick=async()=>{
+      const r=row.querySelector('[data-f="role"]').value;
+      const o=row.querySelector('[data-f="org"]').value||null;
+      const {error}=await sb.from('profiles').update({role:r,org_id:o}).eq('id',row.dataset.uid);
+      const b=row.querySelector('[data-f="save"]');
+      b.textContent=error?'✗ '+(error.message||''):'✓';
+      setTimeout(()=>b.textContent='Save',1400);
+    };
+  });
+}
+
+async function renderReqs(){
+  const box=$('#tabBody');box.innerHTML='<div class="msg wait">Loading…</div>';
+  const [{data,error},{data:orgs}]=await Promise.all([
+    sb.from('permit_requests').select('id,org_id,requester_name,permit_no,work_types,status,decision_note,sme_note,created_at').order('created_at',{ascending:false}).limit(50),
+    sb.from('organizations').select('id,name')
+  ]);
+  if(error){box.innerHTML='<div class="msg bad">'+esc(error.message)+'</div>';return;}
+  if(!data||!data.length){box.innerHTML='<div class="msg wait">No permit requests yet.</div>';return;}
+  const orgName=id=>{const o=(orgs||[]).find(x=>x.id===id);return o?o.name:'—';};
+  box.innerHTML='';
+  data.forEach(r=>{
+    const row=document.createElement('div');row.className='row';
+    row.innerHTML='<div class="meta"><b>'+esc(r.permit_no||'(no number)')+' <span class="chip '+r.status+'">'+r.status+'</span></b>'
+      +'<span>'+esc(orgName(r.org_id))+' · '+esc(r.requester_name||'—')+' · '+esc(r.work_types||'')+' · '+new Date(r.created_at).toLocaleString()
+      +(r.sme_note?'<br>SME review: '+esc(r.sme_note):'')
+      +(r.decision_note?'<br>Decision: '+esc(r.decision_note):'')+'</span></div>'
+      +(r.status==='pending'?'<button class="act" data-a="ok">Approve</button><button class="act" data-a="no">Reject</button>':'');
+    const decide=async(status)=>{
+      const note=prompt(status==='approved'?'Approval note (optional):':'Reason for rejection:')||'';
+      if(status==='rejected'&&!note)return;
+      const {error:e2}=await sb.from('permit_requests').update({status,decision_note:note||null,decided_by:me.id,decided_at:new Date().toISOString()}).eq('id',r.id);
+      if(e2){alert(e2.message);return;}
+      loadConsole();
+    };
+    const ok=row.querySelector('[data-a="ok"]');if(ok)ok.onclick=()=>decide('approved');
+    const no=row.querySelector('[data-a="no"]');if(no)no.onclick=()=>decide('rejected');
+    box.appendChild(row);
+  });
+}
+
+boot();
+</script>
+</body>
+</html>
