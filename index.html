@@ -6,16 +6,16 @@
 <meta name="theme-color" content="#0F766E" />
 
 <title>Guardian — Environment, Health &amp; Safety Management Platform with AI | Arun Williams</title>
-<meta name="description" content="Guardian is an environment, health and safety (EHS) management platform with AI support and a built-in EHS AI assistant: permits to work, audits, daily registers, KPI reports and printable documents. Works offline. Built by Arun Williams." />
+<meta name="description" content="Guardian is an environment, health and safety (EHS) management platform with an integrated AI assistant: permits to work, audits, daily registers, KPI reporting and issued documents. Operates offline. Developed by Arun Williams, EHS professional." />
 <meta name="keywords" content="EHS management platform, EHS AI, EHS software, EHS assistant, environment health and safety platform, AI safety platform, safety AI assistant, permit to work software, HSE software, EHS audit software, safety management app, ISO 45001, Factories Act, BOCW, OSHA, LTIFR, Arun Williams, EHS Arun Williams, offline EHS app" />
 <meta name="author" content="Arun Williams" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <link rel="canonical" href="https://guardianehs.github.io/" />
-<meta name="google-site-verification" content="86NBQk4Tqzdl9MwFqTA2vPevxxMdz0Lp7XP2fnlpmqc" />
+
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Guardian EHS" />
 <meta property="og:title" content="Guardian — EHS Management Platform with AI" />
-<meta property="og:description" content="Permits, audits, daily registers and EHS reports in one place — with an AI copilot and a built-in reference that keeps working offline. Free, by Arun Williams." />
+<meta property="og:description" content="Permits, audits, daily registers and EHS reporting in one platform, with an integrated AI assistant and a reference engine that operates offline. Free to use." />
 <meta property="og:url" content="https://guardianehs.github.io/" />
 <meta property="og:image" content="https://guardianehs.github.io/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -75,14 +75,497 @@
 }
 </script>
 
-<style id="fallback-css">
-  /* minimal safety net — site.css overrides all of this when it loads */
-  svg{width:18px;height:18px;flex:0 0 auto}img{max-width:100%;height:auto}
-  body{font-family:system-ui,sans-serif;margin:0}
+<style>
+  /* ================================================================
+     Guardian — design system
+     Neutral, restrained, print-adjacent. Teal used as an accent only.
+     ================================================================ */
+  :root{
+    --paper:#FFFFFF; --tint:#F7F8F8; --surface:#FFFFFF; --surface-2:#F2F4F3;
+    --line:#E4E6E6; --line-2:#D3D7D6;
+    --ink:#111D1B; --ink-2:#4B5755; --ink-3:#7B8886;
+    --teal:#0F766E; --deep:#0B5A54; --mist:#ECF4F3; --ring:rgba(15,118,110,.14);
+    --amber:#B87200; --ok:#2C7A45; --crit:#A8261F;
+    --sh-sm:0 1px 2px rgba(17,29,27,.05);
+    --sh:0 1px 3px rgba(17,29,27,.06),0 8px 24px rgba(17,29,27,.05);
+    --wrap:1120px; --gut:28px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+  body{background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+  h1,h2,h3,h4{font-family:"Hanken Grotesk","Inter",sans-serif;letter-spacing:-.018em;line-height:1.18;color:var(--ink)}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:3px}
+  img,svg{display:block}
+  img{max-width:100%;height:auto}
+  .wrap{max-width:var(--wrap);margin:0 auto;
+    padding-left:max(var(--gut),env(safe-area-inset-left));padding-right:max(var(--gut),env(safe-area-inset-right))}
+
+  /* ---------------- header ---------------- */
+  .top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  .top .wrap{display:flex;align-items:center;gap:20px;height:68px}
+  .mark{display:flex;align-items:center;gap:11px;font-family:"Hanken Grotesk",sans-serif;font-weight:700;
+    font-size:17.5px;color:var(--ink);letter-spacing:-.01em}
+  .mark:hover{text-decoration:none;color:var(--ink)}
+  .shield{width:32px;height:32px;border-radius:8px;background:var(--teal);display:grid;place-items:center;flex:0 0 auto}
+  .shield svg{width:18px;height:18px}
+  .navlinks{display:flex;gap:6px;margin-left:auto;font-size:14.5px}
+  .navlinks a{color:var(--ink-2);font-weight:500;padding:8px 12px;border-radius:7px;transition:color .15s,background .15s}
+  .navlinks a:hover{color:var(--ink);background:var(--surface-2);text-decoration:none}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;padding:12px 20px;
+    font-weight:600;font-size:14.5px;border:1px solid transparent;letter-spacing:-.005em;
+    transition:background .16s,border-color .16s,color .16s,box-shadow .16s}
+  .btn:hover{text-decoration:none}
+  .btn-primary{background:var(--teal);color:#fff;box-shadow:var(--sh-sm)}
+  .btn-primary:hover{background:var(--deep)}
+  .btn-ghost{border-color:var(--line-2);color:var(--ink);background:var(--surface)}
+  .btn-ghost:hover{border-color:var(--ink-3);background:var(--surface-2)}
+  .top .btn{padding:10px 18px;font-size:14px}
+
+  .navtoggle{display:none;margin-left:auto;width:40px;height:40px;border:1px solid var(--line-2);background:var(--surface);
+    border-radius:8px;place-items:center;cursor:pointer;color:var(--ink);padding:0}
+  .navtoggle svg{width:19px;height:19px}
+  .navtoggle .x{display:none}
+  .navtoggle[aria-expanded="true"] .x{display:block}
+  .navtoggle[aria-expanded="true"] .m{display:none}
+  .mobilemenu{display:none;border-bottom:1px solid var(--line);background:var(--paper)}
+  .mobilemenu.open{display:block}
+  .mobilemenu nav{max-width:var(--wrap);margin:0 auto;padding:6px 24px 16px;display:flex;flex-direction:column}
+  .mobilemenu a{padding:13px 2px;font-size:16px;font-weight:500;color:var(--ink);border-bottom:1px solid var(--line)}
+  .mobilemenu a:last-child{border-bottom:none;color:var(--teal);font-weight:600}
+  .mobilemenu a:hover{text-decoration:none}
+
+  /* ---------------- hero ---------------- */
+  .hero{position:relative;overflow:hidden;padding:92px 0 76px;border-bottom:1px solid var(--line);background:
+    radial-gradient(120% 80% at 78% -10%, #F4FAF9 0%, rgba(244,250,249,0) 62%)}
+  .float-layer{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .hero .wrap{position:relative;z-index:1}
+  .fi{position:absolute;color:var(--teal);opacity:.045;will-change:transform}
+  .fi svg{width:100%;height:100%}
+  .fi.a{width:88px;height:88px;left:3%;top:24%;animation:drift1 34s ease-in-out infinite}
+  .fi.b{width:60px;height:60px;right:8%;top:16%;animation:drift2 40s ease-in-out infinite}
+  .fi.c{width:70px;height:70px;right:19%;bottom:16%;animation:drift3 37s ease-in-out infinite}
+  .fi.d{width:50px;height:50px;left:14%;bottom:12%;animation:drift2 30s ease-in-out infinite reverse}
+  .fi.e,.fi.f{display:none}
+  @keyframes drift1{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(10px,-16px,0)}}
+  @keyframes drift2{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-12px,-18px,0)}}
+  @keyframes drift3{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(8px,14px,0)}}
+
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--teal);margin-bottom:22px}
+  h1{font-size:clamp(34px,4.6vw,54px);font-weight:700;max-width:17ch;letter-spacing:-.026em}
+  h1 em{font-style:normal;color:var(--teal)}
+  .lede{font-size:clamp(16.5px,1.5vw,18.5px);color:var(--ink-2);max-width:62ch;margin-top:22px;line-height:1.65}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;align-items:center}
+  .cta-note{font-size:13px;color:var(--ink-3);margin-top:18px}
+  .cta-note b{color:var(--ink-2);font-weight:600}
+
+  /* the document card */
+  .doc{margin-top:56px;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    box-shadow:var(--sh);overflow:hidden}
+  .doc-ctrl{display:flex;flex-wrap:wrap;gap:0 32px;padding:12px 24px;border-bottom:1px solid var(--line);
+    background:var(--tint);font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
+    letter-spacing:.08em;text-transform:uppercase}
+  .doc-ctrl b{color:var(--ink-2);font-weight:500}
+  .doc-body{padding:28px 24px 30px;position:relative}
+  .doc-body h3{font-size:15.5px;font-weight:700;margin-bottom:5px}
+  .doc-body p.sub{font-size:13.5px;color:var(--ink-3);margin-bottom:22px;max-width:62ch}
+  .rail{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .step{flex:0 0 auto;display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);
+    border-radius:6px;padding:8px 14px;font-size:12.5px;font-weight:600;color:var(--ink-3);
+    transition:background .4s,color .4s,border-color .4s}
+  .step .n{font-family:"IBM Plex Mono",monospace;font-size:10px;opacity:.7}
+  .step.on{background:var(--teal);border-color:var(--teal);color:#fff}
+  .step.past{color:var(--teal);border-color:#CDE2DF;background:var(--mist)}
+  .doc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  .cell{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--surface)}
+  .cell .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+  .cell .v{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:19px;margin-top:4px}
+  .cell .v small{font-size:11.5px;font-weight:500;color:var(--ink-3);margin-left:3px}
+  .stamp{position:absolute;right:24px;top:20px;border:2px solid var(--ok);color:var(--ok);border-radius:4px;
+    padding:4px 12px;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;letter-spacing:.16em;
+    transform:rotate(-6deg) scale(.9);opacity:0;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.9,.3,1)}
+  .stamp.in{opacity:.85;transform:rotate(-6deg) scale(1)}
+
+  .standards{display:flex;flex-wrap:wrap;gap:0;margin-top:34px;border:1px solid var(--line);border-radius:10px;
+    overflow:hidden;background:var(--surface)}
+  .std{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-2);padding:12px 18px;
+    border-right:1px solid var(--line);letter-spacing:.03em;flex:1 1 auto;text-align:center;white-space:nowrap}
+  .std:last-child{border-right:none}
+
+  /* ---------------- sections ---------------- */
+  .layout{display:grid;grid-template-columns:160px 1fr;gap:56px;align-items:start;padding:8px 0 20px}
+  .index{position:sticky;top:100px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:2.3;padding-top:76px}
+  .index a{display:block;color:var(--ink-3);border-left:2px solid var(--line);padding-left:14px;letter-spacing:.02em;
+    transition:color .15s,border-color .15s}
+  .index a:hover{color:var(--ink-2);text-decoration:none}
+  .index a.cur{color:var(--teal);border-left-color:var(--teal)}
+  section{scroll-margin-top:92px;padding:76px 0 8px;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:none}
+  .clause{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--teal);margin-bottom:16px}
+  h2{font-size:clamp(24px,2.7vw,33px);font-weight:700;max-width:22ch;letter-spacing:-.022em}
+  .say{font-size:16.5px;color:var(--ink-2);max-width:66ch;margin-top:18px;line-height:1.72}
+  .say strong{color:var(--ink);font-weight:600}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+  .cards.two{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;
+    transition:border-color .18s,box-shadow .18s}
+  .card:hover{border-color:var(--line-2);box-shadow:var(--sh-sm)}
+  .card .ic{width:36px;height:36px;border-radius:8px;background:var(--mist);display:grid;place-items:center;margin-bottom:16px}
+  .card .ic svg{width:18px;height:18px;color:var(--teal)}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.012em}
+  .card p{font-size:14.5px;color:var(--ink-2);line-height:1.65}
+
+  .register{margin-top:32px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+  .reg-row{display:grid;grid-template-columns:230px 1fr;gap:24px;padding:18px 22px;border-top:1px solid var(--line)}
+  .reg-row:first-child{border-top:none;background:var(--tint)}
+  .reg-row:first-child span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .reg-row b{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .reg-row p{font-size:14.5px;color:var(--ink-2)}
+
+  .split{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:32px;align-items:start}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px}
+  .panel h3{font-size:14px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)}
+  .stackline{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-top:1px solid var(--line);
+    font-size:14px;color:var(--ink-2)}
+  .stackline:first-of-type{border-top:none;padding-top:0}
+  .stackline b{color:var(--ink);font-weight:600}
+  .stackline span{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);text-align:right}
+  .road{list-style:none;font-size:14.5px;color:var(--ink-2)}
+  .road li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);align-items:flex-start}
+  .road li:first-child{border-top:none;padding-top:0}
+  .road .tick{color:var(--ok);font-weight:700;flex:0 0 auto;font-size:13px;padding-top:2px}
+  .road .next{color:var(--amber);font-family:"IBM Plex Mono",monospace;font-size:10px;flex:0 0 auto;padding-top:4px;
+    letter-spacing:.08em}
+
+  .steps{margin-top:32px;counter-reset:s}
+  .stp{counter-increment:s;position:relative;padding:20px 0 20px 56px;border-top:1px solid var(--line)}
+  .stp:first-child{border-top:none;padding-top:0}
+  .stp::before{content:counter(s);position:absolute;left:0;top:19px;width:32px;height:32px;border-radius:8px;
+    background:var(--mist);color:var(--teal);font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+    display:grid;place-items:center}
+  .stp:first-child::before{top:0}
+  .stp b{display:block;font-size:15.5px;font-weight:600;margin-bottom:4px}
+  .stp p{font-size:14.5px;color:var(--ink-2)}
+  .stp code,article.body code{font-family:"IBM Plex Mono",monospace;font-size:12.5px;background:var(--surface-2);
+    border:1px solid var(--line);border-radius:4px;padding:1px 6px}
+
+  .faq{margin-top:38px;border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line);padding:16px 0}
+  .faq summary{font-weight:600;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--teal);font-family:"IBM Plex Mono",monospace;font-size:17px;line-height:1.2}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{font-size:14.5px;color:var(--ink-2);margin-top:10px;max-width:72ch}
+
+  .note{margin-top:32px;background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:30px}
+  .note p{font-size:16px;color:var(--ink-2);max-width:68ch}
+  .note p + p{margin-top:14px}
+  .sign{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .sign .who{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:16px}
+  .sign .role{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);letter-spacing:.02em}
+
+  .close-cta{margin:80px 0 0;background:var(--ink);border-radius:12px;padding:64px 44px;text-align:center;color:#fff}
+  .close-cta h2{font-size:clamp(24px,3vw,34px);color:#fff;margin:0 auto;max-width:20ch}
+  .close-cta p{color:rgba(255,255,255,.7);margin:18px auto 30px;max-width:54ch;font-size:16px}
+  .close-cta .cta-row{justify-content:center}
+  .close-cta .btn-primary{background:var(--teal);color:#fff}
+  .close-cta .btn-primary:hover{background:#12867D}
+  .close-cta .btn-ghost{background:transparent;border-color:rgba(255,255,255,.28);color:#fff}
+  .close-cta .btn-ghost:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.06)}
+
+  /* ---------------- footer ---------------- */
+  footer{margin-top:88px;border-top:1px solid var(--line);background:var(--tint);
+    padding:52px 0 calc(40px + env(safe-area-inset-bottom))}
+  .foot-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:36px}
+  .foot-brand .mark{margin-bottom:14px}
+  .foot-brand p{font-size:13.5px;color:var(--ink-3);max-width:34ch;line-height:1.6}
+  .foot-col h4{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:500;margin-bottom:14px}
+  .foot-col a{display:block;font-size:14px;color:var(--ink-2);padding:5px 0}
+  .foot-col a:hover{color:var(--teal);text-decoration:none}
+  .foot-legal{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:flex;gap:20px;flex-wrap:wrap;
+    font-size:12.5px;color:var(--ink-3);align-items:center}
+  .foot-legal .right{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px}
+
+  /* ---------------- sub pages ---------------- */
+  .page-head{padding:76px 0 4px;border-bottom:1px solid var(--line);margin-bottom:56px;background:
+    radial-gradient(120% 80% at 80% -20%, #F4FAF9 0%, rgba(244,250,249,0) 60%)}
+  .page-head .eyebrow{margin-bottom:16px}
+  .page-head h1{font-size:clamp(30px,3.8vw,44px);max-width:21ch}
+  .page-head .lede{margin-top:20px;padding-bottom:52px}
+  .plain{max-width:var(--wrap);margin:0 auto;
+    padding-left:max(var(--gut),env(safe-area-inset-left));padding-right:max(var(--gut),env(safe-area-inset-right));
+    padding-bottom:20px}
+
+  figure{margin:38px 0 0}
+  figure img{width:100%;border:1px solid var(--line);border-radius:10px;box-shadow:var(--sh-sm);background:var(--surface)}
+  figcaption{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-top:12px;letter-spacing:.03em}
+  .shots{display:grid;grid-template-columns:1.7fr 1fr;gap:20px;margin-top:40px;align-items:start}
+
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+  .tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:26px;
+    transition:border-color .18s,box-shadow .18s}
+  .tile:hover{border-color:var(--line-2);box-shadow:var(--sh-sm)}
+  .tile .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+    border-radius:4px;padding:4px 9px;display:inline-block;margin-bottom:14px;border:1px solid transparent}
+  .tag-live{background:#EBF5EE;color:var(--ok);border-color:#D3E8DA}
+  .tag-build{background:#FAF3E4;color:var(--amber);border-color:#EDE0C4}
+  .tag-idea{background:var(--surface-2);color:var(--ink-3);border-color:var(--line)}
+  .tile h3{font-size:17px;font-weight:700;margin-bottom:9px;letter-spacing:-.014em}
+  .tile p{font-size:14.5px;color:var(--ink-2);line-height:1.65}
+  .tile .meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-top:16px;
+    padding-top:14px;border-top:1px solid var(--line);letter-spacing:.03em}
+
+  .people{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .person{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:26px}
+  .person .av{width:52px;height:52px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;
+    font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;letter-spacing:.02em}
+  .person .av.open{background:var(--surface-2);color:var(--ink-3);border:1px dashed var(--line-2)}
+  .person h3{font-size:16.5px;font-weight:700}
+  .person .role{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--teal);margin:6px 0 12px;
+    letter-spacing:.09em;text-transform:uppercase}
+  .person p{font-size:14px;color:var(--ink-2);line-height:1.65}
+
+  .posts{margin-top:8px}
+  .post{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:28px 0;border-top:1px solid var(--line);align-items:start}
+  .post:first-child{border-top:none;padding-top:0}
+  .post img{width:100%;border-radius:8px;border:1px solid var(--line)}
+  .post .when{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);letter-spacing:.09em;text-transform:uppercase}
+  .post h3{font-size:21px;font-weight:700;margin:9px 0 9px;letter-spacing:-.018em}
+  .post h3 a{color:var(--ink)}
+  .post h3 a:hover{color:var(--teal);text-decoration:none}
+  .post p{font-size:15px;color:var(--ink-2)}
+
+  article.body{max-width:70ch}
+  article.body h2{font-size:23px;margin:40px 0 0;max-width:none}
+  article.body h3{font-size:17.5px;margin:30px 0 0}
+  article.body p{font-size:16.5px;color:var(--ink-2);margin-top:16px;line-height:1.75}
+  article.body ul{margin:16px 0 0 22px;color:var(--ink-2);font-size:16px;line-height:1.75}
+  article.body li{margin-top:8px}
+  article.body blockquote{margin:26px 0;padding:18px 24px;border-left:2px solid var(--teal);background:var(--tint);
+    font-size:16.5px;color:var(--ink);border-radius:0 6px 6px 0}
+  .byline{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);letter-spacing:.06em;
+    margin-top:16px;padding-bottom:52px;text-transform:uppercase}
+  .backlink{font-family:"IBM Plex Mono",monospace;font-size:12px;display:inline-block;margin-top:52px}
+
+  /* ---------------- motion ---------------- */
+  .reveal{opacity:0;transform:translateY(10px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.22,.61,.36,1)}
+
+  /* ---------------- responsive ---------------- */
+  @media(max-width:1000px){
+    .layout{grid-template-columns:1fr;gap:0}
+    .index{display:none}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+  }
+  @media(max-width:900px){
+    .navlinks{display:none}
+    .navtoggle{display:grid}
+    .top .btn{display:none}
+    .cards,.cards.two,.tiles,.shots,.split{grid-template-columns:1fr}
+    .people{grid-template-columns:1fr 1fr}
+    .doc-grid{grid-template-columns:repeat(2,1fr)}
+    .fi.b,.fi.d{display:none}
+    .standards{flex-direction:column}
+    .std{border-right:none;border-bottom:1px solid var(--line);text-align:left}
+    .std:last-child{border-bottom:none}
+  }
+  @media(max-width:600px){
+    :root{--gut:20px}
+    .top .wrap{height:60px}
+    .hero{padding:52px 0 46px}
+    h1{font-size:clamp(28px,8vw,36px);max-width:none}
+    .lede{font-size:16px}
+    .cta-row{gap:10px;margin-top:28px}
+    .cta-row .btn{flex:1 1 100%;padding:14px 20px;font-size:15px}
+    .doc{margin-top:36px}
+    .doc-ctrl{gap:0 18px;font-size:9.5px;padding:11px 16px}
+    .doc-body{padding:22px 16px 24px}
+    .stamp{position:static;display:inline-block;margin-bottom:16px;transform:rotate(-3deg)}
+    .doc-grid{gap:10px}
+    .cell{padding:12px 13px}
+    .cell .v{font-size:17px}
+    section{padding:48px 0 4px;scroll-margin-top:76px}
+    h2{font-size:clamp(21px,6vw,26px);max-width:none}
+    .say{font-size:16px}
+    .card,.tile,.person,.panel{padding:20px}
+    .reg-row{grid-template-columns:1fr;gap:6px;padding:16px 18px}
+    .note{padding:22px}
+    .close-cta{margin-top:52px;padding:40px 22px}
+    .close-cta .cta-row .btn{flex:1 1 100%}
+    .page-head{padding-top:44px;margin-bottom:38px}
+    .page-head .lede{padding-bottom:36px}
+    .people{grid-template-columns:1fr}
+    .post{grid-template-columns:1fr;gap:16px;padding:22px 0}
+    .post h3{font-size:19px}
+    article.body p{font-size:16px}
+    footer{margin-top:56px;padding-top:40px}
+    .foot-grid{grid-template-columns:1fr;gap:28px}
+    .foot-legal{margin-top:32px}
+    .foot-legal .right{margin-left:0;width:100%}
+  }
+  @supports not (backdrop-filter: blur(12px)){ .top{background:var(--paper)} }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+    .float-layer{display:none}
+    *{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  }
+  @media print{
+    .top,.mobilemenu,.float-layer,.close-cta,footer,.index{display:none}
+    body{font-size:11pt}
+  }
+
+  /* ================================================================
+     Richer surface: depth, rhythm and interactive components
+     ================================================================ */
+
+  /* reading progress */
+  .progress{position:fixed;top:0;left:0;height:2px;background:var(--teal);width:0;z-index:60;transition:width .1s linear}
+
+  /* hero: two columns, engineering-paper backdrop */
+  .hero{padding:88px 0 84px;background:
+    radial-gradient(80% 60% at 88% -8%, #EAF5F3 0%, rgba(234,245,243,0) 60%),
+    linear-gradient(#FBFCFC,#FFFFFF)}
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(circle at 1px 1px, rgba(17,29,27,.055) 1px, transparent 0);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(#000 0%, rgba(0,0,0,.35) 55%, transparent 88%);
+    mask-image:linear-gradient(#000 0%, rgba(0,0,0,.35) 55%, transparent 88%)}
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center}
+  .hero-grid .doc{margin-top:0}
+  .hero .lede{max-width:52ch}
+  .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);
+    border-radius:999px;padding:6px 14px 6px 8px;font-size:12.5px;font-weight:500;color:var(--ink-2);margin-bottom:22px;
+    box-shadow:var(--sh-sm)}
+  .badge b{background:var(--mist);color:var(--teal);font-family:"IBM Plex Mono",monospace;font-size:10px;
+    letter-spacing:.09em;text-transform:uppercase;border-radius:999px;padding:4px 9px;font-weight:600}
+
+  /* metric band */
+  .statband{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--tint)}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .stat{padding:34px 28px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .num{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:38px;letter-spacing:-.03em;
+    color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+  .stat .num sup{font-size:18px;color:var(--teal);vertical-align:super;margin-left:2px}
+  .stat .lbl{font-size:13.5px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+
+  /* section heading rule */
+  .clause{display:flex;align-items:center;gap:12px}
+  .clause::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* cards with a category accent */
+  .card{position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--teal);
+    transition:width .32s cubic-bezier(.22,.61,.36,1)}
+  .card:hover::before{width:100%}
+  .card .ic{background:linear-gradient(145deg,var(--mist),#F6FAF9);border:1px solid #E1EEEC}
+
+  /* how it works — a connected flow */
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:36px;border:1px solid var(--line);
+    border-radius:10px;overflow:hidden;background:var(--surface)}
+  .flow-step{padding:28px 26px;border-right:1px solid var(--line);position:relative}
+  .flow-step:last-child{border-right:none}
+  .flow-step .n{width:30px;height:30px;border-radius:8px;background:var(--ink);color:#fff;display:grid;place-items:center;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:14px}
+  .flow-step h3{font-size:15.5px;font-weight:700;margin-bottom:7px}
+  .flow-step p{font-size:14px;color:var(--ink-2);line-height:1.6}
+  .flow-step::after{content:"";position:absolute;right:-7px;top:50%;width:12px;height:12px;background:var(--surface);
+    border-top:1px solid var(--line);border-right:1px solid var(--line);transform:translateY(-50%) rotate(45deg);z-index:2}
+  .flow-step:last-child::after{display:none}
+
+  /* live demo panels */
+  .demo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px}
+  .demo-panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px}
+  .demo-panel h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:6px}
+  .demo-panel .hint{font-size:13px;color:var(--ink-3);margin-bottom:18px}
+  .matrix{display:grid;grid-template-columns:auto repeat(5,1fr);gap:4px}
+  .matrix .axis{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-3);display:grid;place-items:center}
+  .mcell{aspect-ratio:1.5/1;border-radius:5px;border:1px solid transparent;cursor:pointer;display:grid;place-items:center;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;color:rgba(17,29,27,.55);transition:transform .12s,box-shadow .12s}
+  .mcell:hover{transform:scale(1.06);box-shadow:var(--sh-sm)}
+  .mcell.sel{outline:2px solid var(--ink);outline-offset:1px;color:var(--ink)}
+  .m-lo{background:#E6F3EA}.m-md{background:#FBF1D8}.m-hi{background:#FADFC9}.m-cr{background:#F6D2CE}
+  .m-out{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2);min-height:64px}
+  .m-out b{display:block;font-family:"Hanken Grotesk",sans-serif;font-size:17px;color:var(--ink);margin-bottom:4px}
+  .calc-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .calc-row label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px}
+  .calc-row input{width:100%;border:1px solid var(--line-2);border-radius:7px;padding:11px 12px;font-size:16px;
+    font-family:"IBM Plex Mono",monospace;background:var(--paper);color:var(--ink)}
+  .calc-row input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--ring)}
+  .calc-out{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .calc-out .big{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:32px;letter-spacing:-.03em;
+    font-variant-numeric:tabular-nums}
+  .calc-out .sub{font-size:13px;color:var(--ink-3);margin-top:4px}
+  .calc-out .alt{font-size:13px;color:var(--ink-2);margin-top:10px;font-family:"IBM Plex Mono",monospace}
+
+  /* filters (projects) */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+  .filt{border:1px solid var(--line-2);background:var(--surface);border-radius:7px;padding:8px 15px;font-size:13px;
+    font-weight:600;color:var(--ink-2);cursor:pointer;font-family:inherit;transition:.15s}
+  .filt:hover{border-color:var(--ink-3)}
+  .filt.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .tile.hide{display:none}
+
+  /* quote / principle block */
+  .principle{margin-top:34px;border-left:3px solid var(--teal);background:var(--tint);border-radius:0 10px 10px 0;
+    padding:26px 30px}
+  .principle p{font-family:"Hanken Grotesk",sans-serif;font-size:20px;font-weight:600;letter-spacing:-.015em;
+    color:var(--ink);line-height:1.45;max-width:52ch}
+  .principle span{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);
+    letter-spacing:.09em;text-transform:uppercase;margin-top:14px}
+
+  /* mobile sticky CTA + back to top */
+  .stickycta{position:fixed;left:0;right:0;bottom:0;z-index:45;display:none;gap:10px;padding:12px 16px
+    calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line)}
+  .stickycta .btn{flex:1}
+  .totop{position:fixed;right:22px;bottom:26px;z-index:44;width:42px;height:42px;border-radius:9px;
+    border:1px solid var(--line-2);background:rgba(255,255,255,.94);color:var(--ink-2);display:grid;place-items:center;
+    cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:var(--sh-sm)}
+  .totop.show{opacity:1;pointer-events:auto}
+  .totop:hover{color:var(--teal);border-color:var(--teal)}
+
+  @media(max-width:1000px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .hero .lede{max-width:62ch}
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .stat{border-bottom:1px solid var(--line)}
+    .stat:nth-child(2n){border-right:none}
+    .stat:nth-last-child(-n+2){border-bottom:none}
+    .demo{grid-template-columns:1fr}
+    .flow{grid-template-columns:1fr}
+    .flow-step{border-right:none;border-bottom:1px solid var(--line)}
+    .flow-step:last-child{border-bottom:none}
+    .flow-step::after{right:50%;top:auto;bottom:-7px;transform:translateX(50%) rotate(135deg)}
+  }
+  @media(max-width:600px){
+    .hero{padding:44px 0 52px}
+    .stat{padding:24px 20px}
+    .stat .num{font-size:30px}
+    .demo-panel{padding:20px}
+    .principle{padding:22px}
+    .principle p{font-size:17.5px}
+    .stickycta{display:flex}
+    body{padding-bottom:74px}
+    .totop{display:none}
+  }
+
 </style>
-<link rel="stylesheet" href="./site.css" />
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
 <header class="top">
   <div class="wrap">
@@ -129,15 +612,19 @@
       <span class="fi f"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
     </div>
     <div class="wrap">
-      <div class="eyebrow">EHS management platform · AI support · works offline</div>
+      <div class="hero-grid">
+      <div>
+      <span class="badge"><b>New</b> Realtime organisation sync is live</span>
+      <div class="eyebrow">EHS management platform · AI-assisted · offline capable</div>
       <h1>Environment, health and safety — <em>run from one place</em>.</h1>
-      <p class="lede">Guardian is an EHS management platform with a built-in AI assistant. Raise a permit to work, run an audit, log the day's activities and print the report — and ask an assistant that understands hazards, standards and what a good control actually looks like. More models are coming: project management next, then cyber security.</p>
+      <p class="lede">Guardian is an environment, health and safety management platform with an integrated AI assistant. Issue permits to work, conduct audits, maintain the daily register and produce the reports a project requires — supported by an assistant that understands hazards, applicable standards and the adequacy of controls. Further models are planned: project management, followed by cyber security.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="./app.html">Try Guardian — it's free</a>
+        <a class="btn btn-primary" href="./app.html">Try Guardian — free</a>
         <a class="btn btn-ghost" href="./promo.html">Watch the 60-second tour</a>
       </div>
-      <p class="cta-note">No sign-up needed to look around · <b>Installs like an app</b> · Opens with no signal</p>
+      <p class="cta-note">No account required to evaluate · <b>Installs as an application</b> · Operates without connectivity</p>
 
+      </div>
       <div class="doc reveal">
         <div class="doc-ctrl">
           <span>Doc <b>GUARDIAN-EHS</b></span>
@@ -147,8 +634,8 @@
         </div>
         <div class="doc-body">
           <div class="stamp mono" id="stamp">ISSUED</div>
-          <h3>Permit to work — the workflow, not just the form</h3>
-          <p class="sub">Every permit moves through the same states your site already uses, with the checks, gas readings and sign-offs attached to it.</p>
+          <h3>Permit to work — a controlled workflow, not a static form</h3>
+          <p class="sub">Each permit progresses through the states your site already operates, carrying its checks, gas readings and authorisations with it.</p>
           <div class="rail" id="rail">
             <span class="step" data-i="0"><span class="n">1</span>Draft</span>
             <span class="step" data-i="1"><span class="n">2</span>Assessed</span>
@@ -166,6 +653,8 @@
         </div>
       </div>
 
+      </div>
+      <div class="eyebrow" style="margin:52px 0 12px">Aligned to</div>
       <div class="standards">
         <span class="std">ISO 45001</span><span class="std">ISO 14001</span><span class="std">ISO 9001</span>
         <span class="std">Factories Act 1948</span><span class="std">BOCW 1996</span><span class="std">OSHA 29 CFR</span>
@@ -173,6 +662,17 @@
       </div>
     </div>
   </div>
+
+  <section class="statband" aria-label="Platform at a glance" style="padding:0;border-top:none">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat"><div class="num" data-count="50">50</div><div class="lbl">EHS topics answered offline, with deterministic calculators</div></div>
+        <div class="stat"><div class="num" data-count="7">7</div><div class="lbl">Permit states, from draft through issue to closure</div></div>
+        <div class="stat"><div class="num" data-count="14">14</div><div class="lbl">Activity metrics recorded in the daily register</div></div>
+        <div class="stat"><div class="num" data-count="10">10</div><div class="lbl">Standards and jurisdictions carried into every answer</div></div>
+      </div>
+    </div>
+  </section>
 
   <!-- ---------------- clauses ---------------- -->
   <div class="wrap">
@@ -191,93 +691,121 @@
         <!-- §1 -->
         <section id="what" class="reveal">
           <div class="clause">§1 — What Guardian is</div>
-          <h2>A platform built from the job, not from a feature list.</h2>
-          <p class="say">Guardian covers the four things an EHS function has to keep straight — <strong>permits, audits, the daily record and the documents that prove it</strong> — with an AI assistant sitting across all of them. Most safety software is bought by head office and endured by site. Guardian was written by a working EHS professional around the things that actually fill a day: <strong>a permit that has to be verified before work starts</strong>, an audit whose findings need owners and dates, a register that has to add up at month end, and a dozen questions an hour that need a straight answer.</p>
-          <p class="say">It runs entirely in the browser. There is nothing to install, no licence, no server to buy. Open it and it works — on a laptop in the site office or a phone at the work front, with or without a connection.</p>
+          <h2>Designed around how safety is administered on site.</h2>
+          <p class="say">Guardian addresses the four records an EHS function is accountable for — <strong>permits, audits, the daily register and the documents that evidence them</strong> — with an AI assistant available across all of them. It was developed by a practising EHS professional around the demands of a working day: <strong>a permit that must be verified before work begins</strong>, audit findings that require owners and closure dates, a register that must reconcile at month end, and the technical questions that arise continuously on site.</p>
+          <p class="say">The platform runs entirely in the browser. There is no installation, no licence fee and no server to procure. It operates on a laptop in the site office or a handset at the work front, with or without connectivity.</p>
           <div class="cards">
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-              <h3>Free to use</h3>
-              <p>Every core function is free, forever. Organisations that want it set up, branded and supported can take it as a service.</p>
+              <h3>No licence cost</h3>
+              <p>All core functions are free of charge. Organisations requiring configuration, branding and ongoing support can engage Guardian as a service.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 0 1 9-9v9H3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></div>
-              <h3>Offline first</h3>
-              <p>Installs to the home screen and opens with no signal. Permits, audits, the register and the reference engine all keep working.</p>
+              <h3>Offline capability</h3>
+              <p>Installs to the home screen and launches without a connection. Permits, audits, the register and the reference engine remain fully available.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v5.5c0 4.4 2.9 7.5 7 9.5 4.1-2 7-5.1 7-9.5V6l-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
-              <h3>Your data stays yours</h3>
-              <p>Nothing is sent anywhere by default. Connect your own database and it stays in your account, protected at the row level.</p>
+              <h3>Data ownership</h3>
+              <p>No data is transmitted by default. Where an organisation connects its own database, records remain in that account and are protected by row-level security.</p>
             </div>
           </div>
         </section>
 
+        <div class="flow reveal">
+          <div class="flow-step"><div class="n">1</div><h3>Record</h3><p>Raise the permit, run the audit, log the day. The forms follow the sequence a site already works to.</p></div>
+          <div class="flow-step"><div class="n">2</div><h3>Verify</h3><p>Checks, gas readings and references are assessed against acceptance criteria, and the duty holder authorises or refuses.</p></div>
+          <div class="flow-step"><div class="n">3</div><h3>Evidence</h3><p>Reports issue signature-ready, KPIs accumulate, and the register reconciles into the monthly and closure reporting.</p></div>
+        </div>
+
         <!-- §2 -->
         <section id="model" class="reveal">
           <div class="clause">§2 — The AI model</div>
-          <h2>Guardian isn't a model. It's the safety expertise around one.</h2>
-          <p class="say">Being straight about this matters: there is no "Guardian model" trained on secret safety data. What Guardian has is <strong>the domain layer</strong> — the prompts, the standards context, the permit and audit structure, and a deterministic engine that answers without any model at all. You decide what intelligence sits behind it.</p>
+          <h2>Guardian is not a model. It is the domain layer around one.</h2>
+          <p class="say">This distinction is stated plainly because it matters: there is no proprietary "Guardian model" trained on privileged safety data. What Guardian provides is <strong>the domain layer</strong> — the prompting, the standards context, the permit and audit structure, and a deterministic engine that answers with no model at all. The organisation decides which intelligence sits behind it.</p>
           <div class="cards">
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M8 16h5M8 8h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-              <h3>Built-in engine — no connection</h3>
-              <p>A reference engine covering 50 EHS topics, with exact calculators: 5×5 risk scoring, LTIFR and TRIR from your own man-hours, gas readings against acceptance limits, and threshold rules for depth, height, noise and load.</p>
+              <h3>Built-in engine, no connection required</h3>
+              <p>A reference engine covering fifty EHS topics with deterministic calculators: 5×5 risk scoring, LTIFR and TRIR derived from your own man-hours, gas readings assessed against acceptance limits, and threshold rules for excavation depth, working height, noise and manual handling.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8l7-5 7 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <h3>Bring your own model</h3>
-              <p>Point it at Claude, any OpenAI-compatible API — including free tiers like OpenRouter or Groq — or a local Ollama model on your own machine. One-tap presets fill the settings for you.</p>
+              <p>Connect Claude, any OpenAI-compatible API — including no-cost tiers such as OpenRouter or Groq — or a local Ollama model running on your own hardware. Presets complete the configuration in a single step.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6"/></svg></div>
-              <h3>Keys never leave the browser</h3>
-              <p>Your API key is stored on your own device and sent only to the provider you chose. Nothing routes through a Guardian server, because there isn't one.</p>
+              <h3>Credentials remain local</h3>
+              <p>API keys are stored on the device and transmitted only to the provider you select. No traffic is routed through a Guardian server, as none exists.</p>
             </div>
           </div>
-          <p class="say"><strong>What comes next.</strong> The EHS assistant is the first model on the platform, not the last. Project management is next — programme risk, resource and schedule questions in the same place as the safety record — followed by a cyber-security assistant for teams whose site systems and OT networks need the same discipline. Each one plugs into the same permissions, the same offline behaviour and the same database.</p>
-          <p class="say">Five workspaces shape how it answers: <strong>incident triage, near miss, first aid, risk assessment, and compliance &amp; audit</strong> — each with its own focus and the standards you select carried into every reply. Ask from inside a permit, an audit or the day's register and the page travels with the question.</p>
+          <p class="say"><strong>Planned development.</strong> The EHS assistant is the first model on the platform rather than the last. Project management follows — programme risk, resourcing and schedule questions held alongside the safety record — and thereafter a cyber-security assistant for organisations whose site systems and OT networks require comparable discipline. Each will operate under the same permissions model, the same offline behaviour and the same database.</p>
+          <div class="demo reveal">
+            <div class="demo-panel">
+              <h3>Risk scoring — try it</h3>
+              <p class="hint">Select likelihood × severity. This is the same 5×5 logic the offline engine applies.</p>
+              <div class="matrix" id="matrix"></div>
+              <div class="m-out" id="mout"><b>Select a cell</b>The band and the required action appear here.</div>
+            </div>
+            <div class="demo-panel">
+              <h3>Injury rate — try it</h3>
+              <p class="hint">Exposure hours and lost-time cases. Computed exactly, as the engine does offline.</p>
+              <div class="calc-row">
+                <div><label for="c_hours">Man-hours</label><input id="c_hours" inputmode="numeric" value="250000" /></div>
+                <div><label for="c_lti">Lost-time injuries</label><input id="c_lti" inputmode="numeric" value="2" /></div>
+              </div>
+              <div class="calc-out">
+                <div class="big" id="c_ltifr">8.00</div>
+                <div class="sub">LTIFR per million man-hours (IOGP / common India basis)</div>
+                <div class="alt" id="c_trir">TRIR basis (×200,000): 1.60</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="say">Five workspaces determine how the assistant responds: <strong>incident triage, near miss, first aid, risk assessment, and compliance &amp; audit</strong> — each with its own emphasis, and the standards you select carried into every reply. Questions raised from within a permit, an audit or the daily register carry that record as context.</p>
         </section>
 
         <!-- §3 -->
         <section id="functions" class="reveal">
           <div class="clause">§3 — Functions</div>
-          <h2>What it does, in the order a site actually uses it.</h2>
+          <h2>Capabilities, in the order a site uses them.</h2>
           <div class="cards two">
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 4h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2Z" stroke="currentColor" stroke-width="1.5"/><path d="M6 6H5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1" stroke="currentColor" stroke-width="1.5"/><path d="m8 13 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <h3>Permit to work</h3>
-              <p>General, height, hot work and demolition checklists with Y/N/N-A, PPE, gas testing, TRA and isolation references, a SIMOPS check and attachments. A rule-based review gives a verdict — authorise, authorise with conditions, or do not authorise — with the blockers listed. Prints signature-ready.</p>
+              <p>General, work-at-height, hot work and demolition checklists with Yes/No/N-A responses, PPE selection, gas testing, task risk assessment and isolation references, a SIMOPS check and supporting attachments. A rule-based review returns a determination — authorise, authorise with conditions, or do not authorise — with each blocking item identified. Prints ready for signature.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
               <h3>Audits</h3>
-              <p>Set the basis — general, ISO 45001, ISO 14001, ISO 9001, Factories Act, OSHA or a client standard — then log findings as NC, observation or OFI with actions, owners and due dates. Attach evidence as PDF, Excel, Word or photos. Print the report.</p>
+              <p>Select the audit basis — general, ISO 45001, ISO 14001, ISO 9001, the Factories Act, OSHA or a client standard — then record findings as non-conformity, observation or opportunity for improvement, each with an action, owner and due date. Attach evidence as PDF, Excel, Word or photographs, and issue the report.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m13 14 2 2 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <h3>Daily register &amp; KPIs</h3>
-              <p>Log the day — manpower, man-hours, inductions, toolbox talks, trainings, audits, inspections, site walks, quality reports, observations, near misses, first aid, permits. See the day against the cumulative, a 14-day trend, and print a daily report. Export the register as CSV for your analytics team.</p>
+              <p>Record the day — manpower, man-hours, inductions, toolbox talks, training, audits, inspections, site walks, quality reports, observations, near misses, first-aid cases and permits — and review it against cumulative totals and a fourteen-day trend. Issue the daily report, or export the register as CSV for analysis.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 4h10v16l-5-3-5 3V4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
               <h3>Documents</h3>
-              <p>Print or download ready templates: JSA/HIRA, near-miss and incident reports, toolbox talk record, first-aid and inspection checklists — plus project-grade documents including a full EHS closure &amp; KPI report, HSE plan, monthly KPI report, internal audit report and emergency response plan.</p>
+              <p>Standard templates for immediate use: JSA/HIRA, near-miss and incident reports, toolbox talk records, first-aid and inspection checklists — together with project-level documents including an EHS closure and KPI report, HSE plan, monthly KPI report, internal audit report and emergency response plan.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M16 11.5a3 3 0 1 0 0-6M17 19a5.4 5.4 0 0 0-2-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
               <h3>Duties &amp; approvals</h3>
-              <p>Real roles, not checkboxes: a requester raises the permit, an SME adds review comments, a verifier approves and issues it, and an administrator manages people and organisations. Every permission is enforced in the database, not hidden in the interface.</p>
+              <p>Defined duties rather than nominal settings: a requester raises the permit, a subject-matter expert records review comments, a verifier approves and issues it, and an administrator manages personnel and organisations. Every permission is enforced in the database, not concealed in the interface.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <h3>Live across the team</h3>
-              <p>When your organisation is connected, a permit decision reaches the requester's phone as it's taken, and a register entry a colleague saved is already there when you open it — no refreshing, no re-sending.</p>
+              <h3>Live across the organisation</h3>
+              <p>Where an organisation is connected, a permit decision reaches the requester as it is taken, and a register entry saved by a colleague is present when the record is opened — without refreshing or re-sending.</p>
             </div>
             <div class="card">
               <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <h3>Works when the signal doesn't</h3>
-              <p>Install it to the home screen and it launches offline. The reference engine, calculators, permit review, audit form and register all run on the device — the connection only matters when you want a live model or cloud sync.</p>
+              <h3>Offline operation</h3>
+              <p>Installed to the home screen, Guardian launches without connectivity. The reference engine, calculators, permit review, audit form and register all execute on the device; a connection is required only for a live model or organisation synchronisation.</p>
             </div>
           </div>
         </section>
@@ -285,34 +813,39 @@
         <div class="shots reveal">
           <figure>
             <img src="./img-permit.png" alt="Guardian permit to work screen: approval workflow, checklist, gas test readings and offline review verdict" width="1280" height="820" loading="lazy" />
-            <figcaption>Permit to work — the workflow, the checks and a verdict before issue.</figcaption>
+            <figcaption>Permit to work — workflow, checks and a determination prior to issue.</figcaption>
           </figure>
           <figure>
             <img src="./img-mobile.png" alt="Guardian daily EHS register on a phone showing KPIs, a 14-day trend and cumulative totals" width="520" height="880" loading="lazy" />
-            <figcaption>The daily register, on the phone that's already in your pocket.</figcaption>
+            <figcaption>The daily register, recorded at the work front.</figcaption>
           </figure>
         </div>
 
         <!-- §4 -->
         <section id="uses" class="reveal">
           <div class="clause">§4 — Use cases</div>
-          <h2>Who it's for, and what changes on day one.</h2>
+          <h2>Where it is used, and what changes.</h2>
           <div class="register">
             <div class="reg-row"><span>Setting</span><span>What changes</span></div>
-            <div class="reg-row"><b>Construction &amp; fit-out projects</b><p>Permits move through request, review and issue with a record of who authorised what. The daily register feeds the monthly KPI and the closure report at handover.</p></div>
-            <div class="reg-row"><b>Factories &amp; plants</b><p>Hot work and confined-space permits carry gas readings checked against limits. Audits map to ISO 45001 or the Factories Act, with findings tracked to closure.</p></div>
-            <div class="reg-row"><b>Contractors &amp; vendors</b><p>A shared standard for permits and toolbox talks across crews, with evidence attached to each job instead of scattered across phones.</p></div>
-            <div class="reg-row"><b>NGO &amp; worker-safety programmes</b><p>Free access to the full toolkit, with printable material for field teams who train workers with no reliable connection.</p></div>
-            <div class="reg-row"><b>Consultants &amp; auditors</b><p>A portable audit form with a findings register and a printable report — the same structure across every client site.</p></div>
-            <div class="reg-row"><b>Students &amp; new EHS professionals</b><p>A working reference with the calculators, and real document formats to learn on rather than blank theory.</p></div>
+            <div class="reg-row"><b>Construction &amp; fit-out projects</b><p>Permits progress through request, review and issue with a record of who authorised what. The daily register informs the monthly KPI report and the closure report at handover.</p></div>
+            <div class="reg-row"><b>Factories &amp; plants</b><p>Hot work and confined-space permits carry gas readings assessed against acceptance limits. Audits are mapped to ISO 45001 or the Factories Act, with findings tracked to closure.</p></div>
+            <div class="reg-row"><b>Contractors &amp; vendors</b><p>A common standard for permits and toolbox talks across crews, with evidence retained against each job rather than dispersed across personal devices.</p></div>
+            <div class="reg-row"><b>NGO &amp; worker-safety programmes</b><p>Full access at no cost, with printable material for field teams delivering training where connectivity is unreliable.</p></div>
+            <div class="reg-row"><b>Consultants &amp; auditors</b><p>A portable audit form with a findings register and an issued report, applying a consistent structure across every client site.</p></div>
+            <div class="reg-row"><b>Students &amp; new EHS professionals</b><p>A working reference with the calculators, and authentic document formats to learn from rather than theory alone.</p></div>
           </div>
         </section>
 
         <!-- §5 -->
         <section id="development" class="reveal">
           <div class="clause">§5 — Development</div>
-          <h2>Built in the open, deliberately small.</h2>
-          <p class="say">Guardian is a static front end with no build step, plus an optional database. That decision is the reason it can run from a phone, a laptop, a cheap host or a self-hosted box on your own network, and why it survives losing the internet mid-shift.</p>
+          <h2>Developed in the open, deliberately lightweight.</h2>
+          <p class="say">Guardian is a static front end with no build step, together with an optional database. That decision is what allows it to run from a handset, a laptop, low-cost hosting or a self-hosted server on your own network — and what allows it to continue operating when connectivity is lost mid-shift.</p>
+          <div class="principle reveal">
+            <p>A safety tool that hedges at the moment of decision is worse than no tool, because it launders a doubtful permit into a signed one.</p>
+            <span>Design principle</span>
+          </div>
+
           <div class="split">
             <div class="panel">
               <h3>How it's put together</h3>
@@ -344,32 +877,32 @@
         <!-- §6 -->
         <section id="docs" class="reveal">
           <div class="clause">§6 — Documentation</div>
-          <h2>Start in a minute. Set up an organisation in ten.</h2>
+          <h2>Evaluate in a minute. Deploy an organisation in ten.</h2>
           <div class="steps">
-            <div class="stp"><b>Open it</b><p>Go to <a href="./app.html">the app</a>. Everything works immediately — permits, audits, register, documents and the offline reference. No account required.</p></div>
-            <div class="stp"><b>Install it on the phone</b><p>Open it in your browser, then choose <em>Add to home screen</em> or <em>Install app</em>. It opens like a native app and launches with no signal.</p></div>
-            <div class="stp"><b>Connect a model (optional)</b><p>In Settings, pick your copilot: Claude, a free OpenAI-compatible provider, or a local Ollama model. Paste a key and use <code>Test connection</code>. Without one, the offline engine answers.</p></div>
-            <div class="stp"><b>Set up your organisation (optional)</b><p>Create a free Supabase project, run <code>supabase-setup.sql</code>, and put your project URL and publishable key in the app. Then add your team from the admin console with their job titles — EHS officer, permit holder, site engineer, SME, project manager — and each duty is enforced by the database.</p></div>
+            <div class="stp"><b>Open it</b><p>Open <a href="./app.html">the application</a>. All functions are available immediately — permits, audits, register, documents and the offline reference. No account is required.</p></div>
+            <div class="stp"><b>Install it on the phone</b><p>Open Guardian in the browser and select <em>Add to home screen</em> or <em>Install app</em>. It then opens as a native application and launches without a connection.</p></div>
+            <div class="stp"><b>Connect a model (optional)</b><p>In Settings, select the assistant: Claude, an OpenAI-compatible provider, or a local Ollama model. Enter the key and use <code>Test connection</code>. Where none is configured, the offline engine responds.</p></div>
+            <div class="stp"><b>Set up your organisation (optional)</b><p>Create a Supabase project, run <code>supabase-setup.sql</code>, and enter the project URL and publishable key in the application. Personnel are then added from the administration console against their job titles — EHS officer, permit holder, site engineer, SME, project manager — with each duty enforced by the database.</p></div>
           </div>
-          <p class="say" style="margin-top:22px">Full setup notes, the database script and the deployment steps live in the repository <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>README</a>. Administrators sign in at <a class="mono" href="./admin.html" rel="nofollow">/admin.html</a>.</p>
+          <p class="say" style="margin-top:22px">Complete configuration notes, the database script and deployment procedure are held in the repository <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>README</a>. Administrators sign in at <a class="mono" href="./admin.html" rel="nofollow">/admin.html</a>.</p>
 
           <div class="faq">
-            <details><summary>Is Guardian free?</summary><p>Yes. The app is free to use, and every core function works without an account. Organisations that want it set up, tailored to their sites and supported can arrange that as a service.</p></details>
-            <details><summary>Does it work without internet?</summary><p>Yes. Once installed it launches with no signal. The built-in reference engine, calculators, permit review, audit form, register and printing all run on your device.</p></details>
-            <details><summary>Which AI model does it use?</summary><p>Whichever you choose — Claude, any OpenAI-compatible API including free tiers, or a local Ollama model. Guardian supplies the safety expertise around the model, not the model itself.</p></details>
-            <details><summary>Where is our data stored?</summary><p>By default, only on your device. If your organisation connects a Supabase project, the data sits in your own account and is protected by row-level security, so a person only ever sees their organisation's records.</p></details>
-            <details><summary>Can it replace our permit system?</summary><p>It follows the same states a formal electronic permit system uses and prints a signature-ready document. Whether it replaces or supports your current system is a decision for your management of change process — treat it as a tool, not an authority.</p></details>
+            <details><summary>Is Guardian free?</summary><p>Yes. The application is free to use and every core function operates without an account. Organisations requiring configuration, tailoring to their sites and ongoing support can arrange this as a service.</p></details>
+            <details><summary>Does it work without internet?</summary><p>Yes. Once installed, Guardian launches without a connection. The reference engine, calculators, permit review, audit form, register and printing all operate on the device.</p></details>
+            <details><summary>Which AI model does it use?</summary><p>Whichever the organisation selects — Claude, any OpenAI-compatible API including no-cost tiers, or a local Ollama model. Guardian supplies the domain layer around the model, not the model itself.</p></details>
+            <details><summary>Where is our data stored?</summary><p>By default, on the device only. Where an organisation connects a Supabase project, records are held in that account and protected by row-level security, so an individual sees only their organisation's data.</p></details>
+            <details><summary>Can it replace our permit system?</summary><p>Guardian follows the same states as a formal electronic permit system and issues a signature-ready document. Whether it replaces or supplements an existing system is a decision for your management-of-change process; it should be treated as a tool, not an authority.</p></details>
           </div>
         </section>
 
         <!-- §7 -->
         <section id="about" class="reveal">
           <div class="clause">§7 — About</div>
-          <h2>Built by someone who fills these forms.</h2>
+          <h2>Built by a practising EHS professional.</h2>
           <div class="note">
-            <p>I'm <strong>Arun Williams</strong>, an EHS professional based in Bengaluru, India, working on project health, safety and environment. Guardian started as a personal fix for a familiar problem: the knowledge a safety officer needs is scattered across standards, the paperwork is repetitive, and the tools built for us are usually designed by people who have never stood at a work front waiting on a permit.</p>
-            <p>So I built the tool I wanted — permits that follow a real workflow, audits that produce actions rather than adjectives, a register that adds up, and an assistant that answers with hazards and controls instead of generic caution. Then I gave it away, because most of the people who need it most are on sites with no budget for safety software.</p>
-            <p>It's an ongoing project, and it improves fastest with feedback from other practitioners. If something in it doesn't match how your site works, tell me.</p>
+            <p>Guardian is developed by <strong>Arun Williams</strong>, an EHS professional based in Bengaluru, India, working in project health, safety and environment. It began as a response to a familiar problem: the knowledge a safety officer relies on is distributed across many standards, the documentation is repetitive, and the available tools are seldom designed around the realities of a work front.</p>
+            <p>The objective was straightforward: permits that follow a genuine workflow, audits that produce actions rather than adjectives, a register that reconciles, and an assistant that responds with hazards and controls rather than general caution. It is published free of charge because many of the sites that would benefit most operate without a budget for safety software.</p>
+            <p>Development is ongoing, and the platform improves fastest with feedback from other practitioners. If any part of it does not reflect how your site operates, please say so.</p>
             <div class="sign">
               <span class="who">Arun Williams</span>
               <span class="role">EHS professional · Bengaluru, India · <a href="https://arunwilliams.github.io">arunwilliams.github.io</a></span>
@@ -378,8 +911,8 @@
         </section>
 
         <div class="close-cta reveal">
-          <h2>Open it and see if it fits your site.</h2>
-          <p>Nothing to install, no account, no sales call. If it helps, keep using it — it stays free.</p>
+          <h2>Evaluate Guardian on your own site.</h2>
+          <p>No installation, no account and no obligation. If it proves useful, it remains free to use.</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="./app.html">Try Guardian</a>
             <a class="btn btn-ghost" href="./promo.html">Watch the tour</a>
@@ -390,13 +923,49 @@
   </div>
 </main>
 
+<div class="stickycta">
+  <a class="btn btn-ghost" href="./projects.html">Projects</a>
+  <a class="btn btn-primary" href="./app.html">Try Guardian</a>
+</div>
+<button class="totop" id="totop" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 19V5m0 0-6 6m6-6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
 <footer>
   <div class="wrap">
-    <span>Guardian — EHS assistant by Arun Williams</span>
-    <a href="./app.html">Open the app</a>
-    <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>Source</a>
-    <a href="mailto:CHANGE-ME@example.com?subject=Guardian%20EHS">Contact</a>
-    <span class="right">Rev 2.0 · Free to use · Not a substitute for a competent person</span>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="mark" href="./">
+          <span class="shield"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          Guardian
+        </a>
+        <p>An environment, health and safety management platform with AI support. Built by a working EHS professional, free to use.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Platform</h4>
+        <a href="./app.html">Open the app</a>
+        <a href="./#functions">Functions</a>
+        <a href="./#uses">Use cases</a>
+        <a href="./promo.html">Product tour</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="./projects.html">Projects &amp; roadmap</a>
+        <a href="./team.html">Team</a>
+        <a href="./blog.html">Blog</a>
+        <a href="mailto:CHANGE-ME@example.com?subject=Guardian%20EHS">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <a href="./#docs">Documentation</a>
+        <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>Source code</a>
+        <a href="./admin.html" rel="nofollow">Administrator sign-in</a>
+        <a href="https://arunwilliams.github.io">Arun Williams</a>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span>&copy; 2026 Guardian EHS · Arun Williams</span>
+      <span>Free to use</span>
+      <span class="right">Decision support only — not a substitute for a competent person</span>
+    </div>
   </div>
 </footer>
 
@@ -459,6 +1028,92 @@
   m.addEventListener('click',function(e){
     if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');}
   });
+})();
+</script>
+<script id="img-fallback">
+/* if an image file is missing, drop its figure rather than showing a broken icon */
+document.querySelectorAll('img').forEach(function(im){
+  im.addEventListener('error',function(){
+    var fig=im.closest('figure')||im.closest('.post')||im.parentElement;
+    if(fig&&fig.tagName==='FIGURE')fig.remove(); else im.style.display='none';
+  });
+});
+</script>
+<script>
+/* reading progress + back to top */
+(function(){
+  var p=document.getElementById('progress'),t=document.getElementById('totop');
+  function on(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    var pct=max>0?(h.scrollTop/max)*100:0;
+    if(p)p.style.width=pct+'%';
+    if(t)t.classList.toggle('show',h.scrollTop>700);
+  }
+  addEventListener('scroll',on,{passive:true});on();
+  if(t)t.onclick=function(){scrollTo({top:0,behavior:'smooth'});};
+})();
+
+/* counters */
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.num[data-count]'));
+  if(!els.length||!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      io.unobserve(e.target);
+      var to=+e.target.dataset.count,t0=performance.now();
+      (function f(t){
+        var k=Math.min(1,(t-t0)/900);
+        e.target.textContent=Math.round(to*(0.5-Math.cos(Math.PI*k)/2));
+        if(k<1)requestAnimationFrame(f);
+      })(t0);
+    });
+  },{rootMargin:'-60px'});
+  els.forEach(function(e){io.observe(e);});
+})();
+
+/* 5x5 risk matrix — same bands as the offline engine */
+(function(){
+  var m=document.getElementById('matrix'),out=document.getElementById('mout');
+  if(!m)return;
+  function band(v){
+    if(v<=4)return['Low','m-lo','Manage by routine procedures; monitor at the usual inspection frequency.'];
+    if(v<=9)return['Medium','m-md','Add controls, name an owner and a date, then re-score the residual risk.'];
+    if(v<=14)return['High','m-hi','Do not proceed until controls are in place — supervisor or EHS sign-off, and a permit where the activity is permit-controlled.'];
+    return['Critical','m-cr','Stop. Work must not proceed at this score — eliminate or substitute the hazard and escalate to management.'];
+  }
+  var html='<div class="axis"></div>';
+  for(var s=1;s<=5;s++)html+='<div class="axis">S'+s+'</div>';
+  for(var l=5;l>=1;l--){
+    html+='<div class="axis">L'+l+'</div>';
+    for(var s2=1;s2<=5;s2++){
+      var v=l*s2,b=band(v);
+      html+='<button class="mcell '+b[1]+'" data-v="'+v+'" data-l="'+l+'" data-s="'+s2+'">'+v+'</button>';
+    }
+  }
+  m.innerHTML=html;
+  m.addEventListener('click',function(e){
+    var c=e.target.closest('.mcell');if(!c)return;
+    [].forEach.call(m.querySelectorAll('.mcell'),function(x){x.classList.remove('sel');});
+    c.classList.add('sel');
+    var v=+c.dataset.v,b=band(v);
+    out.innerHTML='<b>'+c.dataset.l+' × '+c.dataset.s+' = '+v+' — '+b[0]+'</b>'+b[2];
+  });
+})();
+
+/* LTIFR / TRIR */
+(function(){
+  var h=document.getElementById('c_hours'),l=document.getElementById('c_lti'),
+      o=document.getElementById('c_ltifr'),a=document.getElementById('c_trir');
+  if(!h)return;
+  function calc(){
+    var hv=parseFloat(String(h.value).replace(/[^\d.]/g,''))||0,
+        lv=parseFloat(String(l.value).replace(/[^\d.]/g,''))||0;
+    if(hv<=0){o.textContent='—';a.textContent='Enter the exposure hours to calculate.';return;}
+    o.textContent=(lv*1e6/hv).toFixed(2);
+    a.textContent='TRIR basis (×200,000): '+(lv*2e5/hv).toFixed(2);
+  }
+  h.addEventListener('input',calc);l.addEventListener('input',calc);calc();
 })();
 </script>
 </body>
