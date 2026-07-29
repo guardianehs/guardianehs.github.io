@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0F766E" />
 <title>Team — who builds Guardian EHS | Arun Williams</title>
-<meta name="description" content="Guardian is built by Arun Williams, an EHS professional in Bengaluru, with open places for EHS contributors and developers." />
+<meta name="description" content="Guardian is built by Arun Williams with contributors Jobel George and Sajil K, and has open places for EHS practitioners and developers." />
 <meta name="author" content="Arun Williams" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <link rel="canonical" href="https://guardianehs.github.io/team.html" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Guardian EHS" />
 <meta property="og:title" content="Team — who builds Guardian EHS | Arun Williams" />
-<meta property="og:description" content="Guardian is built by Arun Williams, an EHS professional in Bengaluru, with open places for EHS contributors and developers." />
+<meta property="og:description" content="Guardian is built by Arun Williams with contributors Jobel George and Sajil K, and has open places for EHS practitioners and developers." />
 <meta property="og:url" content="https://guardianehs.github.io/team.html" />
 <meta property="og:image" content="https://guardianehs.github.io/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -37,15 +37,29 @@
       <a href="./team.html">Team</a>
       <a href="./#docs">Docs</a>
     </nav>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+      <svg class="m" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
     <a class="btn btn-primary" href="./app.html">Try Guardian</a>
   </div>
 </header>
+  <div class="mobilemenu" id="mobilemenu">
+    <nav>
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+      <a href="./app.html">Try Guardian →</a>
+    </nav>
+  </div>
 
 <main>
   <div class="wrap page-head">
     <div class="eyebrow">Team</div>
-    <h1>One EHS professional, and room for a few more.</h1>
-    <p class="lede">Guardian is not a company. It is a working safety practitioner building the tool he wanted, in the open, with help from anyone who wants the same thing to exist.</p>
+    <h1>A small team, and room for a few more.</h1>
+    <p class="lede">Guardian is not a company. It is a small group of practitioners building the platform they wanted — in the open, with help from anyone who wants the same thing to exist.</p>
   </div>
   <div class="plain">
     <div class="people">
@@ -54,6 +68,20 @@
         <h3>Arun Williams</h3>
         <div class="role">Founder · EHS &amp; engineering</div>
         <p>EHS professional in Bengaluru, India, working on project health, safety and environment. Writes the permits, runs the audits, and writes the code — which is why the forms behave the way a site expects.</p>
+      </div>
+      <div class="person">
+        <div class="av">JG</div>
+        <h3>Jobel George</h3>
+        <div class="role">Contributor</div>
+        <p>Works with Arun on Guardian, bringing a second practitioner's eye to how the modules behave on real sites.
+          <a href="https://www.linkedin.com/in/jobel-george-6abb46184/" rel="noopener" target="_blank">LinkedIn →</a></p>
+      </div>
+      <div class="person">
+        <div class="av">SK</div>
+        <h3>Sajil K</h3>
+        <div class="role">Contributor</div>
+        <p>Works with Arun on Guardian, helping shape the platform beyond the first EHS release.
+          <a href="https://www.linkedin.com/in/sajil-krk-518ab8249/" rel="noopener" target="_blank">LinkedIn →</a></p>
       </div>
       <div class="person">
         <div class="av open">+</div>
@@ -98,6 +126,20 @@
   if(!m)return;
   var url='https://github.com/'+m[1]+'/'+location.hostname;
   document.querySelectorAll('[data-repo]').forEach(function(a){a.href=url;});
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('navtoggle'),m=document.getElementById('mobilemenu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  m.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');}
+  });
 })();
 </script>
 </body>
