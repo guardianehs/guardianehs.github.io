@@ -41,9 +41,23 @@
       <a href="./team.html">Team</a>
       <a href="./#docs">Docs</a>
     </nav>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+      <svg class="m" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
     <a class="btn btn-primary" href="./app.html">Try Guardian</a>
   </div>
 </header>
+  <div class="mobilemenu" id="mobilemenu">
+    <nav>
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+      <a href="./app.html">Try Guardian →</a>
+    </nav>
+  </div>
 
 <main>
   <div class="wrap page-head">
@@ -103,6 +117,20 @@
   if(!m)return;
   var url='https://github.com/'+m[1]+'/'+location.hostname;
   document.querySelectorAll('[data-repo]').forEach(function(a){a.href=url;});
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('navtoggle'),m=document.getElementById('mobilemenu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  m.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');}
+  });
 })();
 </script>
 </body>
