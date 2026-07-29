@@ -263,3 +263,112 @@
     border:1px solid var(--line);border-radius:5px;padding:1px 6px}
   .byline{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);letter-spacing:.04em;margin-top:14px}
   .backlink{font-family:"IBM Plex Mono",monospace;font-size:12px;display:inline-block;margin-top:40px}
+
+  /* ================= ambient motion: floating EHS icons ================= */
+  .hero{position:relative;overflow:hidden}
+  .float-layer{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .hero .wrap{position:relative;z-index:1}
+  .fi{position:absolute;color:var(--teal);opacity:.07;will-change:transform}
+  .fi svg{width:100%;height:100%}
+  .fi.a{width:74px;height:74px;left:4%;top:18%;animation:drift1 19s ease-in-out infinite}
+  .fi.b{width:56px;height:56px;right:7%;top:12%;animation:drift2 23s ease-in-out infinite}
+  .fi.c{width:64px;height:64px;right:16%;bottom:20%;animation:drift3 21s ease-in-out infinite}
+  .fi.d{width:48px;height:48px;left:12%;bottom:14%;animation:drift2 17s ease-in-out infinite reverse}
+  .fi.e{width:40px;height:40px;left:46%;top:6%;animation:drift1 25s ease-in-out infinite reverse}
+  .fi.f{width:52px;height:52px;right:38%;bottom:6%;animation:drift3 27s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate3d(0,0,0) rotate(0)}
+    33%{transform:translate3d(14px,-22px,0) rotate(5deg)}
+    66%{transform:translate3d(-10px,-10px,0) rotate(-4deg)}}
+  @keyframes drift2{0%,100%{transform:translate3d(0,0,0) rotate(0)}
+    50%{transform:translate3d(-18px,-26px,0) rotate(7deg)}}
+  @keyframes drift3{0%,100%{transform:translate3d(0,0,0) rotate(-3deg)}
+    40%{transform:translate3d(12px,18px,0) rotate(4deg)}
+    75%{transform:translate3d(-8px,8px,0) rotate(-2deg)}}
+
+  /* the shield in the header breathes, the stamp settles, cards lift */
+  .mark .shield{animation:breathe 5.5s ease-in-out infinite}
+  @keyframes breathe{50%{transform:scale(1.055)}}
+  .card .ic svg,.tile .tag{transition:transform .3s cubic-bezier(.34,1.5,.64,1)}
+  .card:hover .ic svg{transform:scale(1.14) rotate(-6deg)}
+  .tile:hover .tag{transform:translateX(3px)}
+  .std{transition:transform .18s,border-color .18s,color .18s}
+  .std:hover{transform:translateY(-2px);border-color:var(--teal);color:var(--teal)}
+  .btn-primary::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 var(--ring)}
+  .btn{position:relative;overflow:hidden}
+  .btn-primary:hover::after{animation:ring .7s ease-out}
+  @keyframes ring{from{box-shadow:0 0 0 0 var(--ring)}to{box-shadow:0 0 0 14px rgba(15,118,110,0)}}
+
+  /* ================= mobile navigation ================= */
+  .navtoggle{display:none;margin-left:auto;width:42px;height:42px;border:1px solid var(--line-2);background:var(--surface);
+    border-radius:11px;place-items:center;cursor:pointer;color:var(--ink);padding:0}
+  .navtoggle svg{width:20px;height:20px}
+  .navtoggle .x{display:none}
+  .navtoggle[aria-expanded="true"] .x{display:block}
+  .navtoggle[aria-expanded="true"] .m{display:none}
+  .mobilemenu{display:none;border-bottom:1px solid var(--line);background:var(--paper)}
+  .mobilemenu.open{display:block;animation:menuIn .22s ease}
+  @keyframes menuIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .mobilemenu nav{max-width:var(--wrap);margin:0 auto;padding:10px 20px 18px;display:flex;flex-direction:column}
+  .mobilemenu a{padding:13px 4px;font-size:16px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line)}
+  .mobilemenu a:last-child{border-bottom:none}
+  .mobilemenu a:hover{text-decoration:none;color:var(--teal)}
+
+  /* ================= mobile & iPhone polish ================= */
+  html{overscroll-behavior-y:none}
+  body{overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+  .top{padding-top:env(safe-area-inset-top)}
+  .wrap,.plain{padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right))}
+  footer{padding-bottom:calc(46px + env(safe-area-inset-bottom))}
+  img{max-width:100%;height:auto}
+
+  @media(max-width:900px){
+    .navtoggle{display:grid}
+    .top .btn{display:none}
+    .fi.b,.fi.e,.fi.f{display:none}
+    .fi.a{width:56px;height:56px;left:-2%;top:22%}
+    .fi.c{width:48px;height:48px;right:-3%;bottom:24%}
+  }
+  @media(max-width:600px){
+    .top .wrap{height:58px;gap:12px}
+    .mark{font-size:16px}
+    .hero{padding:38px 0 34px}
+    h1{font-size:clamp(30px,8.4vw,40px);max-width:none}
+    .lede{font-size:16.5px}
+    .cta-row{gap:10px;margin-top:26px}
+    .cta-row .btn{flex:1 1 100%;justify-content:center;padding:14px 18px;font-size:15.5px}
+    .doc{margin-top:34px;border-radius:14px}
+    .doc-ctrl{font-size:10px;padding:11px 16px}
+    .doc-body{padding:20px 16px 22px}
+    .doc-grid{gap:10px}
+    .cell{padding:11px 12px}
+    .cell .v{font-size:17px}
+    .standards{gap:6px;margin-top:20px}
+    .std{font-size:11px;padding:5px 10px}
+    .layout{padding:16px 0 30px}
+    section{padding:28px 0 8px;scroll-margin-top:72px}
+    h2{font-size:clamp(22px,6.4vw,28px);max-width:none}
+    .say{font-size:16px}
+    .card{padding:17px}
+    .register .reg-row{padding:14px 16px}
+    .panel{padding:17px 18px}
+    .stp{padding-left:44px}
+    .stp::before{width:28px;height:28px;font-size:12px}
+    .note{padding:20px 18px 18px}
+    .close-cta{margin-top:38px;padding:34px 20px;border-radius:15px}
+    .close-cta .cta-row .btn{flex:1 1 100%}
+    footer .wrap{gap:12px;font-size:13px}
+    footer .right{margin-left:0;width:100%}
+    .page-head{padding:34px 0 6px}
+    .page-head h1{font-size:clamp(28px,7.6vw,36px)}
+    .people,.tiles{gap:12px}
+    .post{gap:14px;padding:18px 0}
+    article.body p{font-size:16.5px}
+    figure{margin-top:22px}
+    figcaption{font-size:11px}
+  }
+  /* iOS: avoid the sticky-header jump and blurry backdrop on older versions */
+  @supports not (backdrop-filter: blur(10px)){ .top{background:var(--paper)} }
+  @media(prefers-reduced-motion:reduce){
+    .fi,.mark .shield{animation:none!important}
+    .float-layer{display:none}
+  }
