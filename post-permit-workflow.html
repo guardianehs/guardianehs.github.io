@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0F766E" />
+<title>Why permits stall at seven in the morning | Guardian EHS</title>
+<meta name="description" content="A permit is a decision with a queue in front of it. What actually holds up the work front, and what a permit-to-work system has to do about it." />
+<meta name="author" content="Arun Williams" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://guardianehs.github.io/post-permit-workflow.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Guardian EHS" />
+<meta property="og:title" content="Why permits stall at seven in the morning | Guardian EHS" />
+<meta property="og:description" content="A permit is a decision with a queue in front of it. What actually holds up the work front, and what a permit-to-work system has to do about it." />
+<meta property="og:url" content="https://guardianehs.github.io/post-permit-workflow.html" />
+<meta property="og:image" content="https://guardianehs.github.io/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style id="fallback-css">
+  /* minimal safety net — site.css overrides all of this when it loads */
+  svg{width:18px;height:18px;flex:0 0 auto}img{max-width:100%;height:auto}
+  body{font-family:system-ui,sans-serif;margin:0}
+</style>
+<link rel="stylesheet" href="./site.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Why permits stall at seven in the morning","description":"A permit is a decision with a queue in front of it.",
+"image":"https://guardianehs.github.io/blog-permit.png","datePublished":"2026-07-28","author":{"@type":"Person","name":"Arun Williams"},
+"publisher":{"@type":"Organization","name":"Guardian EHS"},"mainEntityOfPage":"https://guardianehs.github.io/"}
+</script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="./">
+      <span class="shield"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      Guardian
+    </a>
+    <nav class="navlinks">
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+    </nav>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+      <svg width="18" height="18" class="m" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg width="18" height="18" class="x" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <a class="btn btn-primary" href="./app.html">Try Guardian</a>
+  </div>
+</header>
+  <div class="mobilemenu" id="mobilemenu">
+    <nav>
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+      <a href="./app.html">Try Guardian →</a>
+    </nav>
+  </div>
+
+<main>
+  <div class="wrap page-head">
+    <div class="eyebrow">Field notes · 28 July 2026</div>
+    <h1>Why permits stall at seven in the morning</h1>
+    <div class="byline">Arun Williams · 4 min read</div>
+  </div>
+  <div class="plain">
+    <figure style="margin-top:0">
+      <img src="./blog-permit.png" alt="A permit workflow blocked at the approved stage with a do-not-authorise verdict" width="800" height="450" />
+    </figure>
+    <article class="body">
+      <p>Seven in the morning is the honest hour on any site. The crew is at the gate, the supervisor has the job card, and somewhere between them and the work front sits a permit that is not signed yet. Everyone blames the paperwork. The paperwork is rarely the problem.</p>
+
+      <h2>A permit is a decision, not a document</h2>
+      <p>The form is only the record. What actually has to happen is a sequence: someone competent assessed the task, someone verified the controls exist on the ground, and someone with authority accepted the residual risk. Three different people, often three different phones, usually one missing.</p>
+      <p>When a permit stalls, it is almost never because a box was left blank. It stalls because the queue behind the box is invisible. Nobody can see whether the isolation certificate exists, whether the gas test was done and by whom, or whether the person who has to sign is even on site.</p>
+
+      <blockquote>If your permit system cannot answer “what is this waiting on, and who has it?” in one glance, it is a filing cabinet, not a system.</blockquote>
+
+      <h2>What we changed in Guardian</h2>
+      <p>Guardian treats the states as first-class, not the fields. A permit moves Draft → Assessed → Approved → Issued → Active → Suspended → Closed, and the current state is the loudest thing on the screen. Everything else hangs off it:</p>
+      <ul>
+        <li>The risk assessment and isolation certificate are <strong>references on the permit</strong>, not memories. A permit with no TRA reference cannot be verified, so the review says so.</li>
+        <li>Gas readings sit on the permit with the time and the tester. The review checks the numbers against acceptance limits rather than trusting a tick.</li>
+        <li>The requester sees a live status chip — pending, approved with a note, or rejected with a reason — without calling anyone.</li>
+        <li>Approvers see a queue with a count on it, so a waiting permit is visible before someone walks over to ask.</li>
+      </ul>
+
+      <h3>The verdict has to be blunt</h3>
+      <p>The offline review returns one of three answers: authorise, authorise with conditions, or do not authorise — with the blockers listed underneath. It refuses on a control marked “No”, on an expired validity, and on gas readings outside limits. A safety tool that hedges at the moment of decision is worse than no tool, because it launders a bad permit into a signed one.</p>
+
+      <h2>What it does not fix</h2>
+      <p>None of this helps if the verifier is genuinely unavailable at 07:00. Software cannot manufacture an authorised person. What it can do is make the wait visible early — the crew learns at 06:40 that the permit is sitting on someone's desk, not at 07:15 standing at the barricade.</p>
+      <p>That is the whole ambition here: not to replace judgement, but to stop the queue from being invisible.</p>
+
+      <a class="backlink" href="./blog.html">← All posts</a>
+    </article>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Guardian — EHS assistant by Arun Williams</span>
+    <a href="./app.html">Open the app</a>
+    <a href="./projects.html">Projects</a>
+    <a href="./blog.html">Blog</a>
+    <a href="./team.html">Team</a>
+    <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>Source</a>
+    <span class="right">Free to use · Not a substitute for a competent person</span>
+  </div>
+</footer>
+<script>
+(function(){
+  var m=location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+  if(!m)return;
+  var url='https://github.com/'+m[1]+'/'+location.hostname;
+  document.querySelectorAll('[data-repo]').forEach(function(a){a.href=url;});
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('navtoggle'),m=document.getElementById('mobilemenu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  m.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');}
+  });
+})();
+</script>
+</body>
+</html>
