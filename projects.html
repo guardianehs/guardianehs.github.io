@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0F766E" />
+<title>Projects — Guardian EHS modules, roadmap and future models | Arun Williams</title>
+<meta name="description" content="Every Guardian module and its honest status: permit to work, audits, daily register, offline engine, realtime sync, plus planned work including fine-tuned EHS models and self-hosted deployment." />
+<meta name="author" content="Arun Williams" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://guardianehs.github.io/projects.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Guardian EHS" />
+<meta property="og:title" content="Projects — Guardian EHS modules, roadmap and future models | Arun Williams" />
+<meta property="og:description" content="Every Guardian module and its honest status: permit to work, audits, daily register, offline engine, realtime sync, plus planned work including fine-tuned EHS models and self-hosted deployment." />
+<meta property="og:url" content="https://guardianehs.github.io/projects.html" />
+<meta property="og:image" content="https://guardianehs.github.io/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./site.css" />
+
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="./">
+      <span class="shield"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      Guardian
+    </a>
+    <nav class="navlinks">
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+    </nav>
+    <a class="btn btn-primary" href="./app.html">Try Guardian</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap page-head">
+    <div class="eyebrow">Projects</div>
+    <h1>What's built, what's being built, and what's still an idea.</h1>
+    <p class="lede">Guardian is a set of modules rather than one lump of software. Each one exists because a real task needed it. This page is the honest status of all of them — including the parts that are still research.</p>
+  </div>
+  <div class="plain">
+    <div class="tiles">
+            <div class="tile">
+              <span class="tag tag-live">Live</span>
+              <h3>Permit to work</h3>
+              <p>The module Guardian is built around: type-specific checklists, gas testing, TRA and isolation references, a Draft→Issued workflow, a rule-based offline verdict and a signature-ready print.</p>
+              <div class="meta">Shipped · used daily</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-live">Live</span>
+              <h3>Audit &amp; findings register</h3>
+              <p>Set the audit basis, log findings as NC, observation or OFI with owners and dates, attach evidence, print the report.</p>
+              <div class="meta">Shipped</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-live">Live</span>
+              <h3>Daily register &amp; KPIs</h3>
+              <p>Fourteen activity metrics per day, day-versus-cumulative KPIs, a 14-day trend, a printable daily report and CSV export for analytics.</p>
+              <div class="meta">Shipped</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-live">Live</span>
+              <h3>Offline reference engine</h3>
+              <p>Fifty EHS topics with exact calculators — 5×5 risk, LTIFR and TRIR, gas limits, and threshold rules for depth, height, noise and load. No model required.</p>
+              <div class="meta">Shipped</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-build">Building</span>
+              <h3>Realtime organisation sync</h3>
+              <p>Permit decisions and register entries now stream to every signed-in member as they happen, straight from the database.</p>
+              <div class="meta">In this release</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-build">Building</span>
+              <h3>Evidence browser</h3>
+              <p>Open and download everything a site has uploaded — by permit, audit or date — instead of hunting through storage.</p>
+              <div class="meta">Next</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-idea">Planned</span>
+              <h3>Multi-step approval chains</h3>
+              <p>Supervisor → EHS → client sign-off, with each step recorded and nothing skippable.</p>
+              <div class="meta">Planned</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-idea">Planned</span>
+              <h3>Guardian models</h3>
+              <p>A fine-tuned small model for EHS answers that can run on-site hardware, and a retrieval layer over your own procedures, standards and past incidents so answers cite your documents rather than general practice.</p>
+              <div class="meta">Research</div>
+            </div>
+            <div class="tile">
+              <span class="tag tag-idea">Planned</span>
+              <h3>Self-hosted deployment</h3>
+              <p>A packaged install for a private server or a Raspberry Pi on the site network — for organisations that will not put safety data on someone else's cloud.</p>
+              <div class="meta">Research</div>
+            </div>
+    </div>
+
+    <figure>
+      <img src="./img-permit.png" alt="Guardian permit to work screen showing the approval workflow, general checks, gas test readings and an offline review verdict" width="1280" height="820" loading="lazy" />
+      <figcaption>Permit to work — checks, gas readings and a rule-based verdict before issue.</figcaption>
+    </figure>
+
+    <p class="say" style="margin-top:34px">Something missing that your site needs? Tell me what the task looks like on the ground and I will build it if it generalises. <a href="mailto:CHANGE-ME@example.com?subject=Guardian%20module%20idea">Send it over</a>.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Guardian — EHS assistant by Arun Williams</span>
+    <a href="./app.html">Open the app</a>
+    <a href="./projects.html">Projects</a>
+    <a href="./blog.html">Blog</a>
+    <a href="./team.html">Team</a>
+    <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>Source</a>
+    <span class="right">Free to use · Not a substitute for a competent person</span>
+  </div>
+</footer>
+<script>
+(function(){
+  var m=location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+  if(!m)return;
+  var url='https://github.com/'+m[1]+'/'+location.hostname;
+  document.querySelectorAll('[data-repo]').forEach(function(a){a.href=url;});
+})();
+</script>
+</body>
+</html>
