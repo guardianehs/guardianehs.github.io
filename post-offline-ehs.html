@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0F766E" />
+<title>EHS software fails where the work happens | Guardian EHS</title>
+<meta name="description" content="Why Guardian was built offline-first: basements, plant rooms and remote sites have no signal, and an offline answer still has to be exact." />
+<meta name="author" content="Arun Williams" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://guardianehs.github.io/post-offline-ehs.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Guardian EHS" />
+<meta property="og:title" content="EHS software fails where the work happens | Guardian EHS" />
+<meta property="og:description" content="Why Guardian was built offline-first: basements, plant rooms and remote sites have no signal, and an offline answer still has to be exact." />
+<meta property="og:url" content="https://guardianehs.github.io/post-offline-ehs.html" />
+<meta property="og:image" content="https://guardianehs.github.io/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./site.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"EHS software fails where the work happens","description":"Why Guardian was built offline-first.",
+"image":"https://guardianehs.github.io/blog-offline.png","datePublished":"2026-07-24","author":{"@type":"Person","name":"Arun Williams"},
+"publisher":{"@type":"Organization","name":"Guardian EHS"},"mainEntityOfPage":"https://guardianehs.github.io/"}
+</script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="./">
+      <span class="shield"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      Guardian
+    </a>
+    <nav class="navlinks">
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+    </nav>
+    <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+      <svg class="m" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <a class="btn btn-primary" href="./app.html">Try Guardian</a>
+  </div>
+</header>
+  <div class="mobilemenu" id="mobilemenu">
+    <nav>
+      <a href="./">Home</a>
+      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./team.html">Team</a>
+      <a href="./#docs">Docs</a>
+      <a href="./app.html">Try Guardian →</a>
+    </nav>
+  </div>
+
+<main>
+  <div class="wrap page-head">
+    <div class="eyebrow">Engineering · 24 July 2026</div>
+    <h1>EHS software fails where the work happens</h1>
+    <div class="byline">Arun Williams · 5 min read</div>
+  </div>
+  <div class="plain">
+    <figure style="margin-top:0">
+      <img src="./blog-offline.png" alt="A phone with no signal still showing a working app" width="800" height="450" />
+    </figure>
+    <article class="body">
+      <p>Every safety application I have used was demonstrated in a meeting room with full Wi-Fi. Then it goes to a basement plinth, a plant room behind a metre of concrete, or a site three hours from the nearest tower — and it becomes a white screen with a spinner. The places where safety matters most are, reliably, the places with no signal.</p>
+
+      <h2>Offline as a requirement, not a feature</h2>
+      <p>So Guardian was built backwards from that constraint. The default state is disconnected, and the connection is the bonus. In practice that meant three decisions:</p>
+      <ul>
+        <li><strong>No build step and no server.</strong> The app is plain HTML, CSS and JavaScript in one file. It can be opened from a phone, a laptop, a memory stick or a box on your own network.</li>
+        <li><strong>A service worker for the launch.</strong> Once installed, the app opens with no signal at all, because the shell is already on the device.</li>
+        <li><strong>A reference engine that needs no model.</strong> Fifty EHS topics with exact calculators — risk scoring, LTIFR and TRIR, gas limits, depth and height thresholds — all computed on the device.</li>
+      </ul>
+
+      <h3>The part people miss: an offline answer must be exact</h3>
+      <p>When a model is unavailable, the temptation is to return something vague and hedge. That is useless at a work front. So the offline engine computes rather than recalls: give it <code>640 workers</code> and it returns the number of first-aid boxes and the ambulance-room threshold; give it <code>o2 18.2 lel 3</code> and it refuses the entry with the reason. Deterministic answers are the only kind worth shipping without a model behind them.</p>
+
+      <blockquote>Being offline should change how much you get, not whether you can trust it.</blockquote>
+
+      <h2>What it cost</h2>
+      <p>Plenty. Files attached while offline live only in that session, because a browser cannot sensibly hold arbitrary documents forever. Cloud sync obviously waits for signal. And keeping everything in one file means discipline about size — every feature is weighed against load time on a bad connection.</p>
+
+      <h2>Where the connection does earn its place</h2>
+      <p>Two things genuinely need it, and both are now live: a model of your choosing for open-ended questions, and the organisation database — so a permit decision made in the site office appears on the requester's phone the moment it is taken, and the register a colleague updated is already correct when you open it. Everything else keeps working while you wait for a bar of signal.</p>
+
+      <a class="backlink" href="./blog.html">← All posts</a>
+    </article>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Guardian — EHS assistant by Arun Williams</span>
+    <a href="./app.html">Open the app</a>
+    <a href="./projects.html">Projects</a>
+    <a href="./blog.html">Blog</a>
+    <a href="./team.html">Team</a>
+    <a href="https://github.com/guardianehs/guardianehs.github.io" data-repo>Source</a>
+    <span class="right">Free to use · Not a substitute for a competent person</span>
+  </div>
+</footer>
+<script>
+(function(){
+  var m=location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+  if(!m)return;
+  var url='https://github.com/'+m[1]+'/'+location.hostname;
+  document.querySelectorAll('[data-repo]').forEach(function(a){a.href=url;});
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('navtoggle'),m=document.getElementById('mobilemenu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  m.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');}
+  });
+})();
+</script>
+</body>
+</html>
