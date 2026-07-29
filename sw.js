@@ -7,8 +7,8 @@
    Nothing sensitive is cached: org data lives in Supabase / localStorage,
    never in this cache. */
 
-const CACHE = 'guardian-shell-v3';
-const RUNTIME = 'guardian-runtime-v3';
+const CACHE = 'guardian-shell-v4';
+const RUNTIME = 'guardian-runtime-v4';
 const CORE = ['./', './index.html', './app.html', './site.css',
               './projects.html', './team.html', './blog.html'];   // site + app
 
