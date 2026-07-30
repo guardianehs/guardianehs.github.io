@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0F766E" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.anthropic.com https://api.openai.com https://openrouter.ai https://api.groq.com https://generativelanguage.googleapis.com https://api.mistral.ai https://api.cerebras.ai http://localhost:* http://127.0.0.1:*" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -286,6 +288,126 @@
   .bar-lbls span{flex:1;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:8.5px;color:var(--text-3)}
   @media(max-width:820px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.num-grid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.num-grid{grid-template-columns:1fr}}
+    /* ---- device profile: settings panel ---- */
+  .devbox{border:1px solid var(--border);border-radius:11px;padding:16px;margin-top:6px;background:var(--surface-2)}
+  .devhead{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .devhead b{font-size:13.5px}
+  .devhead .mono{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--text-3);letter-spacing:.02em}
+  .devgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .devnote{font-size:11.5px;color:var(--text-3);line-height:1.55;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)}
+  @media(max-width:560px){.devgrid{grid-template-columns:1fr}}
+
+  /* ================= adaptive layout by device class =================
+     Set on <body> from the device profile, so a phone, a tablet and a
+     desktop each get a layout that suits the input and the screen. */
+  body[data-device="phone"] .permit{max-width:none;padding:14px 12px 90px}
+  body[data-device="phone"] .grid2,body[data-device="phone"] .devgrid{grid-template-columns:1fr}
+  body[data-device="phone"] .pcard{padding:15px 14px;border-radius:11px}
+  body[data-device="phone"] .tri button{padding:10px 14px;font-size:13px}
+  body[data-device="phone"] .check{flex-direction:column;align-items:flex-start;gap:8px}
+  body[data-device="phone"] .check .tri{width:100%}
+  body[data-device="phone"] .check .tri button{flex:1}
+  body[data-device="phone"] .kpi-grid{grid-template-columns:1fr 1fr}
+  body[data-device="phone"] .num-grid{grid-template-columns:1fr}
+  body[data-device="phone"] .gas-grid{grid-template-columns:1fr 1fr}
+  body[data-device="phone"] .ppe-grid{grid-template-columns:1fr}
+  body[data-device="phone"] .pbar{position:sticky;bottom:0;z-index:20;flex-wrap:wrap;gap:8px}
+  body[data-device="phone"] .pbar .pleft{flex:1 1 100%;order:-1}
+  body[data-device="phone"] .pbar .pbtn{flex:1 1 auto;justify-content:center}
+  body[data-device="phone"] .hazctl{padding-left:8px}
+  body[data-device="phone"] #pAttPick{order:2}
+  body[data-device="phone"] #pCam{order:1;flex:1;justify-content:center}   /* camera first in the field */
+  body[data-device="phone"] .doc-row{flex-direction:column;align-items:flex-start}
+  body[data-device="phone"] .doc-acts{width:100%}
+  body[data-device="phone"] .doc-acts .doc-btn{flex:1}
+
+  body[data-device="tablet"] .permit{max-width:820px}
+  body[data-device="tablet"] .grid2{grid-template-columns:1fr 1fr}
+  body[data-device="tablet"] .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  body[data-device="tablet"] .num-grid{grid-template-columns:repeat(2,1fr)}
+  body[data-device="tablet"] .gas-grid{grid-template-columns:repeat(3,1fr)}
+  body[data-device="tablet"] .tri button{padding:9px 13px}
+
+  body[data-device="desktop"] .permit{max-width:1080px}
+  body[data-device="desktop"] .kpi-grid{grid-template-columns:repeat(4,1fr)}
+  body[data-device="desktop"] .num-grid{grid-template-columns:repeat(3,1fr)}
+  body[data-device="desktop"] .mini-table td,body[data-device="desktop"] .mini-table th{padding:5px 8px}
+  body[data-device="desktop"] .hazbody{columns:1}
+
+  /* touch input: nothing relies on hover, and targets stay ≥44px */
+  body[data-input="touch"] .doc-btn,body[data-input="touch"] .filt,body[data-input="touch"] .lsr{min-height:40px}
+  body[data-input="touch"] .tri button{min-height:40px}
+  body[data-input="touch"] .st{min-height:38px}
+  body[data-input="touch"] .card:hover,body[data-input="touch"] .tile:hover{transform:none}
+
+  /* comfortable / compact density override */
+  body[data-density="comfortable"] .pcard{padding:22px}
+  body[data-density="comfortable"] .check{padding:12px 0}
+  body[data-density="comfortable"] .tri button{padding:10px 15px}
+  body[data-density="compact"] .pcard{padding:13px 14px}
+  body[data-density="compact"] .check{padding:6px 0;font-size:12.5px}
+  body[data-density="compact"] .mini-table td{padding:4px 7px}
+
+  /* lite mode / low-end device / data saver: stop paying for decoration */
+  body[data-lite="1"] *,body[data-tier="low"] *{animation:none!important;transition:none!important}
+  body[data-lite="1"] .glogo,body[data-tier="low"] .glogo{box-shadow:none}
+  body[data-lite="1"] .av-shield,body[data-lite="1"] .status.live .sdot{animation:none!important}
+  body[data-lite="1"] .pcard,body[data-lite="1"] .kpi,body[data-lite="1"] .win{box-shadow:none}
+  body[data-lite="1"] .bar,body[data-lite="1"] .minibars button{transition:none}
+
+/* ---- permit engine ---- */
+  .hazgrp{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden}
+  .hazgrp summary{display:flex;align-items:center;gap:9px;padding:12px 14px;cursor:pointer;font-size:13.5px;list-style:none}
+  .hazgrp summary::-webkit-details-marker{display:none}
+  .hazgrp summary::after{content:"+";margin-left:auto;color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:15px}
+  .hazgrp[open] summary::after{content:"–"}
+  .hazgrp[open] summary{border-bottom:1px solid var(--border);background:var(--surface-2)}
+  .hazcode{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;color:var(--text-3);
+    border:1px solid var(--border-2);border-radius:4px;padding:2px 6px;flex:0 0 auto}
+  .hazsel{font-size:11px;color:var(--text-3);margin-left:6px}
+  .hazbody{padding:10px 12px 12px}
+  .hazitem{border-top:1px solid var(--border)}
+  .hazitem:first-child{border-top:none}
+  .hazpick{width:100%;display:flex;align-items:center;gap:9px;text-align:left;background:none;border:none;
+    padding:10px 2px;font-family:inherit;font-size:13px;color:var(--text-2);cursor:pointer}
+  .hazpick:hover{color:var(--accent)}
+  .hazitem.on>.hazpick{color:var(--accent);font-weight:600}
+  .hazitem.on>.hazpick .hazcode{border-color:var(--accent);color:var(--accent)}
+  .hazctl{padding:4px 2px 14px 12px;border-left:2px solid var(--accent-soft);margin:0 0 10px 4px}
+  .ctlrow{display:flex;gap:9px;align-items:flex-start;padding:6px 0;font-size:12.5px;color:var(--text-2);line-height:1.5}
+  .ctlrow input{margin-top:2px;width:15px;height:15px;accent-color:var(--accent);flex:0 0 auto}
+  .gastab{border:1px solid var(--border);border-radius:9px;overflow:hidden}
+  .gashead,.gasrow2{display:grid;grid-template-columns:1.3fr 1.4fr .9fr .9fr;gap:10px;padding:9px 13px;font-size:12.5px;align-items:center}
+  .gashead{background:var(--surface-2);border-bottom:1px solid var(--border);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.07em;color:var(--text-3);font-family:"IBM Plex Mono",monospace}
+  .gasrow2{border-top:1px solid var(--border)}
+  .gasrow2:first-of-type{border-top:none}
+  .mono2{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--text-2)}
+  .gv{font-size:10.5px;font-weight:700;border-radius:4px;padding:2px 7px}
+  .gv.pass{background:#E8F5EC;color:var(--r-low)}
+  .gv.fail{background:#FBEAEA;color:var(--r-crit)}
+  .gv.none{background:var(--surface-2);color:var(--text-3);font-weight:500}
+  .lmraq{border:1px solid var(--border);border-radius:9px;padding:4px 12px}
+  .lsrwrap{margin-top:14px}
+  .lsrhead{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-3);margin-bottom:8px}
+  .lsrgrid{display:flex;flex-wrap:wrap;gap:7px}
+  .lsr{border:1px solid var(--border-2);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:12px;
+    font-weight:600;color:var(--text-3);cursor:pointer;font-family:inherit;transition:.14s}
+  .lsr:hover{border-color:var(--accent)}
+  .lsr.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .signow{border:1px solid var(--border);border-radius:9px;padding:16px;background:var(--surface-2)}
+  .signow-h{margin-bottom:12px}
+  .signow-h b{display:block;font-size:13.5px}
+  .signow-h span{font-size:12px;color:var(--text-3)}
+  .verdict-chip{font-size:10.5px;font-weight:700;border-radius:4px;padding:3px 8px;letter-spacing:.04em}
+  .verdict-chip.ok{background:#E8F5EC;color:var(--r-low)}
+  .verdict-chip.cond{background:#FBF3E0;color:#9A6B00}
+  .verdict-chip.no{background:#FBEAEA;color:var(--r-crit)}
+  @media(max-width:600px){
+    .gashead,.gasrow2{grid-template-columns:1fr 1fr;row-gap:4px}
+    .gashead span:nth-child(2){display:none}
+  }
   /* permit workflow + gas */
   .status-bar{display:flex;gap:6px;flex-wrap:wrap}
   .st{border:1px solid var(--border-2);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--text-3);transition:.13s;display:flex;align-items:center;gap:6px;cursor:pointer}
@@ -571,60 +693,72 @@
     <div id="permitView" class="view" style="display:none">
       <div class="permit-scroll">
         <div class="permit">
+
           <div class="pcard">
-            <h3><span class="tagdot" style="background:var(--accent)"></span>Permit details</h3>
-            <div class="grid2">
-              <div class="fld"><label>Permit no.</label><input id="p_permitNo" placeholder="e.g. PTW-0248" /></div>
-              <div class="fld"><label>No. of persons</label><input id="p_persons" placeholder="e.g. 4" /></div>
-              <div class="fld"><label>Date</label><input id="p_date" type="date" /></div>
-              <div class="fld"><label>Valid up to</label><input id="p_validUpto" placeholder="e.g. 18:00" /></div>
-              <div class="fld"><label>Contractor</label><input id="p_contractor" placeholder="Contractor name" /></div>
-              <div class="fld"><label>Department</label><input id="p_department" placeholder="Department" /></div>
-              <div class="fld"><label>Permit basis</label><select id="p_basis"><option>General PTW</option><option>ISO 45001-aligned</option><option>Client standard</option><option>Custom</option></select></div>
-              <div class="fld"><label>Project</label><input id="p_project" placeholder="Project name" /></div>
-              <div class="fld"><label>Location of work</label><input id="p_location" placeholder="e.g. 11th floor, South Tower" /></div>
-              <div class="fld full"><label>Description of work</label><textarea id="p_description" placeholder="What work is being carried out?"></textarea></div>
-            </div>
+            <h3><span class="tagdot" style="background:var(--accent)"></span>Permit identification <span class="sec-prog" id="pIdentBadge"></span></h3>
+            <div id="pkIdent"></div>
+            <div class="doc-note" id="pAuthNote" style="border-top:none;padding-top:8px;margin-top:8px"></div>
+          </div>
+
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:#7C5CD6"></span>Validity</h3>
+            <div id="pkValid"></div>
+            <div class="doc-note" style="border-top:none;padding-top:6px;margin-top:6px">A permit has a <b>lifetime</b> (the approved window for the job) and a <b>daily validity</b> (today's shift). Work stops at the end of the daily validity and the permit is re-issued and re-accepted the next shift.</div>
+          </div>
+
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--r-low)"></span>Location &amp; area authorisation</h3>
+            <div id="pkLoc"></div>
+          </div>
+
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>Work party &amp; resources</h3>
+            <div id="pkParty"></div>
+          </div>
+
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--r-high)"></span>Isolation, interfaces &amp; emergency information</h3>
+            <div id="pkIso"></div>
           </div>
 
           <div class="pcard">
             <h3><span class="tagdot" style="background:var(--r-med)"></span>Type of work</h3>
-            <div class="types" id="typeChips"></div>
+            <div class="chips" id="typeChips"></div>
           </div>
 
           <div id="checkArea"></div>
 
           <div class="pcard">
-            <h3><span class="tagdot" style="background:#7C5CD6"></span>Permit workflow</h3>
-            <div class="status-bar" id="statusBar"></div>
+            <h3><span class="tagdot" style="background:var(--r-crit)"></span>Hazard register <span class="sec-prog" id="hazCount"></span></h3>
+            <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Select the hazards that apply. Each brings its coded controls — tick the ones in force, add your own, and they print on the risk assessment attached to this permit.</p>
+            <div id="pkHaz"></div>
           </div>
 
           <div class="pcard">
-            <h3><span class="tagdot" style="background:var(--r-high)"></span>Risk references &amp; gas test</h3>
-            <div class="grid2">
-              <div class="fld"><label>Task risk assessment (TRA) ref</label><input id="p_tra" placeholder="e.g. TRA-2026-014" /></div>
-              <div class="fld"><label>Isolation certificate (ICC) ref</label><input id="p_icc" placeholder="e.g. ICC-032 / N/A" /></div>
-              <div class="fld full"><label>SIMOPS / conflicting work check</label><input id="p_simops" placeholder="Nearby permits or simultaneous operations considered" /></div>
-            </div>
-            <div class="gas-grid">
-              <div class="fld"><label>O₂ %</label><input id="g_o2" inputmode="decimal" placeholder="20.9" /></div>
-              <div class="fld"><label>LEL %</label><input id="g_lel" inputmode="decimal" placeholder="0" /></div>
-              <div class="fld"><label>CO ppm</label><input id="g_co" inputmode="decimal" placeholder="0" /></div>
-              <div class="fld"><label>H₂S ppm</label><input id="g_h2s" inputmode="decimal" placeholder="0" /></div>
-              <div class="fld"><label>Test time</label><input id="g_time" placeholder="e.g. 08:15" /></div>
-              <div class="fld"><label>Tested by</label><input id="g_by" placeholder="AGT name" /></div>
-            </div>
-            <div class="doc-note" style="border-top:none;padding-top:6px;margin-top:6px">Gas test required before hot work / confined-space entry; repeat per site frequency. Acceptance: O₂ 19.5–23.5%, LEL 0%, CO &lt; 25 ppm, H₂S &lt; 5 ppm (site rules prevail).</div>
+            <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>PPE required</h3>
+            <div class="ppe-grid" id="ppeGrid"></div>
+            <div class="fld full" style="margin-top:12px"><label>Additional PPE / recovery measures</label><input id="p_ppeExtra" placeholder="e.g. fire extinguisher, fire watcher, apron, gas detector" /></div>
+          </div>
+
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--amber,#C77E00)"></span>Gas testing <span class="sec-prog" id="gasBadge"></span></h3>
+            <div id="pkGas"></div>
+          </div>
+
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--r-low)"></span>Worksite record — last-minute risk assessment</h3>
+            <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Completed at the work front by the permit holder with the whole work party, before work starts and after every break.</p>
+            <div id="pkLmra"></div>
           </div>
 
           <div class="pcard">
             <h3><span class="tagdot" style="background:var(--r-low)"></span>Audit &amp; compliance</h3>
-            <label class="lp-toggle" id="auditAll" style="margin-top:0"><span>Comply to all selected standards (<span id="auditStdList"></span>)</span><span class="lp-sw"></span></label>
-            <div class="fld full" style="margin-top:12px"><label>Custom / other audits (client, corporate, OISD…)</label><input id="p_auditCustom" placeholder="e.g. Client HSE audit Q3, OISD-105, corporate LSR audit" /></div>
+            <label class="lp-toggle" id="auditAll" style="margin-top:0"><span>This permit complies with all selected standards (<span id="auditStdList"></span>)</span><span class="lp-sw"></span></label>
+            <div class="fld full" style="margin-top:12px"><label>Custom / other audits (client, corporate, OISD…)</label><input id="p_auditCustom" placeholder="e.g. client HSE audit, corporate life-saving-rule audit" /></div>
           </div>
 
           <div class="pcard">
-            <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>Attachments <span style="font-weight:450;color:var(--text-3);font-size:12px;margin-left:4px">drawings · RA · ICC · photos</span></h3>
+            <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>Attachments <span style="font-weight:450;color:var(--text-3);font-size:12px;margin-left:4px">risk assessment · isolation certificate · SDS · drawings · photos</span></h3>
             <input id="p_att" type="file" multiple accept=".pdf,.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.webp,.gif" style="display:none" />
             <input id="p_cam" type="file" accept="image/*" capture="environment" style="display:none" />
             <div style="display:flex;gap:8px">
@@ -635,10 +769,11 @@
           </div>
 
           <div class="pcard">
-            <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>PPE required</h3>
-            <div class="ppe-grid" id="ppeGrid"></div>
-            <div class="fld full" style="margin-top:12px"><label>Additional / special PPE</label><input id="p_ppeExtra" placeholder="Anything not listed above" /></div>
+            <h3><span class="tagdot" style="background:#7C5CD6"></span>Workflow &amp; signatures</h3>
+            <div class="status-bar" id="statusBar"></div>
+            <div id="pkSigs"></div>
           </div>
+
         </div>
       </div>
       <div class="pbar">
@@ -646,10 +781,11 @@
         <span class="req-chip" id="reqStatus" style="display:none"></span>
         <button class="pbtn" id="permitSubmit" style="display:none"><svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M4 12h15m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Submit for approval</button>
         <button class="pbtn" id="permitReset">Reset</button>
-        <button class="pbtn" id="permitPrint"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9V4h12v5M6 18H4v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6h-2m-12 0v3h12v-3m-12 0h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Print</button>
+        <button class="pbtn" id="permitPrint"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9V4h12v5M6 18H4v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6h-2m-12 0v3h12v-3m-12 0h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Print permit pack</button>
         <button class="pbtn primary" id="permitReview"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Review with Guardian</button>
       </div>
     </div>
+
 
     <!-- Home dashboard view -->
     <div id="homeView" class="view" style="display:none">
@@ -827,6 +963,26 @@
     <div class="prov-tabs" id="provTabs"></div>
     <div id="provFields"></div>
     <div id="provTest" class="prov-test"></div>
+
+    <div class="devbox">
+      <div class="devhead"><b>This device</b><span id="devSummary" class="mono"></span></div>
+      <div class="devgrid">
+        <div class="fld"><label for="devClass">Layout</label><select id="devClass">
+          <option value="auto">Automatic — detect</option>
+          <option value="phone">Phone — compact, one column</option>
+          <option value="tablet">Tablet — two columns</option>
+          <option value="desktop">Desktop — full width</option>
+        </select></div>
+        <div class="fld"><label for="devDensity">Density</label><select id="devDensity">
+          <option value="auto">Automatic</option>
+          <option value="comfortable">Comfortable — larger targets</option>
+          <option value="compact">Compact — more on screen</option>
+        </select></div>
+      </div>
+      <label class="lp-toggle" id="devLite" style="margin-top:10px"><span>Lite mode — no animation, lighter rendering, less data</span><span class="lp-sw"></span></label>
+      <div class="devnote" id="devNote"></div>
+    </div>
+
     <div class="m-actions"><button class="btn-ghost" id="testSet">Test connection</button><button class="btn-ghost" id="cancelSet">Cancel</button><button class="btn-save" id="saveSet">Save</button></div>
   </div>
 </div>
@@ -909,25 +1065,53 @@ const store={
 const $=s=>document.querySelector(s);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-const defaultPermit=()=>({header:{permitNo:'',persons:'',date:'',validUpto:'',contractor:'',department:'',project:'',location:'',description:''},types:{height:false,hot:false,demolition:false},checks:{},ppe:{},ppeExtra:'',status:'Draft',basis:'General PTW',refs:{tra:'',icc:'',simops:''},gas:{o2:'',lel:'',co:'',h2s:'',time:'',by:''},audit:{all:true,custom:''}});
-const PERMIT_STATUSES=['Draft','Assessed','Approved','Issued','Active','Suspended','Closed'];
-
-const state={
-  provider:store.get('guardian.provider')||'offline',
-  cfg:JSON.parse(store.get('guardian.cfg')||'null')||{
-    anthropic:{key:store.get('guardian.key')||'',model:store.get('guardian.model')||'claude-sonnet-5'},
-    openai:{baseUrl:'https://openrouter.ai/api/v1',key:'',model:'meta-llama/llama-3.3-70b-instruct:free'},
-    ollama:{baseUrl:'http://localhost:11434/v1',model:'llama3.1'}
-  },
-  mode:store.get('guardian.mode')||'incident',
-  view:'chat',
-  standards:JSON.parse(store.get('guardian.standards')||'null')||{iso45001:true,india_fa:true},
-  offline:store.get('guardian.offline')==='1',
-  lastError:false,
-  messages:JSON.parse(store.get('guardian.msgs')||'[]'),
-  permit:(function(){const p=JSON.parse(store.get('guardian.permit')||'null')||defaultPermit();const d=defaultPermit();['refs','gas','audit'].forEach(k=>p[k]=p[k]||d[k]);p.status=p.status||'Draft';p.basis=p.basis||'General PTW';return p;})(),
-  busy:false
+const PERMIT_CHECKS={
+  general:{title:'General & baseline',dot:'var(--accent)',items:[
+    'Approved risk assessment available; JSA/TBT conducted; personnel inducted, ID-carded and medically fit',
+    'Competent supervisor and EHS personnel present at the work location',
+    'Work area clearances, access pathways, warning signs, barricades and safe material stacking in place',
+    'First-aid box and certified first-aider available',
+    'Tools and equipment inspected and tagged; joint-free cables, industrial sockets and safe DBs provided',
+    'Labour welfare facilities available',
+    'Fire extinguisher provided and fire/emergency arrangements in place',
+    'Emergency numbers and evacuation map displayed'
+  ]},
+  height:{title:'Work at height',dot:'var(--r-med)',items:[
+    'Platform or work exceeds 1.5 m in height',
+    'Safe access available to reach the working location',
+    'Guard rails and toe guards in place with green tag',
+    'Safe anchorage points available to hook a full-body harness',
+    'Height-specific training done; workers aware of hazards and safe practices',
+    'Area below the workplace barricaded; work in the same segment restricted',
+    'Bag or box provided to carry loose material and tools',
+    'Proper access ladder available as per the job requirement',
+    'Floor openings protected with guard rails or suitable covers',
+    'Safe distance maintained for free-falling objects (6 m from roads/structures)',
+    'Approved rescue procedure and rescue kit/facilities available'
+  ]},
+  hot:{title:'Hot work',dot:'var(--r-high)',items:[
+    'Working area free of combustible and flammable material',
+    'Cylinder and torch fitted with flashback arrester and pressure gauge; industrial lighter used',
+    'Adequate natural or mechanical ventilation provided',
+    'Fire extinguisher available at the working area and fire watch arranged',
+    'Cylinders kept upright and chained in a trolley',
+    'Welding/grinding/cutting machines and cables in good condition, insulated and properly earthed',
+    'Electrical connections on 30 mA RCCB/ELCB with double body earth',
+    'Welding earth cable in good condition with insulated crocodile pin',
+    'Workers trained in fire safety'
+  ]},
+  demolition:{title:'Demolition',dot:'var(--r-crit)',items:[
+    'Approved demolition plan available',
+    'Approved risk assessment available and personnel competent for demolition',
+    'Alternative walkways and emergency egress/exit routes identified',
+    'Any other required PTW obtained (e.g. work at height, hot work)',
+    'Temporary work platform / scaffold requirements met',
+    'Relevant services (power, gas, water) isolated where required',
+    'Controlled sequence and exclusion zone established for the demolition'
+  ]}
 };
+let PPE_LIST=['Safety helmet','Safety shoes / gum boots','Hand gloves','Safety goggles / face shield','Full-body harness','Welding shield / leather apron','Nose / face mask','Ear protection (plugs / muffs)'];
+
 const PROVIDERS={offline:'Offline',anthropic:'Claude',openai:'Free LLM',ollama:'Ollama (local)'};
 const FREE_PRESETS=[
   {name:'OpenRouter',base:'https://openrouter.ai/api/v1',model:'meta-llama/llama-3.3-70b-instruct:free',keyUrl:'https://openrouter.ai/keys'},
@@ -986,53 +1170,7 @@ function standardsLine(){
 
 const PERMIT_FOCUS='The user has submitted a completed Permit to Work for your review. Audit it rigorously and concisely: (1) flag every check marked "No" as a blocker and explain the risk it creates; (2) list any checks left unanswered for the selected work types that must be resolved before issue; (3) confirm the selected PPE matches the hazards of the selected work types (hot work needs eye/face protection and fire measures; height work needs full-body harness and anchorage; etc.); (4) note missing permit details (permit no., validity, supervisor). End with a clear verdict on its own line — AUTHORISE, AUTHORISE WITH CONDITIONS, or DO NOT AUTHORISE — followed by any conditions as a short list. Reference the hierarchy of controls and relevant standards where useful.';
 
-const PERMIT_CHECKS={
-  general:{title:'General & baseline',dot:'var(--accent)',items:[
-    'Approved risk assessment available; JSA/TBT conducted; personnel inducted, ID-carded and medically fit',
-    'Competent supervisor and EHS personnel present at the work location',
-    'Work area clearances, access pathways, warning signs, barricades and safe material stacking in place',
-    'First-aid box and certified first-aider available',
-    'Tools and equipment inspected and tagged; joint-free cables, industrial sockets and safe DBs provided',
-    'Labour welfare facilities available',
-    'Fire extinguisher provided and fire/emergency arrangements in place',
-    'Emergency numbers and evacuation map displayed'
-  ]},
-  height:{title:'Work at height',dot:'var(--r-med)',items:[
-    'Platform or work exceeds 1.5 m in height',
-    'Safe access available to reach the working location',
-    'Guard rails and toe guards in place with green tag',
-    'Safe anchorage points available to hook a full-body harness',
-    'Height-specific training done; workers aware of hazards and safe practices',
-    'Area below the workplace barricaded; work in the same segment restricted',
-    'Bag or box provided to carry loose material and tools',
-    'Proper access ladder available as per the job requirement',
-    'Floor openings protected with guard rails or suitable covers',
-    'Safe distance maintained for free-falling objects (6 m from roads/structures)',
-    'Approved rescue procedure and rescue kit/facilities available'
-  ]},
-  hot:{title:'Hot work',dot:'var(--r-high)',items:[
-    'Working area free of combustible and flammable material',
-    'Cylinder and torch fitted with flashback arrester and pressure gauge; industrial lighter used',
-    'Adequate natural or mechanical ventilation provided',
-    'Fire extinguisher available at the working area and fire watch arranged',
-    'Cylinders kept upright and chained in a trolley',
-    'Welding/grinding/cutting machines and cables in good condition, insulated and properly earthed',
-    'Electrical connections on 30 mA RCCB/ELCB with double body earth',
-    'Welding earth cable in good condition with insulated crocodile pin',
-    'Workers trained in fire safety'
-  ]},
-  demolition:{title:'Demolition',dot:'var(--r-crit)',items:[
-    'Approved demolition plan available',
-    'Approved risk assessment available and personnel competent for demolition',
-    'Alternative walkways and emergency egress/exit routes identified',
-    'Any other required PTW obtained (e.g. work at height, hot work)',
-    'Temporary work platform / scaffold requirements met',
-    'Relevant services (power, gas, water) isolated where required',
-    'Controlled sequence and exclusion zone established for the demolition'
-  ]}
-};
 
-const PPE_LIST=['Safety helmet','Safety shoes / gum boots','Hand gloves','Safety goggles / face shield','Full-body harness','Welding shield / leather apron','Nose / face mask','Ear protection (plugs / muffs)'];
 
 const SYS_BASE=
 `You are Guardian, an assistant inside Guardian, an Environment, Health & Safety (EHS/HSSE) management platform, working for trained safety professionals. Your user is a trained safety practitioner, so be concise, practical, and technically precise — skip generic warnings they already know.
@@ -1127,50 +1265,6 @@ function renderRailTools(){
 }
 
 /* ---- permit ---- */
-function persistPermit(){store.set('guardian.permit',JSON.stringify(state.permit))}
-function bindHeader(){
-  Object.keys(state.permit.header).forEach(k=>{
-    const el=$('#p_'+k);if(!el)return;
-    el.value=state.permit.header[k]||'';
-    el.oninput=()=>{state.permit.header[k]=el.value;persistPermit();};
-  });
-  const ex=$('#p_ppeExtra');ex.value=state.permit.ppeExtra||'';ex.oninput=()=>{state.permit.ppeExtra=ex.value;persistPermit();};
-  const pb=$('#p_basis');pb.value=state.permit.basis||'General PTW';pb.onchange=()=>{state.permit.basis=pb.value;persistPermit();};
-  /* eVision-style extras */
-  const bind=(sel,obj,key)=>{const el=$(sel);if(!el)return;el.value=obj[key]||'';el.oninput=()=>{obj[key]=el.value;persistPermit();};};
-  bind('#p_tra',state.permit.refs,'tra');bind('#p_icc',state.permit.refs,'icc');bind('#p_simops',state.permit.refs,'simops');
-  bind('#g_o2',state.permit.gas,'o2');bind('#g_lel',state.permit.gas,'lel');bind('#g_co',state.permit.gas,'co');
-  bind('#g_h2s',state.permit.gas,'h2s');bind('#g_time',state.permit.gas,'time');bind('#g_by',state.permit.gas,'by');
-  bind('#p_auditCustom',state.permit.audit,'custom');
-  const at=$('#auditAll');
-  const syncAudit=()=>{at.classList.toggle('on',!!state.permit.audit.all);
-    $('#auditStdList').textContent=STANDARDS.filter(s=>state.standards[s.id]).map(s=>s.label.split('—').pop().trim()).join(', ')||'none selected';};
-  at.onclick=()=>{state.permit.audit.all=!state.permit.audit.all;persistPermit();syncAudit();};
-  syncAudit();
-  renderStatusBar();
-}
-function renderStatusBar(){
-  const bar=$('#statusBar');bar.innerHTML='';
-  const cur=PERMIT_STATUSES.indexOf(state.permit.status||'Draft');
-  PERMIT_STATUSES.forEach((s,i)=>{
-    const b=document.createElement('button');
-    b.className='st'+(i<cur?' done':'')+(i===cur?' cur':'');
-    b.innerHTML='<span class="sn">'+(i+1)+'</span>'+s;
-    b.onclick=()=>{state.permit.status=s;persistPermit();renderStatusBar();updatePermitMeta();};
-    bar.appendChild(b);
-  });
-}
-function renderTypeChips(){
-  const wrap=$('#typeChips');wrap.innerHTML='';
-  const gen=document.createElement('span');gen.className='type-chip on locked';
-  gen.innerHTML=`<span class="cd" style="background:var(--accent)"></span>General (always)`;wrap.appendChild(gen);
-  [['height','Work at height','var(--r-med)'],['hot','Hot work','var(--r-high)'],['demolition','Demolition','var(--r-crit)']].forEach(([id,lbl,col])=>{
-    const b=document.createElement('button');b.className='type-chip'+(state.permit.types[id]?' on':'');
-    b.innerHTML=`<span class="cd" style="background:${col}"></span>${lbl}`;
-    b.onclick=()=>{state.permit.types[id]=!state.permit.types[id];persistPermit();renderTypeChips();renderChecks();updatePermitMeta();};
-    wrap.appendChild(b);
-  });
-}
 function triControl(key){
   const cur=state.permit.checks[key];
   const wrap=document.createElement('div');wrap.className='tri';
@@ -1185,164 +1279,6 @@ function triControl(key){
     wrap.appendChild(b);
   });
   return wrap;
-}
-function activeSections(){return ['general',...['height','hot','demolition'].filter(t=>state.permit.types[t])]}
-function renderChecks(){
-  const area=$('#checkArea');area.innerHTML='';
-  activeSections().forEach(sec=>{
-    const S=PERMIT_CHECKS[sec];
-    const card=document.createElement('div');card.className='pcard';
-    const h=document.createElement('h3');h.innerHTML=`<span class="tagdot" style="background:${S.dot}"></span>${S.title} <span class="sec-prog" id="sp_${sec}"></span>`;card.appendChild(h);
-    S.items.forEach((it,i)=>{
-      const row=document.createElement('div');row.className='check';
-      const t=document.createElement('div');t.className='ct';t.textContent=it;row.appendChild(t);
-      row.appendChild(triControl(sec+'.'+i));card.appendChild(row);
-    });
-    area.appendChild(card);
-  });
-}
-function renderPPE(){
-  const g=$('#ppeGrid');g.innerHTML='';
-  PPE_LIST.forEach(name=>{
-    const on=!!state.permit.ppe[name];
-    const b=document.createElement('button');b.className='ppe-item'+(on?' on':'');
-    b.innerHTML=`<span class="ppe-box"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4 10-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>${name}`;
-    b.onclick=()=>{state.permit.ppe[name]=!state.permit.ppe[name];persistPermit();b.classList.toggle('on');updatePermitMeta();};
-    g.appendChild(b);
-  });
-}
-function updatePermitMeta(){
-  let total=0,ans=0,no=0;
-  activeSections().forEach(sec=>{
-    let st=0,sa=0;
-    PERMIT_CHECKS[sec].items.forEach((_,i)=>{
-      total++;st++;const v=state.permit.checks[sec+'.'+i];
-      if(v){ans++;sa++;}if(v==='N')no++;
-    });
-    const chip=$('#sp_'+sec);
-    if(chip){chip.textContent=sa+'/'+st;chip.className='sec-prog'+(sa===st?' full':'');}
-  });
-  const ppe=PPE_LIST.filter(n=>state.permit.ppe[n]).length;
-  const pct=total?Math.round(ans/total*100):0;
-  $('#permitMeta').innerHTML='<span class="meter"><i style="width:'+pct+'%"></i></span>'+pct+'% complete · '+ans+'/'+total+' checks · '+no+' flagged “No” · '+ppe+' PPE';
-}
-function serializePermit(){
-  const p=state.permit,h=p.header;const ans=v=>v==='Y'?'Yes':v==='N'?'No':v==='NA'?'N/A':'(not answered)';
-  let out='PERMIT TO WORK\n';
-  out+=`Permit no: ${h.permitNo||'—'} | Date: ${h.date||'—'} | Valid up to: ${h.validUpto||'—'} | Persons: ${h.persons||'—'}\n`;
-  out+=`Contractor: ${h.contractor||'—'} | Project: ${h.project||'—'} | Dept: ${h.department||'—'}\n`;
-  out+=`Location: ${h.location||'—'}\nDescription: ${h.description||'—'}\n`;
-  out+=`Work types: ${activeSections().map(s=>PERMIT_CHECKS[s].title).join(', ')}\n`;
-  activeSections().forEach(sec=>{
-    out+=`\n[${PERMIT_CHECKS[sec].title}]\n`;
-    PERMIT_CHECKS[sec].items.forEach((it,i)=>{out+=`- ${it}: ${ans(p.checks[sec+'.'+i])}\n`;});
-  });
-  const ppe=PPE_LIST.filter(n=>p.ppe[n]);
-  out+=`\nPPE selected: ${ppe.length?ppe.join(', '):'none'}${p.ppeExtra?'; additional: '+p.ppeExtra:''}\n`;
-  out+=`\nWorkflow status: ${p.status||'Draft'} | Permit basis: ${p.basis||'General PTW'}\n`;
-  out+=`TRA ref: ${p.refs.tra||'—'} | Isolation (ICC): ${p.refs.icc||'—'} | SIMOPS check: ${p.refs.simops||'—'}\n`;
-  out+=`Gas test: O2 ${p.gas.o2||'—'}% | LEL ${p.gas.lel||'—'}% | CO ${p.gas.co||'—'} ppm | H2S ${p.gas.h2s||'—'} ppm | at ${p.gas.time||'—'} by ${p.gas.by||'—'}\n`;
-  const stds=STANDARDS.filter(s=>state.standards[s.id]).map(s=>s.label).join('; ');
-  out+=`Audit & compliance: ${p.audit.all?('comply to all selected standards ('+(stds||'none')+')'):'NOT marked as complying to all selected standards'}${p.audit.custom?'; custom audits: '+p.audit.custom:''}\n`;
-  if(attPermit.files.length)out+=`Attachments: ${attPermit.files.map(f=>f.name+(f.uploaded?' (uploaded)':'')).join(', ')}\n`;
-  return out;
-}
-function buildPrint(){
-  const p=state.permit,h=p.header;const ans=v=>v==='Y'?'Yes':v==='N'?'No':v==='NA'?'N/A':'—';
-  const secHtml=activeSections().map(sec=>{
-    const S=PERMIT_CHECKS[sec];
-    const rows=S.items.map((it,i)=>`<tr><td>${esc(it)}</td><td class="a">${ans(p.checks[sec+'.'+i])}</td></tr>`).join('');
-    return `<h4>${S.title}</h4><table class="pt"><tbody>${rows}</tbody></table>`;
-  }).join('');
-  const ppe=PPE_LIST.filter(n=>p.ppe[n]);
-  return `<div class="print-doc">
-    <div class="ph"><h1>Permit to Work</h1><div>Permit No: <b>${esc(h.permitNo)||'—'}</b></div></div>
-    <table class="pt head"><tbody>
-      <tr><td>Date</td><td>${esc(h.date)||'—'}</td><td>Valid up to</td><td>${esc(h.validUpto)||'—'}</td></tr>
-      <tr><td>Contractor</td><td>${esc(h.contractor)||'—'}</td><td>Persons</td><td>${esc(h.persons)||'—'}</td></tr>
-      <tr><td>Project</td><td>${esc(h.project)||'—'}</td><td>Department</td><td>${esc(h.department)||'—'}</td></tr>
-      <tr><td>Location</td><td colspan="3">${esc(h.location)||'—'}</td></tr>
-      <tr><td>Work types</td><td colspan="3">${activeSections().map(a=>PERMIT_CHECKS[a].title).join(', ')}</td></tr>
-      <tr><td>Status</td><td>${esc(p.status||'Draft')}</td><td>Basis</td><td>${esc(p.basis||'General PTW')}</td></tr>
-      <tr><td>TRA / ICC</td><td colspan="3">${esc(p.refs.tra)||'—'} / ${esc(p.refs.icc)||'—'}</td></tr>
-      <tr><td>SIMOPS check</td><td colspan="3">${esc(p.refs.simops)||'—'}</td></tr>
-      <tr><td>Gas test</td><td colspan="3">O₂ ${esc(p.gas.o2)||'—'}% · LEL ${esc(p.gas.lel)||'—'}% · CO ${esc(p.gas.co)||'—'} ppm · H₂S ${esc(p.gas.h2s)||'—'} ppm · at ${esc(p.gas.time)||'—'} by ${esc(p.gas.by)||'—'}</td></tr>
-      <tr><td>Audit &amp; compliance</td><td colspan="3">${p.audit.all?'Complies with all selected standards: '+(STANDARDS.filter(s=>state.standards[s.id]).map(s=>s.label).join('; ')||'none selected'):'Not marked as complying to all selected standards'}${p.audit.custom?' · Custom audits: '+esc(p.audit.custom):''}</td></tr>
-      <tr><td>Attachments</td><td colspan="3">${attPermit.files.length?attPermit.files.map(f=>esc(f.name)+(f.uploaded?' (uploaded)':'')).join(' · '):'—'}</td></tr>
-      <tr><td>Description</td><td colspan="3">${esc(h.description)||'—'}</td></tr>
-    </tbody></table>
-    ${secHtml}
-    <h4>PPE required</h4><div class="ppe-print">${ppe.length?ppe.map(esc).join(' · '):'—'}${p.ppeExtra?' · '+esc(p.ppeExtra):''}</div>
-    <div class="sigs"><div>Permit Holder</div><div>Safety In-charge</div><div>Approved (Project Manager)</div><div>Security In-charge</div></div>
-  </div>`;
-}
-function reviewPermitOffline(){
-  const p=state.permit,h=p.header,secs=activeSections();
-  let total=0;const unanswered=[],failed=[];
-  secs.forEach(sec=>PERMIT_CHECKS[sec].items.forEach((it,i)=>{
-    total++;const v=p.checks[sec+'.'+i];
-    if(!v)unanswered.push(it);else if(v==='N')failed.push(it);
-  }));
-  const on=n=>!!p.ppe[n];const ppeGaps=[];
-  if(!on('Safety helmet'))ppeGaps.push('Safety helmet not selected');
-  if(!on('Safety shoes / gum boots'))ppeGaps.push('Safety shoes / boots not selected');
-  if(p.types.height&&!on('Full-body harness'))ppeGaps.push('Work at height selected — full-body harness not selected');
-  if(p.types.hot&&!on('Safety goggles / face shield'))ppeGaps.push('Hot work selected — eye / face protection not selected');
-  if(p.types.hot&&!on('Welding shield / leather apron'))ppeGaps.push('Hot work selected — welding shield / leather apron not selected');
-  if(p.types.demolition&&!on('Nose / face mask'))ppeGaps.push('Demolition selected — dust protection (nose / face mask) not selected');
-  if(p.types.demolition&&!on('Ear protection (plugs / muffs)'))ppeGaps.push('Demolition selected — hearing protection not selected');
-  const missing=[];
-  if(!h.permitNo)missing.push('permit number');
-  if(!h.validUpto)missing.push('validity');
-  if(!h.location)missing.push('location');
-  if(!h.persons)missing.push('number of persons');
-  if(!(h.description||'').trim())missing.push('description of work');
-  /* --- expiry, references and gas readings: exact checks, not judgement --- */
-  const expired=(()=>{if(!h.validUpto)return false;const d=new Date(h.validUpto);if(isNaN(d))return false;
-    const t=new Date();t.setHours(0,0,0,0);return d<t;})();
-  const refIssues=[];
-  if(!(p.refs.tra||'').trim())refIssues.push('No task risk assessment (TRA) referenced — a permit without an assessed method is not verifiable');
-  if(!(p.refs.simops||'').trim())refIssues.push('SIMOPS / conflicting-work check not recorded');
-  if((p.types.hot||p.types.demolition)&&!(p.refs.icc||'').trim())refIssues.push('No isolation certificate (ICC) referenced for hot work / demolition');
-  const gasIssues=[];const gasNeeded=p.types.hot;
-  const gv=k=>{const v=parseFloat(p.gas[k]);return isNaN(v)?null:v;};
-  const o2=gv('o2'),lel=gv('lel'),co=gv('co'),h2s=gv('h2s');
-  const anyGas=[o2,lel,co,h2s].some(v=>v!==null);
-  if(o2!==null&&(o2<19.5||o2>23.5))gasIssues.push('O₂ '+o2+'% is outside 19.5–23.5% — atmosphere not safe');
-  if(lel!==null&&lel>0)gasIssues.push('LEL '+lel+'% — flammable atmosphere present; hot work must not start at any LEL reading');
-  if(co!==null&&co>=25)gasIssues.push('CO '+co+' ppm is at or above the 25 ppm reference');
-  if(h2s!==null&&h2s>=5)gasIssues.push('H₂S '+h2s+' ppm is at or above the 5 ppm reference');
-  if(gasNeeded&&!anyGas)gasIssues.push('Hot work selected but no gas readings recorded — test before any ignition source');
-  if(anyGas&&!(p.gas.time||'').trim())gasIssues.push('Gas readings recorded without a test time — readings expire, so the time and tester must be on the permit');
-  const hardStop=failed.length||expired||gasIssues.some(g=>/not safe|must not start|at or above/.test(g));
-  let verdict;
-  if(hardStop)verdict='DO NOT AUTHORISE';
-  else if(unanswered.length||ppeGaps.length||missing.length||refIssues.length||gasIssues.length)verdict='AUTHORISE WITH CONDITIONS';
-  else verdict='AUTHORISE';
-  const md=['**Permit review — '+verdict+'**',
-    '_Rule-based check (no AI). '+total+' checks across '+secs.map(s=>PERMIT_CHECKS[s].title).join(', ')+'._'];
-  if(failed.length){md.push('','**Blockers — marked “No”, resolve before issue:**');failed.forEach(f=>md.push('- '+f));}
-  if(unanswered.length){md.push('','**Unanswered checks ('+unanswered.length+'):**');unanswered.slice(0,12).forEach(f=>md.push('- '+f));if(unanswered.length>12)md.push('- …and '+(unanswered.length-12)+' more');}
-  if(expired){md.push('','**Validity expired** — the permit is valid up to '+esc(h.validUpto)+', which has passed. Re-issue with a current validity before any work.');}
-  if(gasIssues.length){md.push('','**Gas testing:**');gasIssues.forEach(f=>md.push('- '+f));}
-  if(refIssues.length){md.push('','**Risk references:**');refIssues.forEach(f=>md.push('- '+f));}
-  if(ppeGaps.length){md.push('','**PPE gaps:**');ppeGaps.forEach(f=>md.push('- '+f));}
-  if(missing.length){md.push('','**Missing permit details:** '+missing.join(', ')+'.');}
-  if(verdict==='AUTHORISE')md.push('','All active checks answered **Yes** with PPE and details in place. Confirm conditions on site, then authorise per your procedure.');
-  else if(verdict==='AUTHORISE WITH CONDITIONS')md.push('','Close the items above, then re-check before issuing the permit.');
-  else md.push('','A blocker is open — do not start work until every item above is cleared and re-verified.');
-  if(verdict!=='AUTHORISE'&&['Issued','Active'].includes(p.status))
-    md.push('','⚠︎ **Status mismatch:** this permit is already marked **'+p.status+'** while the items above are open. Suspend it until they are closed.');
-  if(typeof attPermit!=='undefined'&&attPermit.files&&!attPermit.files.length)
-    md.push('','_No attachments — a permit normally travels with its risk assessment, isolation certificate and sketch/drawing._');
-  md.push('','_Rule-based reference — verify against your site procedure and the applicable standard._');
-  const full=md.join('\n');
-  setView('chat');
-  if(state.messages.length===0)thread.innerHTML='';
-  const q='Review this Permit to Work (offline).';
-  state.messages.push({role:'user',content:q});addMsg('user',q);
-  addMsg('assistant',full);state.messages.push({role:'assistant',content:full});persist();
-  scroll.scrollTop=scroll.scrollHeight;refreshLogo();
 }
 $('#permitReview').onclick=()=>{closeNav();if(isOffline()){reviewPermitOffline();}else{setView('chat');runTurn('Please review this Permit to Work.\n\n'+serializePermit(),PERMIT_FOCUS);}};
 $('#permitPrint').onclick=()=>{$('#printArea').innerHTML=buildPrint();window.print();};
@@ -1467,6 +1403,1110 @@ function auditPrintDoc(){
 }
 $('#auditPrint').onclick=()=>{$('#printArea').innerHTML=auditPrintDoc();window.print();};
 $('#auditReset').onclick=()=>{if(!confirm('Clear this audit form?'))return;state.audit=defaultAudit();persistAudit();attAudit.files.length=0;auditInit=false;ensureAuditInit();};
+
+const state={
+  provider:store.get('guardian.provider')||'offline',
+  cfg:JSON.parse(store.get('guardian.cfg')||'null')||{
+    anthropic:{key:store.get('guardian.key')||'',model:store.get('guardian.model')||'claude-sonnet-5'},
+    openai:{baseUrl:'https://openrouter.ai/api/v1',key:'',model:'meta-llama/llama-3.3-70b-instruct:free'},
+    ollama:{baseUrl:'http://localhost:11434/v1',model:'llama3.1'}
+  },
+  mode:store.get('guardian.mode')||'incident',
+  view:'chat',
+  standards:JSON.parse(store.get('guardian.standards')||'null')||{iso45001:true,india_fa:true},
+  offline:store.get('guardian.offline')==='1',
+  lastError:false,
+  messages:JSON.parse(store.get('guardian.msgs')||'[]'),
+  busy:false
+};
+
+/* ================================================================
+   DEVICE PROFILE
+   Classifies the device and adapts layout, input targets and
+   rendering weight. It is a capability profile, not a fingerprint:
+   the identifier is a random value this browser stores for itself,
+   used to label signatures in the audit trail, and it clears with
+   site data.
+   ================================================================ */
+const DEVICE={
+  id:(function(){
+    let v=store.get('guardian.devid');
+    if(!v){v=(window.crypto&&crypto.randomUUID)?crypto.randomUUID()
+      :'dev-'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+      store.set('guardian.devid',v);}
+    return v;
+  })(),
+  get override(){return store.get('guardian.devclass')||'auto'},
+  set override(v){store.set('guardian.devclass',v)},
+  get density(){return store.get('guardian.density')||'auto'},
+  set density(v){store.set('guardian.density',v)},
+  get lite(){return store.get('guardian.lite')==='1'},
+  set lite(v){store.set('guardian.lite',v?'1':'0')},
+
+  /* input: touch or pointer */
+  input(){
+    const coarse=matchMedia('(pointer: coarse)').matches;
+    const noHover=matchMedia('(hover: none)').matches;
+    const touchPts=navigator.maxTouchPoints||0;
+    return (coarse||noHover||touchPts>1)?'touch':'pointer';
+  },
+  /* class: phone / tablet / desktop */
+  detect(){
+    const w=Math.min(window.innerWidth||9999,(window.screen&&window.screen.width)||window.innerWidth||9999);
+    const touch=this.input()==='touch';
+    const uaMobile=navigator.userAgentData?navigator.userAgentData.mobile:/Android.+Mobile|iPhone|iPod/i.test(navigator.userAgent);
+    /* iPad in desktop mode reports a Mac UA — the touch points give it away */
+    const iPadish=/Macintosh/.test(navigator.userAgent)&&(navigator.maxTouchPoints||0)>1;
+    if(uaMobile&&w<=820)return 'phone';
+    if(!touch)return w<=820?'phone':'desktop';
+    if(iPadish||/iPad|Tablet|Nexus 7|SM-T/i.test(navigator.userAgent))return 'tablet';
+    if(w<=600)return 'phone';
+    if(w<=1180)return 'tablet';
+    return 'desktop';
+  },
+  klass(){return this.override==='auto'?this.detect():this.override},
+  /* network conditions */
+  net(){
+    const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+    if(!c)return 'unknown';
+    if(c.saveData)return 'save';
+    if(/^(slow-2g|2g|3g)$/.test(c.effectiveType||''))return 'slow';
+    return 'fast';
+  },
+  /* rough capability tier, so a low-end handset is not asked to animate */
+  tier(){
+    const mem=navigator.deviceMemory||0, cpu=navigator.hardwareConcurrency||0;
+    if(this.lite)return 'low';
+    if((mem&&mem<=2)||(cpu&&cpu<=2))return 'low';
+    if(this.net()==='save'||this.net()==='slow')return 'low';
+    return 'normal';
+  },
+  label(){
+    const k=this.klass();
+    return k.charAt(0).toUpperCase()+k.slice(1)
+      +' · '+this.input()
+      +(this.net()!=='unknown'?' · '+this.net()+' network':'')
+      +(this.tier()==='low'?' · lite':'');
+  },
+  shortId(){return String(this.id).slice(0,8)}
+};
+function applyDevice(){
+  const b=document.body,d=DEVICE;
+  const k=d.klass();
+  b.dataset.device=k;
+  b.dataset.input=d.input();
+  b.dataset.net=d.net();
+  b.dataset.tier=d.tier();
+  b.dataset.lite=d.lite?'1':'0';
+  const dens=d.density==='auto'?(k==='phone'?'comfortable':k==='desktop'?'compact':''):d.density;
+  if(dens)b.dataset.density=dens;else delete b.dataset.density;
+  /* the app shell reflows: re-render whatever is on screen */
+  try{
+    if(state.view==='daily'&&typeof renderDaily==='function')renderDaily();
+    if(state.view==='home'&&typeof renderHome==='function')renderHome();
+  }catch(e){}
+  const sum=$('#devSummary');if(sum)sum.textContent=d.label()+' · id '+d.shortId();
+  const note=$('#devNote');
+  if(note)note.innerHTML='Detected automatically from screen size, pointer type, network and reported memory — override it if the guess is wrong. '
+    +'The device id (<span class="mono">'+esc(d.shortId())+'</span>) labels signatures in the permit audit trail so a record shows which device signed. '
+    +'It is a random value stored by this browser, not a fingerprint, and clearing site data resets it.';
+}
+/* keep up with rotation, window resize and network changes */
+(function(){
+  let t=null;
+  const on=()=>{clearTimeout(t);t=setTimeout(applyDevice,180);};
+  addEventListener('resize',on,{passive:true});
+  addEventListener('orientationchange',on,{passive:true});
+  const c=navigator.connection;if(c&&c.addEventListener)c.addEventListener('change',on);
+})();
+
+/* ================================================================
+   PERMIT ENGINE
+   Structure modelled on the electronic permit systems used on major
+   industrial sites: typed permit at an assessed risk level, a lifetime
+   plus a daily validity, an authorisation chain that signs and is
+   recorded, a coded hazard register that produces the attached risk
+   assessment, a timed gas-test log against acceptance criteria, and a
+   worksite last-minute risk assessment. Codes and wording are
+   Guardian's own.
+   ================================================================ */
+const PERMIT_TYPES=[
+  {id:'general',    t:'General work',              dot:'var(--accent)'},
+  {id:'hot',        t:'Hot work',                  dot:'var(--r-crit)'},
+  {id:'height',     t:'Work at height',            dot:'var(--r-med)'},
+  {id:'confined',   t:'Confined space entry',      dot:'#7C5CD6'},
+  {id:'excavation', t:'Excavation',                dot:'#8A6A3B'},
+  {id:'lifting',    t:'Lifting operation',         dot:'var(--mandatory,#1F6FB2)'},
+  {id:'electrical', t:'Electrical / isolation',    dot:'var(--r-high)'},
+  {id:'demolition', t:'Demolition',                dot:'var(--r-high)'}
+];
+const RISK_LEVELS=[
+  {id:'Low',   auth:'Permit Authoriser — low risk',    note:'Routine work with well-understood controls. Verified and authorised at supervisor level.'},
+  {id:'Medium',auth:'Permit Authoriser — medium risk', note:'Requires a separate verifier and an authoriser competent for medium-risk work. Gas testing and a fire watch apply to hot work.'},
+  {id:'High',  auth:'Permit Authoriser — high risk',   note:'Requires the area or asset owner in the authorisation chain, a documented isolation certificate where energy is present, and a standby person for entry work.'}
+];
+const PERMIT_STATUSES=['Draft','Requested','Verified','Authorised','Issued','Active','Suspended','Closed'];
+/* who signs to move from one state to the next */
+const SIG_FLOW={
+  Draft:      {act:'Request',   role:'Permit Requester', to:'Requested'},
+  Requested:  {act:'Verify',    role:'Permit Verifier',  to:'Verified'},
+  Verified:   {act:'Authorise', role:'Permit Authoriser',to:'Authorised'},
+  Authorised: {act:'Issue',     role:'Permit Issuer',    to:'Issued'},
+  Issued:     {act:'Accept',    role:'Permit Holder',    to:'Active'},
+  Active:     {act:'Suspend',   role:'Permit Holder',    to:'Suspended'},
+  Suspended:  {act:'Re-issue',  role:'Permit Issuer',    to:'Issued'}
+};
+
+/* ---- coded hazard register: hazard → controls → action party ---- */
+const HAZ_REG=[
+ {cat:'People',code:'PPL',dot:'var(--mandatory,#1F6FB2)',items:[
+  {c:'PPL-01',n:'Communication within the work party',ctl:[
+    'At issue and at the toolbox talk, agree how the work party, operations and emergency responders will communicate, and confirm every person understands it',
+    'Nominate one person to stop the job and state clearly that anyone may use that authority']},
+  {c:'PPL-02',n:'Conflicting or simultaneous work (SIMOPS)',ctl:[
+    'At the toolbox talk and throughout the shift, confirm no conflicting work is running in the same area and that any interface is mitigated',
+    'Check the permits already live in this area before starting; agree sequencing with the other permit holder']},
+  {c:'PPL-03',n:'Emergency response',ctl:[
+    'Brief the alarm, the action on alarm, the escape route and the muster point named on this permit',
+    'Confirm the location of the nearest eyewash, safety shower, first-aid kit and AED before work starts']},
+  {c:'PPL-04',n:'Fatigue',ctl:[
+    'Comply with the site limits on working hours and rest days',
+    'Ask the work party to self-declare fatigue at the toolbox talk and reassign anyone unfit for the task']},
+  {c:'PPL-05',n:'Adverse weather',ctl:[
+    'Define the stop-work trigger for wind, rain and lightning before work starts',
+    'Stop height, lifting and open-area work on lightning; resume 30 minutes after the last strike',
+    'Re-inspect scaffolds, excavations and temporary power after heavy rain']},
+  {c:'PPL-06',n:'Noise',ctl:[
+    'Control at source where practicable; otherwise provide hearing protection that fits and keeps exposure below 85 dB(A) over eight hours',
+    'Sign the area and limit the number of people exposed']},
+  {c:'PPL-07',n:'Poor lighting',ctl:[
+    'Restrict the task to daylight hours, or install temporary lighting rated for the area classification',
+    'Light the access route as well as the work face']},
+  {c:'PPL-08',n:'Wildlife, insects and reptiles',ctl:[
+    'Survey the work area before starting and clear it of nests, hives and reptiles',
+    'On sighting, withdraw, inform the control room and wait for clearance']},
+  {c:'PPL-09',n:'Manual handling',ctl:[
+    'Mechanise the lift where possible; single-person handling above about 20–25 kg is not appropriate',
+    'Brief posture, route and stacking at the toolbox talk; keep the pathway clear']}
+ ]},
+ {cat:'Motion & mechanical',code:'MOV',dot:'var(--r-med)',items:[
+  {c:'MOV-01',n:'Site transport and driving',ctl:[
+    'Plan the route on a site map and do not deviate from it',
+    'Provide a flagman to escort and to guide any reversing movement',
+    'Seatbelts at all times, lights on, no phone use, speed limits enforced',
+    'Daily pre-use vehicle check including tyres and screens; secure every load']},
+  {c:'MOV-02',n:'Hand tools',ctl:[
+    'Inspect before use and remove defective tools from the area',
+    'Use the correct tool for the task, insulated where electrical contact is possible']},
+  {c:'MOV-03',n:'Portable powered tools (grinders, cutters, drills)',ctl:[
+    'Inspect and tag the tool before use; confirm discs and blades are rated for the machine speed',
+    'Guards fitted and secure; never override or tie down a dead-man trigger',
+    'Face shield and eye protection while cutting or grinding; dust mask where dust is generated']},
+  {c:'MOV-04',n:'Rotating equipment',ctl:[
+    'Guards in place before start-up and never removed while the machine runs',
+    'No loose clothing, no hands inside the machine, never force a rotating part to stop']},
+  {c:'MOV-05',n:'Pinch points and caught-between',ctl:[
+    'Identify the line of fire and pinch points at the toolbox talk; keep out of them',
+    'Use push sticks, clamps or tag lines rather than hands to position material']},
+  {c:'MOV-06',n:'Projectiles and flying debris',ctl:[
+    'Impact-resistant face shield and goggles for the operator and anyone nearby',
+    'Screen or shield the work so debris cannot travel beyond the barricade']},
+  {c:'MOV-07',n:'Sharp and abrasive objects',ctl:[
+    'Cut-resistant gloves for handling rebar, sheet metal and cut edges',
+    'Cap or bend exposed rebar ends; remove offcuts to the waste point as they are produced']},
+  {c:'MOV-08',n:'Slips, trips and falls on the level',ctl:[
+    'Keep walkways clear, route or cover cables, clean spills immediately',
+    'Barricade openings and excavations with signage; anti-slip footwear']},
+  {c:'MOV-09',n:'Hand-arm vibration',ctl:[
+    'Identify the vibration level and trigger time of each tool and do not exceed the daily limit per person',
+    'Rotate operators; scheduled breaks during continuous machine operation']},
+  {c:'MOV-10',n:'Suspended loads and lifting gear',ctl:[
+    'Certified, inspected and colour-coded tackle within its safe working load',
+    'Exclusion zone under the load; tag lines instead of hands; nobody beneath a suspended load',
+    'Appointed person, trained slinger and signaller with one agreed signal set']}
+ ]},
+ {cat:'Substances',code:'SUB',dot:'#8A6A3B',items:[
+  {c:'SUB-01',n:'Dust, fume and airborne contaminants',ctl:[
+    'Suppress at source with water spray or extraction; never dry-cut where wet cutting is possible',
+    'Respiratory protection matched to the contaminant, face-fit tested']},
+  {c:'SUB-02',n:'Hazardous substance handling',ctl:[
+    'Review the safety data sheet with the work party before use; confirm health effects, exposure routes and controls',
+    'Provide the PPE the data sheet specifies and follow its handling and storage instructions',
+    'No unlabelled containers; label every decant; keep the data sheet at the point of use']},
+  {c:'SUB-03',n:'Acutely toxic or oxygen-deficient atmosphere',ctl:[
+    'Gas test by an authorised tester before entry and at the frequency stated on this permit',
+    'Continuous personal monitoring where the atmosphere can change; escape set available',
+    'Forced ventilation maintained throughout the task']},
+  {c:'SUB-04',n:'Spill or release to ground and drainage',ctl:[
+    'Bund or tray beneath any decanting; cover drains within the work area',
+    'Spill kit sized to the largest container, with trained responders on the crew',
+    'Store product in a secondary container and away from ignition sources']}
+ ]},
+ {cat:'Electrical',code:'ELE',dot:'var(--r-high)',items:[
+  {c:'ELE-01',n:'Electric shock',ctl:[
+    'Work dead wherever possible — isolate, lock, tag and prove dead at the point of work',
+    'Only an authorised competent person works on electrical systems or modifies equipment',
+    'RCD protection on every temporary circuit; double-insulated, undamaged, IP-rated leads; no overlapping cables',
+    'Equipment inspected and tagged by the authorised electrical person before use']},
+  {c:'ELE-02',n:'Arc flash',ctl:[
+    'Establish the arc-flash boundary and wear arc-rated clothing inside it',
+    'Operate with enclosure doors closed where the equipment allows; keep unnecessary personnel out']},
+  {c:'ELE-03',n:'Stored and residual energy',ctl:[
+    'Verify zero energy before work begins, including capacitors, drives, springs, pressure and gravity',
+    'Earth down where required and wait the stated discharge time']}
+ ]},
+ {cat:'Fire & explosion',code:'FIR',dot:'var(--r-crit)',items:[
+  {c:'FIR-01',n:'Flammable and combustible materials',ctl:[
+    'Remove combustibles from the work area and surroundings, or protect them with a fire-retardant barrier',
+    'Fire extinguisher of the correct class at the work face before the first spark',
+    'Competent fire watch throughout the task and for at least 30 minutes after it finishes, with an alarm device',
+    'Screen the area so sparks and hot debris cannot migrate, including through floor openings']},
+  {c:'FIR-02',n:'Hot surfaces, slag and hot cutting',ctl:[
+    'Contain and quench hot slag; check lower levels and voids before leaving the area',
+    'Allow cut material to cool or quench it before handling']},
+  {c:'FIR-03',n:'Compressed gas cylinders',ctl:[
+    'Cylinders upright, secured and outside the immediate work area, with flashback arrestors on both lines',
+    'Leak-test with soap solution; no oil or grease on fittings; close valves and remove cylinders at the end of the shift']}
+ ]},
+ {cat:'Height & dropped objects',code:'HGT',dot:'var(--r-med)',items:[
+  {c:'HGT-01',n:'Fall from height',ctl:[
+    'Avoid the work at height where the task can be done from the ground',
+    'Collective protection first — guard rails, platforms or a MEWP — before restraint, and arrest last',
+    'Anchorage above shoulder height, rated and identified; harness inspected before use',
+    'Rescue plan and equipment in place before anyone goes up; never work at height alone']},
+  {c:'HGT-02',n:'Dropped objects',ctl:[
+    'Hard barricade an exclusion zone beneath the work on every accessible level and label the hazard',
+    'Tool tethers, toe boards and debris netting; no material stored at an open edge',
+    'Carry loose items in a closed bag or box, never in hand on a ladder']},
+  {c:'HGT-03',n:'Unstable access or scaffold',ctl:[
+    'Scaffold erected, altered and dismantled by competent persons and tagged current before use',
+    'Inspect access equipment before each shift and after any alteration or bad weather',
+    'Ladders secured, at the correct angle, for access only — not as a work platform']}
+ ]},
+ {cat:'Ground & entry',code:'GND',dot:'#7C5CD6',items:[
+  {c:'GND-01',n:'Excavation collapse',ctl:[
+    'At 1.2 m and deeper, batter, bench or shore to a design suited to the soil',
+    'Competent-person inspection before each shift and after rain or vibration',
+    'Spoil, plant and materials kept at least 1 m back from the edge; ladder access within 8 m of any worker']},
+  {c:'GND-02',n:'Buried and live services',ctl:[
+    'Drawings plus a cable locator sweep, then hand-dig trial holes to prove the service',
+    'No mechanical digging until the permit records the utility clearance; treat every service as live until proven dead']},
+  {c:'GND-03',n:'Engulfment or entrapment on entry',ctl:[
+    'Positively isolate every inlet — lock, tag and prove — and drain and clean before entry',
+    'Trained standby person at the entry point throughout, with an entry log and rigged retrieval equipment',
+    'Nobody enters to rescue without equipment and training']}
+ ]}
+];
+const GAS_SUBS=[
+  {id:'o2',  n:'Oxygen (O₂)',              unit:'%',   min:19.5, max:23.5, crit:'19.5 – 23.5 %'},
+  {id:'lel', n:'Flammables (LEL)',         unit:'%',   min:0,    max:0,    crit:'0 % for hot work and entry'},
+  {id:'co',  n:'Carbon monoxide (CO)',     unit:'ppm', min:0,    max:24.9, crit:'below 25 ppm'},
+  {id:'h2s', n:'Hydrogen sulphide (H₂S)',  unit:'ppm', min:0,    max:4.9,  crit:'below 5 ppm'}
+];
+const LMRA_Q=[
+  'Has the issuer discussed the hazards and controls with the permit holder?',
+  'Has the permit holder warned everyone who may be affected by this work?',
+  'Is there conflicting work that may affect you? (describe it below if yes)',
+  'Does the work party know the alarm and the action required on an alarm?',
+  'Does the work party know the escape route and the nearest muster point?',
+  'Does the work party know where the eyewash, shower, first-aid kit and AED are?'
+];
+const LSR_LIST=['Work authorisation','Bypassing safety controls','Confined space','Driving','Energy isolation','Hot work','Line of fire','Safe mechanical lifting','Working at height'];
+const PICTO=[{n:'Electrical',c:'var(--r-high)'},{n:'Fire & explosion',c:'var(--r-crit)'},{n:'Height',c:'var(--r-med)'},
+             {n:'Motion',c:'#8A6A3B'},{n:'People',c:'var(--mandatory,#1F6FB2)'},{n:'Toxics',c:'#7C5CD6'}];
+
+/* extra checklists for the permit types the engine now covers */
+Object.assign(PERMIT_CHECKS,{
+  confined:{title:'Confined space entry',dot:'#7C5CD6',items:[
+    'Space positively isolated — every inlet locked, tagged and proved; contents drained and cleaned',
+    'Atmosphere tested at all levels including the bottom, and results recorded on this permit',
+    'Forced ventilation established and maintained for the duration of the entry',
+    'Trained standby person stationed at the entry point with an entry/exit log',
+    'Retrieval equipment rigged and rescue arrangements briefed before the first entry',
+    'Intrinsically safe lighting and equipment only; no petrol or diesel plant near the opening',
+    'Entrants briefed on the escape signal and the maximum stay time'
+  ]},
+  excavation:{title:'Excavation',dot:'#8A6A3B',items:[
+    'Utility drawings reviewed and a cable locator sweep completed; trial holes hand-dug',
+    'Collapse protection designed for the soil where the depth reaches 1.2 m',
+    'Competent-person inspection completed for this shift and after any rain or vibration',
+    'Full perimeter hard-barricaded with signage; stop blocks provided for plant',
+    'Spoil, plant and materials kept at least 1 m back from the edge',
+    'Ladder or ramp access within 8 m of every person working in the excavation',
+    'Dewatering arrangement available in case of water ingress'
+  ]},
+  lifting:{title:'Lifting operation',dot:'var(--mandatory,#1F6FB2)',items:[
+    'Lift plan prepared and approved by a competent person; load weight confirmed',
+    'Crane and tackle certificates valid; tackle inspected and within its safe working load',
+    'Ground bearing assessed, mats provided and outriggers fully extended',
+    'Swing path surveyed for overhead lines, structures and other work',
+    'Exclusion zone established; tag lines provided; nobody beneath the load',
+    'Appointed person, trained slinger and signaller nominated with one agreed signal set',
+    'Wind limit for the lift defined and monitored'
+  ]},
+  electrical:{title:'Electrical / isolation',dot:'var(--r-high)',items:[
+    'Isolation certificate raised; points locked, tagged and proved dead at the point of work',
+    'Stored energy released — capacitors, drives, springs, pressure and gravity',
+    'Only authorised competent persons carry out the work or any modification',
+    'Arc-flash boundary established and arc-rated PPE worn inside it',
+    'Temporary supplies on RCD protection with undamaged, IP-rated leads',
+    'Test instruments in calibration and rated for the circuit',
+    'Return-to-service check and de-isolation sequence agreed before energising'
+  ]}
+});
+const PPE_EXTRA=['Cut-resistant gloves','Rubber gloves','High-visibility vest','Dust mask / respirator','Shoulder pads','Arc-rated clothing'];
+PPE_LIST=PPE_LIST.concat(PPE_EXTRA);
+
+/* ---------------- model ---------------- */
+const defaultPermit=()=>({
+  header:{permitNo:'',title:'',desc:'',waste:'',workOrder:''},
+  type:'general', types:{}, risk:'Medium',
+  valid:{lifeFrom:'',lifeTo:'',dayFrom:'',dayTo:'',reissue:''},
+  loc:{site:'',areaAuth:'',locations:'',areaClass:'',hazSub:''},
+  party:{performer:'',company:'',persons:'',discipline:'',equipment:'',tools:'',recovery:''},
+  iso:{icc:'',tra:'',simops:'',initialGas:false,contGas:false},
+  emg:{muster:'',comms:'',ecc:''},
+  checks:{}, ppe:{}, ppeExtra:'',
+  haz:{}, gas:{log:[]},
+  lmra:{q:{},lsr:{},picto:{},extraH:'',extraC:'',attend:''},
+  sigs:[], status:'Draft',
+  audit:{all:true,custom:''}
+});
+function migratePermit(p){
+  const d=defaultPermit();
+  if(!p||typeof p!=='object')return d;
+  /* carry anything recognisable across from the earlier structure */
+  const out=JSON.parse(JSON.stringify(d));
+  if(p.header){out.header.permitNo=p.header.permitNo||'';out.header.desc=p.header.description||p.header.desc||'';
+    out.loc.site=p.header.project||'';out.loc.locations=p.header.location||'';
+    out.party.company=p.header.contractor||'';out.party.persons=p.header.persons||'';
+    out.party.discipline=p.header.department||'';out.valid.lifeFrom=p.header.date||'';}
+  if(p.types)out.types=Object.assign({},p.types);
+  if(p.types&&p.types.hot)out.type='hot'; else if(p.types&&p.types.height)out.type='height';
+  else if(p.types&&p.types.demolition)out.type='demolition';
+  if(p.checks)out.checks=p.checks;
+  if(p.ppe)out.ppe=p.ppe;
+  out.ppeExtra=p.ppeExtra||'';
+  if(p.refs){out.iso.tra=p.refs.tra||'';out.iso.icc=p.refs.icc||'';out.iso.simops=p.refs.simops||'';}
+  if(p.gas&&!Array.isArray(p.gas.log)){
+    const t=p.gas.time||'',by=p.gas.by||'';
+    ['o2','lel','co','h2s'].forEach(k=>{if(p.gas[k])out.gas.log.push({d:new Date().toISOString().slice(0,10),t:t,sub:k,val:p.gas[k],by:by,rem:''});});
+  } else if(p.gas&&Array.isArray(p.gas.log))out.gas.log=p.gas.log;
+  if(p.audit)out.audit=p.audit;
+  if(p.status&&PERMIT_STATUSES.includes(p.status))out.status=p.status;
+  else if(p.status==='Approved')out.status='Authorised';
+  else if(p.status==='Assessed')out.status='Verified';
+  if(Array.isArray(p.sigs))out.sigs=p.sigs;
+  if(p.haz)out.haz=p.haz;
+  if(p.lmra)out.lmra=Object.assign(out.lmra,p.lmra);
+  if(p.valid)out.valid=Object.assign(out.valid,p.valid);
+  if(p.loc)out.loc=Object.assign(out.loc,p.loc);
+  if(p.party)out.party=Object.assign(out.party,p.party);
+  if(p.iso)out.iso=Object.assign(out.iso,p.iso);
+  if(p.emg)out.emg=Object.assign(out.emg,p.emg);
+  if(p.type)out.type=p.type;
+  if(p.risk)out.risk=p.risk;
+  if(p.header&&p.header.title)out.header.title=p.header.title;
+  return out;
+}
+state.permit=migratePermit(JSON.parse(store.get('guardian.permit')||'null'));
+function persistPermit(){store.set('guardian.permit',JSON.stringify(state.permit))}
+
+function activeSections(){
+  const p=state.permit,out=['general'];
+  if(p.type&&p.type!=='general'&&PERMIT_CHECKS[p.type])out.push(p.type);
+  Object.keys(p.types||{}).forEach(k=>{if(p.types[k]&&PERMIT_CHECKS[k]&&!out.includes(k))out.push(k);});
+  return out;
+}
+function permitTypeLabel(){const t=PERMIT_TYPES.find(x=>x.id===state.permit.type);return t?t.t:'General work';}
+
+/* ---------------- generic binding ---------------- */
+function pget(path){return path.split('.').reduce((o,k)=>(o==null?o:o[k]),state.permit)}
+function pset(path,v){const ks=path.split('.'),last=ks.pop();let o=state.permit;
+  ks.forEach(k=>{if(o[k]==null)o[k]={};o=o[k];});o[last]=v;persistPermit();}
+const F=(label,bind,o={})=>'<div class="fld'+(o.full?' full':'')+'"><label>'+label+'</label>'+
+  (o.sel?'<select data-bind="'+bind+'">'+o.sel.map(x=>'<option value="'+esc(x)+'">'+esc(x||'—')+'</option>').join('')+'</select>'
+   :o.ta?'<textarea data-bind="'+bind+'" placeholder="'+esc(o.ph||'')+'" style="min-height:'+(o.h||76)+'px"></textarea>'
+   :'<input data-bind="'+bind+'" type="'+(o.type||'text')+'" placeholder="'+esc(o.ph||'')+'" />')+'</div>';
+function bindFields(root){
+  root.querySelectorAll('[data-bind]').forEach(inp=>{
+    const p=inp.dataset.bind;
+    if(inp.type==='checkbox'){inp.checked=!!pget(p);inp.onchange=()=>{pset(p,inp.checked);afterPermitEdit(p);};}
+    else{inp.value=pget(p)==null?'':pget(p);
+      const h=()=>{pset(p,inp.value);afterPermitEdit(p);};
+      inp.oninput=h;inp.onchange=h;}
+  });
+}
+function afterPermitEdit(path){
+  if(path==='type'||path==='risk'){renderIdent();renderTypeChips();renderChecks();renderGas();}
+  updatePermitMeta();
+}
+
+/* ---------------- sections ---------------- */
+function renderIdent(){
+  const el=$('#pkIdent');
+  el.innerHTML='<div class="grid2">'
+    +F('Permit number','header.permitNo',{ph:'e.g. PTW-2026-0248'})
+    +F('Work order / reference','header.workOrder',{ph:'optional'})
+    +F('Permit type','type',{sel:PERMIT_TYPES.map(t=>t.id)})
+    +F('Assessed risk level','risk',{sel:RISK_LEVELS.map(r=>r.id)})
+    +F('Title of work','header.title',{full:true,ph:'e.g. Rebar cutting and pavers cutting, Zone 2'})
+    +F('Description of work','header.desc',{full:true,ta:true,h:96,ph:'Number the activities, one per line, in the order they will be carried out.'})
+    +F('Expected waste','header.waste',{full:true,ph:'e.g. rebar offcuts, concrete debris'})
+    +'</div>';
+  /* the select shows ids; relabel the options for readability */
+  const ts=el.querySelector('[data-bind="type"]');
+  if(ts)[...ts.options].forEach(o=>{const t=PERMIT_TYPES.find(x=>x.id===o.value);if(t)o.textContent=t.t;});
+  bindFields(el);
+  const rl=RISK_LEVELS.find(r=>r.id===state.permit.risk)||RISK_LEVELS[1];
+  $('#pAuthNote').innerHTML='<b>'+esc(permitTypeLabel())+' — '+esc(rl.id)+' risk.</b> '+esc(rl.note)+' Authorisation required from: <b>'+esc(rl.auth)+'</b>.';
+  $('#pIdentBadge').textContent=state.permit.header.permitNo||'unnumbered';
+}
+function renderValid(){
+  const el=$('#pkValid');
+  el.innerHTML='<div class="grid2">'
+    +F('Lifetime from','valid.lifeFrom',{type:'date'})
+    +F('Lifetime expires','valid.lifeTo',{type:'date'})
+    +F('Valid today from','valid.dayFrom',{type:'time'})
+    +F('Valid today until','valid.dayTo',{type:'time'})
+    +F('Expected re-issue date','valid.reissue',{type:'date'})
+    +'</div>';
+  bindFields(el);
+}
+function renderLoc(){
+  const el=$('#pkLoc');
+  el.innerHTML='<div class="grid2">'
+    +F('Site','loc.site',{ph:'e.g. Bengaluru Metro — Package 3'})
+    +F('Area authorisation','loc.areaAuth',{ph:'area owner or asset code'})
+    +F('Work locations','loc.locations',{full:true,ta:true,h:70,ph:'One location per line — the permit is valid only in the locations listed.'})
+    +F('Hazardous area classification','loc.areaClass',{ph:'e.g. hazard free — no flammable material in area'})
+    +F('Hazardous substances present','loc.hazSub',{ph:'e.g. shuttering oil, anchoring chemical'})
+    +'</div>';
+  bindFields(el);
+}
+function renderParty(){
+  const el=$('#pkParty');
+  el.innerHTML='<div class="grid2">'
+    +F('Work performer','party.performer',{ph:'crew or team name'})
+    +F('Company','party.company',{ph:'contractor'})
+    +F('Expected number of people','party.persons',{ph:'e.g. 10'})
+    +F('Lead discipline','party.discipline',{ph:'e.g. projects, civil, electrical'})
+    +F('Vehicles, plant and equipment','party.equipment',{full:true,ta:true,h:66,ph:'e.g. tractor, water tanker, transit mixer, cutting machine, drilling machine'})
+    +F('Hand tools','party.tools',{full:true,ta:true,h:66,ph:'e.g. hammer, spade, crow bar, hack saw, rebar cutter, cutting plier'})
+    +F('Recovery measures at the work face','party.recovery',{full:true,ph:'e.g. fire extinguisher, fire watcher, apron, gas detector'})
+    +'</div>';
+  bindFields(el);
+}
+function renderIso(){
+  const el=$('#pkIso');
+  el.innerHTML='<div class="grid2">'
+    +F('Isolation certificate (ICC)','iso.icc',{ph:'reference, or "none required"'})
+    +F('Task risk assessment (TRA/JSA) reference','iso.tra',{ph:'e.g. RA-2026-014'})
+    +F('Influence of nearby activities (SIMOPS)','iso.simops',{full:true,ph:'What else is running nearby, and how the interface is controlled'})
+    +'</div>'
+    +'<label class="lp-toggle" style="margin-top:10px"><span>Initial gas test by an authorised person required</span>'
+    +'<input type="checkbox" data-bind="iso.initialGas" style="width:18px;height:18px;accent-color:var(--accent)"></label>'
+    +'<label class="lp-toggle" style="margin-top:8px"><span>Continuous gas monitoring required</span>'
+    +'<input type="checkbox" data-bind="iso.contGas" style="width:18px;height:18px;accent-color:var(--accent)"></label>'
+    +'<div class="grid2" style="margin-top:12px">'
+    +F('Muster point','emg.muster',{ph:'e.g. assembly point 2'})
+    +F('Communication method','emg.comms',{ph:'e.g. mobile and verbal'})
+    +F('Emergency control centre number','emg.ecc',{full:true,ph:'site emergency number'})
+    +'</div>';
+  bindFields(el);
+}
+function renderTypeChips(){
+  const wrap=$('#typeChips');wrap.innerHTML='';
+  PERMIT_TYPES.filter(t=>t.id!=='general').forEach(t=>{
+    const primary=state.permit.type===t.id;
+    const extra=!!state.permit.types[t.id];
+    const b=document.createElement('button');
+    b.className='chip'+(primary||extra?' on':'');
+    b.innerHTML='<span class="tagdot" style="background:'+t.dot+'"></span>'+t.t+(primary?' · primary':'');
+    b.onclick=()=>{
+      if(primary)return;                       /* the primary type is set in identification */
+      state.permit.types[t.id]=!extra;persistPermit();
+      renderTypeChips();renderChecks();renderGas();updatePermitMeta();
+    };
+    if(primary)b.title='Primary permit type — change it in Permit identification';
+    wrap.appendChild(b);
+  });
+}
+function renderChecks(){
+  const area=$('#checkArea');area.innerHTML='';
+  activeSections().forEach(sec=>{
+    const S=PERMIT_CHECKS[sec];if(!S)return;
+    const card=document.createElement('div');card.className='pcard';
+    const h=document.createElement('h3');
+    h.innerHTML='<span class="tagdot" style="background:'+S.dot+'"></span>'+S.title+' <span class="sec-prog" id="sp_'+sec+'"></span>';
+    card.appendChild(h);
+    S.items.forEach((item,i)=>{
+      const key=sec+'.'+i,cur=state.permit.checks[key]||'';
+      const row=document.createElement('div');row.className='check';
+      row.innerHTML='<span class="ctxt">'+esc(item)+'</span><span class="tri">'
+        +['Y','N','NA'].map(v=>'<button data-v="'+v+'"'+(cur===v?' class="on"':'')+'>'+(v==='Y'?'Yes':v==='N'?'No':'N/A')+'</button>').join('')+'</span>';
+      row.querySelectorAll('.tri button').forEach(b=>b.onclick=()=>{
+        state.permit.checks[key]=b.dataset.v;persistPermit();renderChecks();updatePermitMeta();});
+      card.appendChild(row);
+    });
+    area.appendChild(card);
+  });
+  updatePermitMeta();
+}
+function renderPPE(){
+  const g=$('#ppeGrid');g.innerHTML='';
+  PPE_LIST.forEach(n=>{
+    const on=!!state.permit.ppe[n];
+    const b=document.createElement('button');b.className='ppe'+(on?' on':'');b.textContent=n;
+    b.onclick=()=>{state.permit.ppe[n]=!on;persistPermit();renderPPE();updatePermitMeta();};
+    g.appendChild(b);
+  });
+}
+
+/* ---------------- hazard register (the engine) ---------------- */
+function hazState(code){
+  if(!state.permit.haz[code])state.permit.haz[code]={on:false,c:{},extra:'',party:'Permit Holder'};
+  return state.permit.haz[code];
+}
+function hazSelected(){
+  const out=[];
+  HAZ_REG.forEach(g=>g.items.forEach(it=>{const h=state.permit.haz[it.c];if(h&&h.on)out.push({g:g,it:it,h:h});}));
+  return out;
+}
+function hazControlCount(){
+  let n=0;hazSelected().forEach(x=>{x.it.ctl.forEach((_,i)=>{if(x.h.c[i])n++;});if((x.h.extra||'').trim())n++;});
+  return n;
+}
+function renderHaz(){
+  const box=$('#pkHaz');box.innerHTML='';
+  HAZ_REG.forEach(g=>{
+    const sel=g.items.filter(it=>(state.permit.haz[it.c]||{}).on).length;
+    const d=document.createElement('details');d.className='hazgrp';d.open=sel>0;
+    d.innerHTML='<summary><span class="tagdot" style="background:'+g.dot+'"></span><b>'+g.cat+'</b>'
+      +'<span class="hazcode">'+g.code+'</span>'
+      +'<span class="hazsel">'+(sel?sel+' selected':'none')+'</span></summary>';
+    const body=document.createElement('div');body.className='hazbody';
+    g.items.forEach(it=>{
+      const h=hazState(it.c);
+      const row=document.createElement('div');row.className='hazitem'+(h.on?' on':'');
+      row.innerHTML='<button class="hazpick" type="button"><span class="hazcode">'+it.c+'</span>'+esc(it.n)+'</button>';
+      if(h.on){
+        const ctl=document.createElement('div');ctl.className='hazctl';
+        ctl.innerHTML=it.ctl.map((c,i)=>'<label class="ctlrow"><input type="checkbox" data-i="'+i+'"'+(h.c[i]?' checked':'')+'><span>'+esc(c)+'</span></label>').join('')
+          +'<div class="fld" style="margin-top:8px"><label>Additional control for this hazard</label><input class="hazextra" value="'+esc(h.extra||'')+'" placeholder="site-specific control"></div>'
+          +'<div class="fld" style="margin-top:8px"><label>Action party</label><input class="hazparty" value="'+esc(h.party||'Permit Holder')+'"></div>';
+        ctl.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.onchange=()=>{h.c[cb.dataset.i]=cb.checked;persistPermit();updatePermitMeta();});
+        ctl.querySelector('.hazextra').oninput=e=>{h.extra=e.target.value;persistPermit();};
+        ctl.querySelector('.hazparty').oninput=e=>{h.party=e.target.value;persistPermit();};
+        row.appendChild(ctl);
+      }
+      row.querySelector('.hazpick').onclick=()=>{
+        h.on=!h.on;
+        if(h.on)it.ctl.forEach((_,i)=>{if(h.c[i]===undefined)h.c[i]=true;});   /* default: all controls in force */
+        persistPermit();renderHaz();updatePermitMeta();
+      };
+      body.appendChild(row);
+    });
+    d.appendChild(body);box.appendChild(d);
+  });
+  const n=hazSelected().length;
+  $('#hazCount').textContent=n?n+' hazards · '+hazControlCount()+' controls':'none selected';
+}
+function suggestHazards(){
+  /* the permit type and the checklists imply a baseline set */
+  const map={hot:['FIR-01','FIR-02','FIR-03','MOV-03','SUB-01','PPL-02'],
+    height:['HGT-01','HGT-02','HGT-03','PPL-05','MOV-08'],
+    confined:['GND-03','SUB-03','ELE-03','PPL-03'],
+    excavation:['GND-01','GND-02','MOV-08','PPL-05'],
+    lifting:['MOV-10','PPL-02','PPL-05','MOV-05'],
+    electrical:['ELE-01','ELE-02','ELE-03','PPL-02'],
+    demolition:['HGT-02','SUB-01','PPL-06','MOV-04','FIR-01'],
+    general:['PPL-01','PPL-02','PPL-03','MOV-08','MOV-02']};
+  const want=new Set(['PPL-01','PPL-02','PPL-03']);
+  activeSections().forEach(s=>(map[s]||[]).forEach(c=>want.add(c)));
+  let added=0;
+  HAZ_REG.forEach(g=>g.items.forEach(it=>{
+    if(want.has(it.c)){const h=hazState(it.c);if(!h.on){h.on=true;it.ctl.forEach((_,i)=>h.c[i]=true);added++;}}
+  }));
+  persistPermit();renderHaz();updatePermitMeta();
+  return added;
+}
+
+/* ---------------- gas testing ---------------- */
+function gasVerdict(subId,val){
+  const s=GAS_SUBS.find(x=>x.id===subId);if(!s)return null;
+  const v=parseFloat(val);if(isNaN(v))return null;
+  return (v>=s.min&&v<=s.max)?'pass':'fail';
+}
+function gasNeeded(){
+  const p=state.permit;
+  return p.iso.initialGas||p.iso.contGas||p.type==='hot'||p.type==='confined'||!!p.types.hot||!!p.types.confined;
+}
+function gasLatest(){
+  const out={};
+  (state.permit.gas.log||[]).forEach(r=>{out[r.sub]=r;});   /* the log is appended, so the last wins */
+  return out;
+}
+function renderGas(){
+  const box=$('#pkGas');
+  const need=gasNeeded();
+  let html='<div class="gastab"><div class="gashead"><span>Substance</span><span>Acceptance</span><span>Latest</span><span>Result</span></div>';
+  const latest=gasLatest();
+  GAS_SUBS.forEach(s=>{
+    const r=latest[s.id],v=r?r.val:'',verd=r?gasVerdict(s.id,r.val):null;
+    html+='<div class="gasrow2"><span>'+s.n+'</span><span class="mono2">'+s.crit+'</span>'
+      +'<span class="mono2">'+(v!==''?esc(v)+' '+s.unit:'—')+'</span>'
+      +'<span>'+(verd?'<b class="gv '+verd+'">'+(verd==='pass'?'Pass':'Out of limits')+'</b>':'<span class="gv none">not tested</span>')+'</span></div>';
+  });
+  html+='</div>';
+  html+='<div class="grid2" style="margin-top:14px">'
+    +'<div class="fld"><label>Substance</label><select id="gs_sub">'+GAS_SUBS.map(s=>'<option value="'+s.id+'">'+s.n+'</option>').join('')+'</select></div>'
+    +'<div class="fld"><label>Reading</label><input id="gs_val" inputmode="decimal" placeholder="value"></div>'
+    +'<div class="fld"><label>Time</label><input id="gs_time" type="time"></div>'
+    +'<div class="fld"><label>Tested by (authorised gas tester)</label><input id="gs_by" placeholder="name"></div>'
+    +'<div class="fld full"><label>Remarks</label><input id="gs_rem" placeholder="optional"></div>'
+    +'</div>'
+    +'<button class="pbtn" id="gs_add" style="width:100%;justify-content:center;margin-top:10px">Record reading</button>';
+  const log=(state.permit.gas.log||[]).slice().reverse();
+  html+='<div style="margin-top:14px">'+(log.length
+    ? '<table class="mini-table"><tr><th>Date</th><th>Time</th><th>Substance</th><th>Value</th><th>Result</th><th>Tested by</th><th></th></tr>'
+      +log.map((r,idx)=>{const s=GAS_SUBS.find(x=>x.id===r.sub)||{n:r.sub,unit:''};const v=gasVerdict(r.sub,r.val);
+        return '<tr><td>'+esc(r.d)+'</td><td>'+esc(r.t||'—')+'</td><td>'+esc(s.n)+'</td><td>'+esc(r.val)+' '+s.unit+'</td>'
+          +'<td>'+(v?'<b class="gv '+v+'">'+(v==='pass'?'Pass':'Fail')+'</b>':'—')+'</td><td>'+esc(r.by||'—')+'</td>'
+          +'<td><button class="doc-btn" data-del="'+(log.length-1-idx)+'">✕</button></td></tr>';}).join('')
+      +'</table>'
+    : '<div style="font-size:12px;color:var(--text-3)">No readings recorded.'+(need?' This permit requires a gas test before work starts.':'')+'</div>')
+    +'</div>';
+  if(need)html+='<div class="doc-note">Readings expire. Record the time and the tester for every test, and repeat at the frequency stated on the permit and after every break.</div>';
+  box.innerHTML=html;
+  $('#gs_add').onclick=()=>{
+    const val=$('#gs_val').value.trim();
+    if(val===''){alert('Enter the reading.');return;}
+    state.permit.gas.log.push({d:new Date().toISOString().slice(0,10),t:$('#gs_time').value,
+      sub:$('#gs_sub').value,val:val,by:$('#gs_by').value.trim(),rem:$('#gs_rem').value.trim()});
+    persistPermit();renderGas();updatePermitMeta();
+  };
+  box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    state.permit.gas.log.splice(+b.dataset.del,1);persistPermit();renderGas();updatePermitMeta();});
+  const anyFail=Object.values(gasLatest()).some(r=>gasVerdict(r.sub,r.val)==='fail');
+  $('#gasBadge').textContent=anyFail?'out of limits':(Object.keys(gasLatest()).length?'within limits':(need?'required':'not required'));
+  $('#gasBadge').className='sec-prog'+(anyFail?'':(Object.keys(gasLatest()).length?' full':''));
+}
+
+/* ---------------- worksite record (LMRA) ---------------- */
+function renderLmra(){
+  const el=$('#pkLmra'),L=state.permit.lmra;
+  let html='<div class="lmraq">';
+  LMRA_Q.forEach((q,i)=>{
+    const cur=L.q[i]||'';
+    html+='<div class="check"><span class="ctxt">'+esc(q)+'</span><span class="tri">'
+      +['Y','NA'].map(v=>'<button data-q="'+i+'" data-v="'+v+'"'+(cur===v?' class="on"':'')+'>'+(v==='Y'?'Yes':'N/A')+'</button>').join('')
+      +'</span></div>';
+  });
+  html+='</div>';
+  html+='<div class="lsrwrap"><div class="lsrhead">Life-saving rules that apply</div><div class="lsrgrid">'
+    +LSR_LIST.map(r=>'<button class="lsr'+(L.lsr[r]?' on':'')+'" data-lsr="'+esc(r)+'">'+esc(r)+'</button>').join('')+'</div></div>';
+  html+='<div class="lsrwrap"><div class="lsrhead">Key hazards to display at the worksite</div><div class="lsrgrid">'
+    +PICTO.map(p=>'<button class="lsr'+(L.picto[p.n]?' on':'')+'" data-pic="'+esc(p.n)+'" style="'+(L.picto[p.n]?'border-color:'+p.c+';color:'+p.c:'')+'">'+esc(p.n)+'</button>').join('')+'</div></div>';
+  html+='<div class="grid2" style="margin-top:14px">'
+    +F('Additional hazards found at the work front','lmra.extraH',{full:true,ta:true,h:64,ph:'Anything the assessment did not cover — a material change means the permit issuer must be told.'})
+    +F('Controls agreed for them','lmra.extraC',{full:true,ta:true,h:64})
+    +F('Work party present (names)','lmra.attend',{full:true,ta:true,h:64,ph:'One name per line — everyone who took part in the last-minute risk assessment.'})
+    +'</div>';
+  el.innerHTML=html;
+  bindFields(el);
+  el.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{L.q[b.dataset.q]=b.dataset.v;persistPermit();renderLmra();updatePermitMeta();});
+  el.querySelectorAll('[data-lsr]').forEach(b=>b.onclick=()=>{L.lsr[b.dataset.lsr]=!L.lsr[b.dataset.lsr];persistPermit();renderLmra();});
+  el.querySelectorAll('[data-pic]').forEach(b=>b.onclick=()=>{L.picto[b.dataset.pic]=!L.picto[b.dataset.pic];persistPermit();renderLmra();});
+}
+
+/* ---------------- workflow & signatures ---------------- */
+function renderStatusBar(){
+  const bar=$('#statusBar');if(!bar)return;
+  bar.innerHTML='';
+  const cur=PERMIT_STATUSES.indexOf(state.permit.status||'Draft');
+  PERMIT_STATUSES.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='st'+(i<cur?' done':'')+(i===cur?' cur':'');
+    b.innerHTML='<span class="sn">'+(i+1)+'</span>'+s;
+    b.title='Status changes when the corresponding signature is recorded';
+    bar.appendChild(b);
+  });
+}
+function renderSigs(){
+  const el=$('#pkSigs'),p=state.permit;
+  const step=SIG_FLOW[p.status];
+  let html='';
+  if(step){
+    const role=step.role==='Permit Authoriser'
+      ? (RISK_LEVELS.find(r=>r.id===p.risk)||RISK_LEVELS[1]).auth : step.role;
+    html+='<div class="signow"><div class="signow-h"><b>Next signature — '+esc(role)+'</b>'
+      +'<span>'+esc(step.act)+' moves this permit to <b>'+esc(step.to)+'</b>.</span></div>'
+      +'<div class="grid2">'
+      +'<div class="fld"><label>Name</label><input id="sg_name" placeholder="who is signing"></div>'
+      +'<div class="fld"><label>Company / department</label><input id="sg_co" placeholder="e.g. site EHS"></div>'
+      +'<div class="fld full"><label>Remarks</label><input id="sg_rem" placeholder="optional"></div>'
+      +'</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'
+      +'<button class="pbtn primary" id="sg_do">'+esc(step.act)+' &amp; sign</button>'
+      +(p.status==='Active'||p.status==='Suspended'?'<button class="pbtn" id="sg_close">Close permit</button>':'')
+      +(p.status!=='Draft'?'<button class="pbtn" id="sg_back">Return to draft</button>':'')
+      +'</div></div>';
+  } else {
+    html+='<div class="signow"><div class="signow-h"><b>Permit closed</b><span>No further signatures. Reopen only by raising a new permit.</span></div>'
+      +'<button class="pbtn" id="sg_back">Return to draft</button></div>';
+  }
+  const sigs=(p.sigs||[]).slice().reverse();
+  html+='<div style="margin-top:14px">'+(sigs.length
+    ? '<table class="mini-table"><tr><th>Action</th><th>Role</th><th>Name</th><th>Company</th><th>When</th><th>Remarks</th></tr>'
+      +sigs.map(s=>'<tr><td>'+esc(s.act)+'</td><td>'+esc(s.role)+'</td><td>'+esc(s.name||'—')+'</td><td>'+esc(s.company||'—')+'</td>'
+        +'<td>'+new Date(s.at).toLocaleString()+'</td><td>'+esc(s.rem||'')
+        +(s.dev?'<br><span class="mono2" style="font-size:10px">device '+esc(s.dev)+(s.devClass?' · '+esc(s.devClass):'')+'</span>':'')
+        +'</td></tr>').join('')+'</table>'
+    : '<div style="font-size:12px;color:var(--text-3)">No signatures yet. The permit cannot be issued until it has been requested, verified and authorised.</div>')
+    +'</div>';
+  el.innerHTML=html;
+  const sign=(act,role,to)=>{
+    const name=($('#sg_name')||{}).value||'',co=($('#sg_co')||{}).value||'',rem=($('#sg_rem')||{}).value||'';
+    if(!name.trim()){alert('Enter the name of the person signing.');return;}
+    p.sigs.push({act:act,role:role,name:name.trim(),company:co.trim(),rem:rem.trim(),
+      at:new Date().toISOString(),dev:(typeof DEVICE!=='undefined'?DEVICE.shortId():''),
+      devClass:(typeof DEVICE!=='undefined'?DEVICE.klass():'')});
+    p.status=to;persistPermit();renderStatusBar();renderSigs();updatePermitMeta();
+  };
+  const go=$('#sg_do');
+  if(go)go.onclick=()=>{
+    const role=step.role==='Permit Authoriser'?(RISK_LEVELS.find(r=>r.id===p.risk)||RISK_LEVELS[1]).auth:step.role;
+    if(step.to==='Issued'||step.to==='Active'){
+      const b=permitBlockers();
+      if(b.length&&!confirm('This permit has '+b.length+' open blocker(s):\n\n• '+b.slice(0,4).join('\n• ')+'\n\nSign anyway?'))return;
+    }
+    sign(step.act,role,step.to);
+  };
+  const cl=$('#sg_close');if(cl)cl.onclick=()=>{if(confirm('Close this permit? Work must have stopped and the area been made safe.'))sign('Close','Permit Issuer','Closed');};
+  const bk=$('#sg_back');if(bk)bk.onclick=()=>{if(!confirm('Return this permit to draft? The signature history is kept.'))return;
+    p.sigs.push({act:'Returned to draft',role:'—',name:'—',company:'',rem:'',at:new Date().toISOString()});
+    p.status='Draft';persistPermit();renderStatusBar();renderSigs();updatePermitMeta();};
+}
+
+/* ---------------- assessment: blockers and conditions ---------------- */
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+function permitBlockers(){
+  const p=state.permit,B=[];
+  const secs=activeSections();
+  secs.forEach(sec=>PERMIT_CHECKS[sec].items.forEach((it,i)=>{
+    if(p.checks[sec+'.'+i]==='N')B.push('Control answered "No": '+it);}));
+  if(p.valid.lifeTo){const d=new Date(p.valid.lifeTo);if(!isNaN(d)&&d<today())B.push('Permit lifetime expired on '+p.valid.lifeTo);}
+  if(p.valid.dayTo&&['Issued','Active'].includes(p.status)){
+    const now=new Date(),hm=p.valid.dayTo.split(':');
+    if(hm.length===2){const end=new Date();end.setHours(+hm[0],+hm[1],0,0);
+      if(now>end)B.push('Daily validity ended at '+p.valid.dayTo+' — the permit must be re-issued and re-accepted');}
+  }
+  const latest=gasLatest();
+  GAS_SUBS.forEach(s=>{const r=latest[s.id];if(r&&gasVerdict(s.id,r.val)==='fail')
+    B.push(s.n+' reading '+r.val+' '+s.unit+' is outside the acceptance criteria ('+s.crit+')');});
+  if(gasNeeded()&&!Object.keys(latest).length)B.push('Gas test required for this permit type but no reading has been recorded');
+  if((p.type==='confined'||p.types.confined)&&!(p.iso.icc||'').trim())
+    B.push('Confined space entry without an isolation certificate reference');
+  if((p.type==='electrical'||p.types.electrical)&&!(p.iso.icc||'').trim())
+    B.push('Electrical work without an isolation certificate reference');
+  if(p.risk==='High'&&!(p.iso.icc||'').trim()&&!/none/i.test(p.iso.icc||''))
+    B.push('High-risk permit without an isolation certificate reference (record "none required" if it genuinely does not apply)');
+  if(!hazSelected().length)B.push('No hazards selected — the permit has no risk assessment attached to it');
+  if(['Issued','Active'].includes(p.status)){
+    const acts=(p.sigs||[]).map(s=>s.act);
+    ['Request','Verify','Authorise'].forEach(a=>{if(!acts.includes(a))B.push('Permit is '+p.status+' but the "'+a+'" signature is missing');});
+  }
+  if(p.status==='Active'){
+    const missing=LMRA_Q.filter((_,i)=>!p.lmra.q[i]).length;
+    if(missing)B.push('Work is active but '+missing+' of the '+LMRA_Q.length+' worksite confirmations are unanswered');
+  }
+  return B;
+}
+function permitConditions(){
+  const p=state.permit,C=[],secs=activeSections();
+  let unanswered=0;
+  secs.forEach(sec=>PERMIT_CHECKS[sec].items.forEach((it,i)=>{if(!p.checks[sec+'.'+i])unanswered++;}));
+  if(unanswered)C.push(unanswered+' checklist item(s) unanswered');
+  if(!p.header.permitNo)C.push('No permit number');
+  if(!(p.header.title||'').trim())C.push('No title of work');
+  if(!(p.header.desc||'').trim())C.push('No description of work — the scope is what the permit actually authorises');
+  if(!(p.loc.locations||'').trim())C.push('No work locations listed');
+  if(!(p.party.persons||'').trim())C.push('Expected number of people not stated');
+  if(!(p.iso.tra||'').trim())C.push('No task risk assessment reference');
+  if(!(p.iso.simops||'').trim())C.push('Influence of nearby activities (SIMOPS) not recorded');
+  if(!(p.emg.muster||'').trim())C.push('No muster point recorded');
+  if(!(p.emg.ecc||'').trim())C.push('No emergency contact number recorded');
+  const on=n=>!!p.ppe[n];
+  if(!on('Safety helmet'))C.push('Safety helmet not selected');
+  if(!on('Safety shoes / gum boots'))C.push('Safety footwear not selected');
+  if((p.type==='hot'||p.types.hot)&&!on('Welding shield / leather apron'))C.push('Hot work — welding shield / leather apron not selected');
+  if((p.type==='hot'||p.types.hot)&&!on('Nose / face mask'))C.push('Hot work — respiratory protection not selected');
+  if((p.type==='height'||p.types.height)&&!on('Full-body harness'))C.push('Work at height — full-body harness not selected');
+  if((p.type==='demolition'||p.types.demolition)&&!on('Ear protection (plugs / muffs)'))C.push('Demolition — hearing protection not selected');
+  if(p.iso.contGas&&(p.gas.log||[]).length<2)C.push('Continuous monitoring required but only one set of readings exists');
+  if(p.valid.reissue){const d=new Date(p.valid.reissue);if(!isNaN(d)&&d<today())C.push('Expected re-issue date has passed');}
+  if(!(p.lmra.attend||'').trim())C.push('No work party names recorded on the worksite record');
+  if(typeof attPermit!=='undefined'&&attPermit.files&&!attPermit.files.length)
+    C.push('No attachments — a permit normally travels with its risk assessment, isolation certificate and drawings');
+  return C;
+}
+function permitVerdict(){
+  const b=permitBlockers().length,c=permitConditions().length;
+  return b?'DO NOT AUTHORISE':(c?'AUTHORISE WITH CONDITIONS':'AUTHORISE');
+}
+function updatePermitMeta(){
+  const p=state.permit;
+  let total=0,ans=0,no=0;
+  activeSections().forEach(sec=>{
+    let st=0,sa=0;
+    PERMIT_CHECKS[sec].items.forEach((_,i)=>{
+      total++;st++;const v=p.checks[sec+'.'+i];
+      if(v){ans++;sa++;}if(v==='N')no++;
+    });
+    const chip=$('#sp_'+sec);
+    if(chip){chip.textContent=sa+'/'+st;chip.className='sec-prog'+(sa===st?' full':'');}
+  });
+  const pct=total?Math.round(ans/total*100):0;
+  const v=permitVerdict();
+  const cls=v==='AUTHORISE'?'ok':(v==='DO NOT AUTHORISE'?'no':'cond');
+  const meta=$('#permitMeta');
+  if(meta)meta.innerHTML='<span class="meter"><i style="width:'+pct+'%"></i></span>'
+    +'<b>'+esc(permitTypeLabel())+' · '+esc(p.risk)+' risk · '+esc(p.status)+'</b> · '
+    +pct+'% complete · '+hazSelected().length+' hazards · '+no+' flagged "No" · '
+    +'<span class="verdict-chip '+cls+'">'+v+'</span>';
+  const hc=$('#hazCount');
+  if(hc)hc.textContent=hazSelected().length?hazSelected().length+' hazards · '+hazControlCount()+' controls':'none selected';
+}
+/* the old entry point: render every section */
+function renderPermitAudit(){
+  const at=$('#auditAll');if(!at)return;
+  const sync=()=>{at.classList.toggle('on',!!state.permit.audit.all);
+    $('#auditStdList').textContent=STANDARDS.filter(s=>state.standards[s.id]).map(s=>s.label.split('—').pop().trim()).join(', ')||'none selected';};
+  at.onclick=()=>{state.permit.audit.all=!state.permit.audit.all;persistPermit();sync();};
+  const ci=$('#p_auditCustom');
+  ci.value=state.permit.audit.custom||'';
+  ci.oninput=()=>{state.permit.audit.custom=ci.value;persistPermit();};
+  sync();
+}
+function bindHeader(){
+  renderIdent();renderValid();renderLoc();renderParty();renderIso();renderPermitAudit();
+  renderHaz();renderGas();renderLmra();renderStatusBar();renderSigs();
+  const box=$('#pkHaz');
+  if(box&&!$('#hazSuggest')){
+    const b=document.createElement('button');
+    b.className='pbtn';b.id='hazSuggest';b.style.cssText='width:100%;justify-content:center;margin-bottom:12px';
+    b.textContent='Suggest the hazards for this permit type';
+    b.onclick=()=>{const n=suggestHazards();b.textContent=n?'Added '+n+' hazard'+(n>1?'s':''):'Nothing further to add';
+      setTimeout(()=>b.textContent='Suggest the hazards for this permit type',1800);};
+    box.parentNode.insertBefore(b,box);
+  }
+}
+
+/* ---------------- serialise for the model ---------------- */
+function serializePermit(){
+  const p=state.permit,L=[];
+  L.push('PERMIT TO WORK — '+permitTypeLabel()+' — '+p.risk+' risk');
+  L.push('Permit no: '+(p.header.permitNo||'(unnumbered)')+' | Status: '+p.status);
+  L.push('Title: '+(p.header.title||'—'));
+  L.push('Description of work: '+(p.header.desc||'—').replace(/\n/g,' / '));
+  L.push('Expected waste: '+(p.header.waste||'—'));
+  L.push('Lifetime: '+(p.valid.lifeFrom||'—')+' to '+(p.valid.lifeTo||'—')+' | Valid today: '+(p.valid.dayFrom||'—')+'–'+(p.valid.dayTo||'—')+' | Expected re-issue: '+(p.valid.reissue||'—'));
+  L.push('Site: '+(p.loc.site||'—')+' | Area authorisation: '+(p.loc.areaAuth||'—')+' | Area classification: '+(p.loc.areaClass||'—'));
+  L.push('Work locations: '+(p.loc.locations||'—').replace(/\n/g,'; '));
+  L.push('Hazardous substances present: '+(p.loc.hazSub||'—'));
+  L.push('Work performer: '+(p.party.performer||'—')+' ('+(p.party.company||'—')+') | People: '+(p.party.persons||'—')+' | Lead discipline: '+(p.party.discipline||'—'));
+  L.push('Equipment: '+(p.party.equipment||'—').replace(/\n/g,'; '));
+  L.push('Tools: '+(p.party.tools||'—').replace(/\n/g,'; '));
+  L.push('Recovery measures: '+(p.party.recovery||'—'));
+  L.push('Isolation certificate: '+(p.iso.icc||'—')+' | TRA ref: '+(p.iso.tra||'—')+' | SIMOPS: '+(p.iso.simops||'—'));
+  L.push('Initial gas test required: '+(p.iso.initialGas?'yes':'no')+' | Continuous monitoring: '+(p.iso.contGas?'yes':'no'));
+  L.push('Emergency: muster '+(p.emg.muster||'—')+', communication '+(p.emg.comms||'—')+', control centre '+(p.emg.ecc||'—'));
+  L.push('');
+  activeSections().forEach(sec=>{
+    const S=PERMIT_CHECKS[sec];
+    L.push(S.title.toUpperCase()+':');
+    S.items.forEach((it,i)=>{const v=p.checks[sec+'.'+i];L.push('  ['+(v==='Y'?'Yes':v==='N'?'NO':v==='NA'?'N/A':'unanswered')+'] '+it);});
+    L.push('');
+  });
+  const ppe=PPE_LIST.filter(n=>p.ppe[n]);
+  L.push('PPE selected: '+(ppe.length?ppe.join(', '):'none')+(p.ppeExtra?'; additional: '+p.ppeExtra:''));
+  L.push('');
+  L.push('HAZARD REGISTER (selected hazards and the controls in force):');
+  const sel=hazSelected();
+  if(!sel.length)L.push('  none selected');
+  sel.forEach(x=>{
+    L.push('  '+x.it.c+' '+x.it.n+' ['+x.g.cat+'] — action party: '+(x.h.party||'Permit Holder'));
+    x.it.ctl.forEach((c,i)=>{if(x.h.c[i])L.push('      · '+c);});
+    if((x.h.extra||'').trim())L.push('      · '+x.h.extra);
+  });
+  L.push('');
+  const latest=gasLatest();
+  L.push('GAS TEST (latest reading per substance):');
+  GAS_SUBS.forEach(s=>{const r=latest[s.id];
+    L.push('  '+s.n+': '+(r?r.val+' '+s.unit+' at '+(r.t||'—')+' by '+(r.by||'—')+' — '+(gasVerdict(s.id,r.val)==='pass'?'within limits':'OUT OF LIMITS'):'not tested')+' (acceptance '+s.crit+')');});
+  L.push('');
+  L.push('WORKSITE RECORD: '+LMRA_Q.map((q,i)=>(p.lmra.q[i]||'unanswered')).join(', '));
+  const lsr=Object.keys(p.lmra.lsr||{}).filter(k=>p.lmra.lsr[k]);
+  L.push('Life-saving rules flagged: '+(lsr.length?lsr.join(', '):'none'));
+  if((p.lmra.extraH||'').trim())L.push('Additional hazards at the work front: '+p.lmra.extraH+' — controls: '+(p.lmra.extraC||'—'));
+  L.push('');
+  L.push('SIGNATURES:');
+  if(!(p.sigs||[]).length)L.push('  none recorded');
+  (p.sigs||[]).forEach(s=>L.push('  '+s.act+' — '+s.role+' — '+s.name+(s.company?' ('+s.company+')':'')+' at '+new Date(s.at).toLocaleString()+(s.rem?' — '+s.rem:'')));
+  const stds=STANDARDS.filter(s=>state.standards[s.id]).map(s=>s.label).join('; ');
+  L.push('');
+  L.push('Audit & compliance: '+(p.audit.all?('comply with all selected standards ('+(stds||'none')+')'):'NOT marked as complying with all selected standards')+(p.audit.custom?'; custom audits: '+p.audit.custom:''));
+  if(typeof attPermit!=='undefined'&&attPermit.files&&attPermit.files.length)
+    L.push('Attachments: '+attPermit.files.map(f=>f.name+(f.uploaded?' (uploaded)':'')).join(', '));
+  return L.join('\n');
+}
+
+/* ---------------- printed permit pack ---------------- */
+function buildPrint(){
+  const p=state.permit,latest=gasLatest();
+  const rl=RISK_LEVELS.find(r=>r.id===p.risk)||RISK_LEVELS[1];
+  const yn=v=>v==='Y'?'Yes':v==='N'?'<b>NO</b>':v==='NA'?'N/A':'';
+  const nl=t=>esc(t||'').replace(/\n/g,'<br>');
+  let H='';
+
+  /* 1 — the permit */
+  H+='<div class="print-doc">'+docHead('Permit to Work — '+permitTypeLabel(),
+      'Permit no: '+(esc(p.header.permitNo)||'__________')+'  ·  Risk level: '+esc(p.risk)+'  ·  Status: '+esc(p.status))
+    +'<table class="pt head"><tbody>'
+    +'<tr><td>Title of work</td><td colspan="3">'+nl(p.header.title)+'</td></tr>'
+    +'<tr><td>Description of work</td><td colspan="3">'+nl(p.header.desc)+'</td></tr>'
+    +'<tr><td>Expected waste</td><td colspan="3">'+nl(p.header.waste)+'</td></tr>'
+    +'<tr><td>Lifetime</td><td>'+(esc(p.valid.lifeFrom)||'—')+' to '+(esc(p.valid.lifeTo)||'—')+'</td>'
+      +'<td>Valid today</td><td>'+(esc(p.valid.dayFrom)||'—')+' – '+(esc(p.valid.dayTo)||'—')+'</td></tr>'
+    +'<tr><td>Site</td><td>'+(esc(p.loc.site)||'—')+'</td><td>Area authorisation</td><td>'+(esc(p.loc.areaAuth)||'—')+'</td></tr>'
+    +'<tr><td>Work locations</td><td colspan="3">'+nl(p.loc.locations)+'</td></tr>'
+    +'<tr><td>Area classification</td><td>'+(esc(p.loc.areaClass)||'—')+'</td><td>Hazardous substances</td><td>'+(esc(p.loc.hazSub)||'—')+'</td></tr>'
+    +'<tr><td>Work performer</td><td>'+(esc(p.party.performer)||'—')+'</td><td>Company</td><td>'+(esc(p.party.company)||'—')+'</td></tr>'
+    +'<tr><td>Number of people</td><td>'+(esc(p.party.persons)||'—')+'</td><td>Lead discipline</td><td>'+(esc(p.party.discipline)||'—')+'</td></tr>'
+    +'<tr><td>Equipment &amp; plant</td><td colspan="3">'+nl(p.party.equipment)+'</td></tr>'
+    +'<tr><td>Tools</td><td colspan="3">'+nl(p.party.tools)+'</td></tr>'
+    +'<tr><td>Recovery measures</td><td colspan="3">'+(esc(p.party.recovery)||'—')+'</td></tr>'
+    +'<tr><td>Isolation certificate</td><td>'+(esc(p.iso.icc)||'—')+'</td><td>Risk assessment ref</td><td>'+(esc(p.iso.tra)||'—')+'</td></tr>'
+    +'<tr><td>Influence of nearby activities</td><td colspan="3">'+(esc(p.iso.simops)||'—')+'</td></tr>'
+    +'<tr><td>Initial gas test required</td><td>'+(p.iso.initialGas?'Yes':'No')+'</td>'
+      +'<td>Continuous monitoring</td><td>'+(p.iso.contGas?'Yes':'No')+'</td></tr>'
+    +'<tr><td>Muster point</td><td>'+(esc(p.emg.muster)||'—')+'</td><td>Emergency number</td><td>'+(esc(p.emg.ecc)||'—')+'</td></tr>'
+    +'<tr><td>Communication</td><td colspan="3">'+(esc(p.emg.comms)||'—')+'</td></tr>'
+    +'</tbody></table>';
+  activeSections().forEach(sec=>{
+    const S=PERMIT_CHECKS[sec];
+    H+='<h4>'+esc(S.title)+'</h4><table class="pt"><tbody>'
+      +S.items.map((it,i)=>'<tr><td>'+esc(it)+'</td><td class="a" style="width:70px">'+yn(p.checks[sec+'.'+i])+'</td></tr>').join('')
+      +'</tbody></table>';
+  });
+  const ppe=PPE_LIST.filter(n=>p.ppe[n]);
+  H+='<h4>PPE required</h4><table class="pt"><tbody><tr><td>'+(ppe.length?esc(ppe.join(' · ')):'—')
+    +(p.ppeExtra?'<br>Additional: '+esc(p.ppeExtra):'')+'</td></tr></tbody></table>';
+  H+='<h4>Authorisation</h4><table class="pt"><tbody>'
+    +'<tr><td><strong>Action</strong></td><td><strong>Role</strong></td><td><strong>Name</strong></td><td><strong>Company</strong></td><td><strong>Date / time</strong></td></tr>'
+    +((p.sigs||[]).length?p.sigs.map(s=>'<tr><td>'+esc(s.act)+'</td><td>'+esc(s.role)+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.company||'')+'</td><td class="a">'+new Date(s.at).toLocaleString()+(s.dev?'<br>device '+esc(s.dev):'')+'</td></tr>').join('')
+      :['Request','Verify','Authorise ('+rl.id+' risk)','Issue','Accept'].map(a=>'<tr><td>'+a+'</td><td></td><td></td><td></td><td></td></tr>').join(''))
+    +'</tbody></table>'
+    +'<div class="sigs"><div>Requester</div><div>Verifier</div><div>Authoriser</div><div>Issuer</div></div></div>';
+
+  /* 2 — gas test record */
+  H+='<div class="print-doc" style="page-break-before:always">'+docHead('Gas Test Record','Permit no: '+(esc(p.header.permitNo)||'__________'))
+    +'<table class="pt"><tbody><tr><td><strong>Substance</strong></td><td><strong>Acceptance criteria</strong></td></tr>'
+    +GAS_SUBS.map(s=>'<tr><td>'+s.n+'</td><td>'+s.crit+'</td></tr>').join('')+'</tbody></table>'
+    +'<h4>Readings</h4><table class="pt"><tbody>'
+    +'<tr><td><strong>Date</strong></td><td><strong>Time</strong></td><td><strong>Substance</strong></td><td><strong>Value</strong></td><td><strong>Result</strong></td><td><strong>Tested by</strong></td><td><strong>Remarks</strong></td></tr>'
+    +((p.gas.log||[]).length?p.gas.log.map(r=>{const s=GAS_SUBS.find(x=>x.id===r.sub)||{n:r.sub,unit:''};const v=gasVerdict(r.sub,r.val);
+        return '<tr><td>'+esc(r.d)+'</td><td>'+esc(r.t||'')+'</td><td>'+esc(s.n)+'</td><td class="a">'+esc(r.val)+' '+s.unit+'</td>'
+          +'<td class="a">'+(v==='pass'?'Pass':v==='fail'?'<b>FAIL</b>':'')+'</td><td>'+esc(r.by||'')+'</td><td>'+esc(r.rem||'')+'</td></tr>';}).join('')
+      :Array.from({length:8},()=>'<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>').join(''))
+    +'</tbody></table>'
+    +'<div class="sigs"><div>Authorised gas tester</div><div>Permit holder</div><div>Issuer</div><div>Date</div></div></div>';
+
+  /* 3 — worksite copy */
+  const L=p.lmra;
+  H+='<div class="print-doc" style="page-break-before:always">'+docHead('Worksite Record — Last-Minute Risk Assessment',
+      'Display this page at the work front with the permit')
+    +'<table class="pt head"><tbody>'
+    +'<tr><td>Permit no</td><td>'+(esc(p.header.permitNo)||'__________')+'</td><td>Date</td><td>'+new Date().toLocaleDateString()+'</td></tr>'
+    +'<tr><td>Permit holder</td><td>'+(esc(p.party.performer)||'__________')+'</td><td>Company</td><td>'+(esc(p.party.company)||'—')+'</td></tr>'
+    +'<tr><td>Work</td><td colspan="3">'+nl(p.header.title)+'</td></tr>'
+    +'</tbody></table>'
+    +'<h4>Confirmations</h4><table class="pt"><tbody>'
+    +LMRA_Q.map((q,i)=>'<tr><td>'+esc(q)+'</td><td class="a" style="width:70px">'+(L.q[i]==='Y'?'Yes':L.q[i]==='NA'?'N/A':'')+'</td></tr>').join('')
+    +'</tbody></table>'
+    +'<h4>Life-saving rules that apply</h4><table class="pt"><tbody><tr><td>'
+    +LSR_LIST.map(r=>(L.lsr[r]?'☑ ':'☐ ')+esc(r)).join(' &nbsp; ')+'</td></tr></tbody></table>'
+    +'<h4>Key hazards displayed</h4><table class="pt"><tbody><tr><td>'
+    +PICTO.map(x=>(L.picto[x.n]?'☑ ':'☐ ')+esc(x.n)).join(' &nbsp; ')+'</td></tr></tbody></table>'
+    +'<h4>Additional hazards found at the work front</h4><table class="pt"><tbody>'
+    +'<tr><td><strong>Hazard</strong></td><td><strong>Control agreed</strong></td></tr>'
+    +'<tr><td style="height:50px">'+nl(L.extraH)+'</td><td>'+nl(L.extraC)+'</td></tr></tbody></table>'
+    +'<h4>Work party — everyone who took part</h4><table class="pt"><tbody>'
+    +'<tr><td><strong>Name</strong></td><td><strong>Signature</strong></td><td><strong>Name</strong></td><td><strong>Signature</strong></td></tr>'
+    +(function(){
+        const names=(L.attend||'').split('\n').map(x=>x.trim()).filter(Boolean);
+        const rows=Math.max(5,Math.ceil(names.length/2));
+        let out='';
+        for(let i=0;i<rows;i++){
+          out+='<tr><td>'+esc(names[i*2]||'')+'</td><td style="height:26px"></td><td>'+esc(names[i*2+1]||'')+'</td><td></td></tr>';
+        }
+        return out;})()
+    +'</tbody></table>'
+    +'<div class="sigs"><div>Permit holder</div><div>Supervisor</div><div>Time started</div><div>Time stopped</div></div></div>';
+
+  /* 4 — attached risk assessment */
+  const sel=hazSelected();
+  H+='<div class="print-doc" style="page-break-before:always">'+docHead('Risk Assessment attached to the permit',
+      'Permit no: '+(esc(p.header.permitNo)||'__________')+'  ·  Ref: '+(esc(p.iso.tra)||'__________'))
+    +'<table class="pt"><tbody><tr><td><strong>Code</strong></td><td><strong>Category</strong></td><td><strong>Hazard</strong></td><td><strong>Controls in force</strong></td><td><strong>Action party</strong></td></tr>'
+    +(sel.length?sel.map(x=>{
+        const cs=x.it.ctl.filter((_,i)=>x.h.c[i]).concat((x.h.extra||'').trim()?[x.h.extra]:[]);
+        return '<tr><td class="a">'+x.it.c+'</td><td>'+esc(x.g.cat)+'</td><td>'+esc(x.it.n)+'</td>'
+          +'<td>'+(cs.length?cs.map(c=>'• '+esc(c)).join('<br>'):'—')+'</td><td>'+esc(x.h.party||'Permit Holder')+'</td></tr>';}).join('')
+      :'<tr><td colspan="5">No hazards selected — the permit must not be issued without an assessment.</td></tr>')
+    +'</tbody></table>'
+    +'<h4>Assessment outcome</h4><table class="pt"><tbody><tr><td>Offline rule-based verdict</td><td><strong>'+permitVerdict()+'</strong></td></tr></tbody></table>'
+    +'<div class="sigs"><div>Prepared by</div><div>Reviewed by</div><div>Approved by</div><div>Date</div></div></div>';
+  return H;
+}
+
+/* ---------------- offline review ---------------- */
+function reviewPermitOffline(){
+  const p=state.permit,B=permitBlockers(),C=permitConditions(),v=permitVerdict();
+  const md=[];
+  md.push('**Permit review — '+permitTypeLabel()+' · '+p.risk+' risk**');
+  md.push('Permit '+(p.header.permitNo||'(unnumbered)')+' · status **'+p.status+'** · '+hazSelected().length+' hazards with '+hazControlCount()+' controls');
+  md.push('');
+  md.push('## '+v);
+  if(v==='AUTHORISE')md.push('Every control is confirmed, the readings are within limits and the record is complete. Issue against the named duty holder.');
+  else if(v==='AUTHORISE WITH CONDITIONS')md.push('No hard stop, but the items below must be closed and re-verified before work starts.');
+  else md.push('**Work must not start.** Each blocking item below has to be resolved and the permit re-verified.');
+  if(B.length){md.push('','**Blocking items**');B.forEach(x=>md.push('- '+x));}
+  if(C.length){md.push('','**Conditions**');C.forEach(x=>md.push('- '+x));}
+  const latest=gasLatest();
+  if(Object.keys(latest).length){
+    md.push('','**Gas readings**');
+    GAS_SUBS.forEach(s=>{const r=latest[s.id];if(!r)return;
+      md.push('- '+s.n+': '+r.val+' '+s.unit+' at '+(r.t||'time not recorded')+' — '+(gasVerdict(s.id,r.val)==='pass'?'within '+s.crit:'**outside '+s.crit+'**'));});
+  }
+  const step=SIG_FLOW[p.status];
+  md.push('','**Next in the authorisation chain**');
+  if(step){
+    const role=step.role==='Permit Authoriser'?(RISK_LEVELS.find(r=>r.id===p.risk)||RISK_LEVELS[1]).auth:step.role;
+    md.push(step.act+' — '+role+'. That signature moves the permit to '+step.to+'.');
+  } else md.push('The permit is closed. Raise a new permit for further work.');
+  if(['Issued','Active'].includes(p.status)&&B.length)
+    md.push('','⚠︎ **Status mismatch:** this permit is already **'+p.status+'** while blocking items are open. Suspend it until they are closed.');
+  md.push('','_Rule-based reference — verify against your site procedure and the applicable standard. A permit is a decision by a competent person, not an output of this tool._');
+  const full=md.join('\n');
+  setView('chat');
+  if(state.messages.length===0)thread.innerHTML='';
+  const q='Review this Permit to Work (offline).';
+  state.messages.push({role:'user',content:q});addMsg('user',q);
+  addMsg('assistant',full);state.messages.push({role:'assistant',content:full});persist();
+  scroll.scrollTop=scroll.scrollHeight;refreshLogo();
+}
 
 /* ---- daily EHS dashboard ---- */
 const DAILY_METRICS=[
@@ -2569,6 +3609,17 @@ function ensurePermitInit(){if(permitInit)return;permitInit=true;bindHeader();re
 function ensureMatrixInit(){if(matrixInit)return;matrixInit=true;renderMatrix();}
 updateStandardsSub();
 setStatus();toggleSend();refreshLogo();
+/* device profile: apply now and wire the settings controls */
+applyDevice();
+(function(){
+  const cls=$('#devClass'),den=$('#devDensity'),lite=$('#devLite');
+  if(!cls)return;
+  cls.value=DEVICE.override;den.value=DEVICE.density;lite.classList.toggle('on',DEVICE.lite);
+  cls.onchange=()=>{DEVICE.override=cls.value;applyDevice();};
+  den.onchange=()=>{DEVICE.density=den.value;applyDevice();};
+  lite.onclick=()=>{DEVICE.lite=!DEVICE.lite;lite.classList.toggle('on',DEVICE.lite);applyDevice();};
+})();
+
 if(!store.get('guardian.seen')){store.set('guardian.seen','1');setTimeout(openSettings,500);}
 
 /* ================= CLOUD: auth, sync, master panel ================= */
@@ -2877,11 +3928,23 @@ async function renderMasterLock(){
       if(error){msg(error.message,'bad');return;}
       masterUnlocked=true;renderMaster();return;
     }
+    /* local attempt limiter — defence in depth on top of the server's own throttle */
+    const LK='guardian.pinlock',FA='guardian.pinfail';
+    const until=+(store.get(LK)||0);
+    if(until>Date.now()){
+      msg('Too many attempts on this device. Try again in '+Math.ceil((until-Date.now())/60000)+' min.','bad');return;
+    }
     msg('Verifying…','wait');
     const {data,error}=await sb.rpc('verify_admin_pin',{pin:p});
     if(error){msg(error.message,'bad');return;}
-    if(data){masterUnlocked=true;renderMaster();}
-    else{msg('Wrong PIN.','bad');$('#mpin').value='';$('#mpin').focus();}
+    if(data){store.set(FA,'0');store.set(LK,'0');masterUnlocked=true;renderMaster();}
+    else{
+      const n=(+(store.get(FA)||0))+1;store.set(FA,String(n));
+      if(n>=5){store.set(LK,String(Date.now()+5*60000));store.set(FA,'0');
+        msg('Wrong PIN. Five failed attempts — locked on this device for 5 minutes.','bad');}
+      else msg('Wrong PIN. '+(5-n)+' attempt'+(5-n>1?'s':'')+' left before this device is locked for 5 minutes.','bad');
+      $('#mpin').value='';$('#mpin').focus();
+    }
   };
   $('#mpinGo').onclick=go;
   box.querySelectorAll('input').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')go();}));
