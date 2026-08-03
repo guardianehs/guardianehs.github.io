@@ -506,6 +506,82 @@
 
   .org-row{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:9px;background:var(--surface)}
 
+  /* ================= refinement pass ================= */
+
+  /* the assistant button breathes, and its shield pulses on arrival */
+  #askFab{gap:10px;padding:13px 20px;font-weight:600;letter-spacing:-.01em;
+    box-shadow:0 8px 26px var(--accent-ring),0 2px 6px rgba(17,29,27,.12)}
+  #askFab::before{content:"";position:absolute;inset:0;border-radius:999px;
+    box-shadow:0 0 0 0 var(--accent-ring);animation:fabPulse 3.4s ease-out infinite}
+  #askFab{position:fixed;overflow:visible}
+  @keyframes fabPulse{0%{box-shadow:0 0 0 0 var(--accent-ring)}
+    60%{box-shadow:0 0 0 16px rgba(15,118,110,0)}100%{box-shadow:0 0 0 0 rgba(15,118,110,0)}}
+  #askFab svg{animation:fabFloat 4.2s ease-in-out infinite}
+  @keyframes fabFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.06)}}
+  #askFab:hover svg{animation-duration:1.6s}
+  #askFab:active{transform:translateY(0) scale(.97)}
+
+  /* one icon-button language everywhere: edit, delete, restore */
+  .ico-btn{width:32px;height:32px;border:1px solid var(--border);background:var(--surface);border-radius:8px;
+    display:inline-grid;place-items:center;cursor:pointer;color:var(--text-3);flex:0 0 auto;
+    transition:color .15s,border-color .15s,background .15s,transform .12s}
+  .ico-btn svg{width:16px;height:16px}
+  .ico-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+  .ico-btn:active{transform:scale(.94)}
+  .ico-btn.danger:hover{color:var(--r-crit);border-color:#EBC9C6;background:#FDF3F2}
+  .pr-acts,.bin-acts{display:flex;gap:6px;flex:0 0 auto;margin-left:auto}
+
+  /* recycle bin */
+  .bin-row{display:flex;align-items:flex-start;gap:11px;border:1px dashed var(--border-2);border-radius:10px;
+    padding:12px 14px;margin-bottom:8px;background:var(--surface-2)}
+  .bin-row .pr-code{opacity:.75}
+  .bin-row .ops-txt b{font-weight:600;color:var(--text-2)}
+
+  /* full-size image viewer */
+  .lightbox{position:fixed;inset:0;z-index:120;background:rgba(11,20,19,.88);backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;padding:36px;flex-direction:column;gap:16px}
+  .lightbox.show{display:flex;animation:lbIn .18s ease}
+  @keyframes lbIn{from{opacity:0}to{opacity:1}}
+  .lightbox img{max-width:min(1100px,92vw);max-height:78vh;border-radius:12px;
+    box-shadow:0 24px 70px rgba(0,0,0,.5);background:#fff}
+  .lb-cap{color:rgba(255,255,255,.82);font-size:12.5px;font-family:"IBM Plex Mono",monospace}
+  .lb-close{position:absolute;top:20px;right:22px;width:42px;height:42px;border-radius:11px;
+    border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff;
+    display:grid;place-items:center;cursor:pointer;transition:.15s}
+  .lb-close:hover{background:rgba(255,255,255,.2)}
+  .att-chip img{cursor:zoom-in;transition:transform .15s}
+  .att-chip img:hover{transform:scale(1.08)}
+
+  /* cards and rows settle rather than jump */
+  .pcard{transition:box-shadow .2s,border-color .2s}
+  .proj-row,.team-row,.jsa-row,.ops-card{transition:border-color .18s,box-shadow .18s}
+  .proj-row:hover,.team-row:hover{box-shadow:0 1px 3px rgba(17,29,27,.05)}
+
+  /* buttons: consistent weight and a considered press */
+  .pbtn{transition:background .16s,border-color .16s,color .16s,transform .1s,box-shadow .16s}
+  .pbtn:active{transform:translateY(1px)}
+  .pbtn.primary{box-shadow:0 1px 2px rgba(17,29,27,.08)}
+
+  /* section headings share one rhythm */
+  .pcard h3{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;
+    letter-spacing:.01em;margin-bottom:4px}
+  .sec-prog{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:500;
+    color:var(--text-3);letter-spacing:.03em}
+  .sec-prog.full{color:var(--r-low)}
+
+  /* the modal reads as a document, not a browser dialog */
+  #gModal .modal{border-radius:14px}
+  #gModal h2{font-size:19px;letter-spacing:-.02em;margin-bottom:16px}
+
+  /* focus visible everywhere, for keyboard and screen-reader users */
+  .ico-btn:focus-visible,.pbtn:focus-visible,.opt-item:focus-visible,.mode:focus-visible{
+    outline:2px solid var(--accent);outline-offset:2px}
+
+  @media(prefers-reduced-motion:reduce){
+    #askFab::before,#askFab svg{animation:none!important}
+    .lightbox.show{animation:none}
+  }
+
 /* ---- permit engine ---- */
   .hazgrp{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden}
   .hazgrp summary{display:flex;align-items:center;gap:9px;padding:12px 14px;cursor:pointer;font-size:13.5px;list-style:none}
@@ -4521,7 +4597,7 @@ function attRender(){
   const tray=$('#attTray'); if(!tray)return;
   tray.innerHTML=ATT.files.map((f,i)=>
     '<span class="att-chip">'
-    +(f.thumb?'<img src="'+f.thumb+'" alt="">':'')
+    +(f.thumb?'<img src="'+f.thumb+'" alt="'+esc(f.name)+'" data-zoom="'+f.thumb+'" title="Click to view full size">':'')
     +'<span style="min-width:0"><span class="an">'+esc(f.name)+'</span><br>'
     +'<span class="az">'+f.kind+' · '+fmtSize(f.size)+'</span></span>'
     +'<button data-i="'+i+'" title="Remove">✕</button></span>').join('');
@@ -4702,7 +4778,7 @@ function orgRender(){
       +'<div class="pr-head"><span class="pr-code">'+esc(p.code)+'</span>'
         +'<b>'+esc(p.name)+'</b>'
         +'<span class="pr-status s-'+esc(p.status)+'">'+esc(p.status.replace('_',' '))+'</span>'
-        +'<button class="doc-btn pr-edit" title="Edit">Edit</button></div>'
+        +'<span class="pr-acts">'+iconBtn('edit','Edit this project','pr-edit')+iconBtn('trash','Move to the recycle bin','pr-del')+'</span></div>'
       +'<div class="pr-client">'+esc(p.client||'No client recorded')
         +(p.client_code?' <span class="mono2">· '+esc(p.client_code)+'</span>':'')
         +(p.location?' · '+esc(p.location):'')+(p.manager?' · '+esc(p.manager):'')+'</div>'
@@ -4720,6 +4796,10 @@ function orgRender(){
   $('#projRows').querySelectorAll('.pr-edit').forEach(b=>b.onclick=()=>{
     const id=b.closest('.proj-row').dataset.id;
     projEdit(ORG.projects.find(p=>p.id===id));
+  });
+  $('#projRows').querySelectorAll('.pr-del').forEach(b=>b.onclick=()=>{
+    const id=b.closest('.proj-row').dataset.id;
+    projDelete(ORG.projects.find(p=>p.id===id));
   });
 
   $('#orgMeta').innerHTML='<b>'+t.projects+' projects · '+nf(t.manhours)+' man-hours</b>'
@@ -5455,6 +5535,106 @@ async function claimAdminIfPending(){
       setTimeout(()=>location.reload(),1400);}
   }catch(e){}
 }
+
+
+/* ================================================================
+   SHARED UI — icons, image viewer, recycle bin
+   ================================================================ */
+const ICO={
+  edit:'<path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 6.5 17.5 9.5" stroke="currentColor" stroke-width="1.6"/>',
+  trash:'<path d="M5 7h14M10 7V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2M7 7l1 12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  restore:'<path d="M4 12a8 8 0 1 0 2.5-5.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4 4v4h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+  expand:'<path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+  close:'<path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  bin:'<path d="M4 7h16l-1.2 13a1 1 0 0 1-1 .9H6.2a1 1 0 0 1-1-.9L4 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 4h6v3H9zM10 11v6M14 11v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+};
+const iconBtn=(kind,label,cls)=>'<button class="ico-btn '+(cls||'')+'" title="'+esc(label)+'" aria-label="'+esc(label)+'">'
+  +'<svg viewBox="0 0 24 24" fill="none">'+ICO[kind]+'</svg></button>';
+
+/* ---- full-size image viewer ---- */
+function openLightbox(src,caption){
+  let lb=$('#lightbox');
+  if(!lb){
+    lb=document.createElement('div');lb.id='lightbox';lb.className='lightbox';
+    lb.innerHTML='<button class="lb-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" width="22" height="22">'
+      +ICO.close+'</svg></button><img id="lbImg" alt=""><div class="lb-cap" id="lbCap"></div>';
+    document.body.appendChild(lb);
+    const close=()=>lb.classList.remove('show');
+    lb.querySelector('.lb-close').onclick=close;
+    lb.onclick=e=>{if(e.target===lb)close();};
+    addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  }
+  $('#lbImg').src=src;
+  $('#lbCap').textContent=caption||'';
+  lb.classList.add('show');
+}
+/* any image marked data-zoom opens full size */
+document.addEventListener('click',e=>{
+  const im=e.target.closest('img[data-zoom]');
+  if(im)openLightbox(im.dataset.zoom||im.src,im.alt||'');
+});
+
+/* ---- recycle bin ---- */
+let BIN=[];
+async function binLoad(){
+  const box=$('#binRows');if(!box)return;
+  if(!cloudReady().ok){box.innerHTML='';return;}
+  try{
+    const {data,error}=await sb.rpc('binned_projects');
+    if(error)throw error;
+    BIN=data||[];binRender();
+  }catch(e){
+    box.innerHTML='<div class="ops-empty">'+esc(e.message)
+      +(/function .*binned_projects/i.test(e.message)?' — run recycle-bin.sql in Supabase.':'')+'</div>';
+  }
+}
+function binRender(){
+  const box=$('#binRows'),card=$('#binCard');if(!box)return;
+  if(card)card.style.display=BIN.length?'':'none';
+  const cnt=$('#binCount');if(cnt)cnt.textContent=BIN.length?BIN.length+' in the bin':'empty';
+  box.innerHTML=BIN.map(b=>
+    '<div class="bin-row" data-id="'+esc(b.id)+'">'
+    +'<span class="pr-code">'+esc(b.code)+'</span>'
+    +'<span class="ops-txt"><b>'+esc(b.name)+'</b><span>'
+      +(b.client?esc(b.client)+' · ':'')+'deleted '+new Date(b.deleted_at).toLocaleDateString()
+      +(b.deleted_by?' by '+esc(b.deleted_by):'')
+      +(b.holds?' · holds '+b.holds+' record'+(b.holds>1?'s':''):' · empty')+'</span></span>'
+    +'<span class="bin-acts">'+iconBtn('restore','Restore this project','bin-restore')
+      +(cloud.role==='master'?iconBtn('trash','Destroy permanently','bin-purge danger'):'')+'</span>'
+    +'</div>').join('');
+
+  box.querySelectorAll('.bin-row').forEach(row=>{
+    const id=row.dataset.id,b=BIN.find(x=>x.id===id);
+    const r=row.querySelector('.bin-restore');
+    if(r)r.onclick=async()=>{
+      try{
+        const {data}=await sb.rpc('bin_project',{p_id:id,p_restore:true});
+        if(data&&data.ok===false)return toastMsg(data.error);
+        toastMsg('Restored '+b.code+'.');await binLoad();await orgLoad();
+      }catch(e){toastMsg(e.message);}
+    };
+    const p=row.querySelector('.bin-purge');
+    if(p)p.onclick=async()=>{
+      if(!confirm('Destroy '+b.code+' permanently?\n\nThis cannot be undone. It is refused if the project still holds any register entries, permits or people.'))return;
+      try{
+        const {data}=await sb.rpc('purge_project',{p_id:id});
+        if(data&&data.ok===false)return alert(data.error);
+        toastMsg('Destroyed '+b.code+'.');await binLoad();
+      }catch(e){alert(e.message);}
+    };
+  });
+}
+async function projDelete(p){
+  if(!confirm('Move '+p.code+' to the recycle bin?\n\nIt disappears from the dashboard but nothing is destroyed — you can restore it, and its permits and register stay intact.'))return;
+  try{
+    const {data}=await sb.rpc('bin_project',{p_id:p.id,p_restore:false});
+    if(data&&data.ok===false)return toastMsg(data.error);
+    toastMsg(p.code+' moved to the bin.');await orgLoad();await binLoad();
+  }catch(e){toastMsg(e.message);}
+}
+
+const _orgLoadBin=orgLoad;
+orgLoad=async function(){ await _orgLoadBin.apply(this,arguments); try{await binLoad();}catch(e){} };
 
 renderModes();renderSuggest();renderCtx();renderRailTools();renderThread();
 let permitInit=false,matrixInit=false;
