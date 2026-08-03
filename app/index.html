@@ -1115,6 +1115,22 @@ const PERMIT_CHECKS={
 };
 let PPE_LIST=['Safety helmet','Safety shoes / gum boots','Hand gloves','Safety goggles / face shield','Full-body harness','Welding shield / leather apron','Nose / face mask','Ear protection (plugs / muffs)'];
 
+const state={
+  provider:store.get('guardian.provider')||'offline',
+  cfg:JSON.parse(store.get('guardian.cfg')||'null')||{
+    anthropic:{key:store.get('guardian.key')||'',model:store.get('guardian.model')||'claude-sonnet-5'},
+    openai:{baseUrl:'https://openrouter.ai/api/v1',key:'',model:'meta-llama/llama-3.3-70b-instruct:free'},
+    ollama:{baseUrl:'http://localhost:11434/v1',model:'llama3.1'}
+  },
+  mode:store.get('guardian.mode')||'incident',
+  view:'chat',
+  standards:JSON.parse(store.get('guardian.standards')||'null')||{iso45001:true,india_fa:true},
+  offline:store.get('guardian.offline')==='1',
+  lastError:false,
+  messages:JSON.parse(store.get('guardian.msgs')||'[]'),
+  busy:false
+};
+
 const PROVIDERS={offline:'Offline',anthropic:'Claude',openai:'Free LLM',ollama:'Ollama (local)'};
 const FREE_PRESETS=[
   {name:'OpenRouter',base:'https://openrouter.ai/api/v1',model:'meta-llama/llama-3.3-70b-instruct:free',keyUrl:'https://openrouter.ai/keys'},
@@ -1407,21 +1423,6 @@ function auditPrintDoc(){
 $('#auditPrint').onclick=()=>{$('#printArea').innerHTML=auditPrintDoc();window.print();};
 $('#auditReset').onclick=()=>{if(!confirm('Clear this audit form?'))return;state.audit=defaultAudit();persistAudit();attAudit.files.length=0;auditInit=false;ensureAuditInit();};
 
-const state={
-  provider:store.get('guardian.provider')||'offline',
-  cfg:JSON.parse(store.get('guardian.cfg')||'null')||{
-    anthropic:{key:store.get('guardian.key')||'',model:store.get('guardian.model')||'claude-sonnet-5'},
-    openai:{baseUrl:'https://openrouter.ai/api/v1',key:'',model:'meta-llama/llama-3.3-70b-instruct:free'},
-    ollama:{baseUrl:'http://localhost:11434/v1',model:'llama3.1'}
-  },
-  mode:store.get('guardian.mode')||'incident',
-  view:'chat',
-  standards:JSON.parse(store.get('guardian.standards')||'null')||{iso45001:true,india_fa:true},
-  offline:store.get('guardian.offline')==='1',
-  lastError:false,
-  messages:JSON.parse(store.get('guardian.msgs')||'[]'),
-  busy:false
-};
 
 /* ================================================================
    DEVICE PROFILE
