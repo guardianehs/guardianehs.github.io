@@ -471,6 +471,41 @@
   .team-filter input{width:15px;height:15px;accent-color:var(--accent)}
   .team-row input:disabled,.team-row select:disabled{background:var(--surface-2);color:var(--text-3);cursor:not-allowed}
 
+  /* ---- home operations dashboard ---- */
+  .ops-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px;text-align:left;
+    max-width:940px;width:100%}
+  .ops-card{border:1px solid var(--border);border-radius:12px;padding:18px;background:var(--surface)}
+  .ops-card.warn{border-color:#EDE0C4;background:#FDFAF3}
+  .ops-card h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--text-3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .ops-badge{background:var(--accent);color:#fff;border-radius:999px;font-size:10.5px;padding:2px 8px;letter-spacing:0}
+  .ops-list{display:flex;flex-direction:column;gap:10px}
+  .ops-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid var(--border)}
+  .ops-item:first-child{border-top:none;padding-top:0}
+  .ops-dot{width:8px;height:8px;border-radius:50%;background:var(--text-3);flex:0 0 auto;margin-top:6px}
+  .ops-item.p1 .ops-dot,.ops-dot.p1{background:var(--r-crit)}
+  .ops-item.p2 .ops-dot{background:var(--amber,#C77E00)}
+  .ops-item.p3 .ops-dot{background:var(--mandatory,#1F6FB2)}
+  .ops-code{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;background:var(--accent-soft);
+    color:var(--accent);border-radius:5px;padding:3px 8px;flex:0 0 auto;margin-top:2px}
+  .ops-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .ops-txt b{font-size:13.5px;font-weight:600;line-height:1.4}
+  .ops-txt span{font-size:12px;color:var(--text-3);line-height:1.5}
+  .ops-go{flex:0 0 auto;font-size:12px;padding:7px 12px}
+  .ops-empty{font-size:12.5px;color:var(--text-3);line-height:1.6}
+  .ops-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .ops-ms{border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center}
+  .ops-ms.warn{border-color:#F0D2CF;background:#FDF6F5}
+  .ops-ms b{display:block;font-size:19px;font-variant-numeric:tabular-nums}
+  .ops-ms span{font-size:10.5px;color:var(--text-3)}
+  .ops-foot{display:flex;align-items:center;gap:10px;margin-top:13px;padding-top:12px;
+    border-top:1px solid var(--border);flex-wrap:wrap}
+  .ops-foot span{font-size:12px;color:var(--text-3);flex:1;min-width:140px}
+  @media(max-width:900px){.ops-wrap{grid-template-columns:1fr}}
+  @media(max-width:600px){.ops-mini{grid-template-columns:repeat(2,1fr)}}
+
+  .org-row{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:9px;background:var(--surface)}
+
 /* ---- permit engine ---- */
   .hazgrp{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden}
   .hazgrp summary{display:flex;align-items:center;gap:9px;padding:12px 14px;cursor:pointer;font-size:13.5px;list-style:none}
@@ -1078,6 +1113,16 @@
             <div class="chart-cell"><div class="chart-t">Man-hours by project</div><div id="barHours"></div></div>
             <div class="chart-cell"><div class="chart-t">Permit outcomes</div><div id="piePermits"></div></div>
           </div>
+        </div>
+
+        <div class="pcard" id="orgsCard" style="display:none">
+          <h3><span class="tagdot" style="background:var(--r-high)"></span>Organisations <span class="sec-prog" id="orgsCount"></span></h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Only the platform administrator sees this. Naming an organisation's administrator is done by email — never by a link that could be forwarded.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="pbtn primary" id="orgNew">+ Add organisation</button>
+            <button class="pbtn" id="orgsRefresh">Refresh</button>
+          </div>
+          <div id="orgsRows"></div>
         </div>
 
         <div class="pcard">
@@ -3116,6 +3161,9 @@ function renderHome(){
     <div class="home-acts">${acts.map(a=>'<button class="pbtn" id="'+a.id+'">'+a.l+' →</button>').join('')}</div>
     <p class="note">${cloud.role==='viewer'?'Your account is registered as a viewer. Dashboards and documents are open — permits, audits and the AI agent unlock once your admin assigns your duty role.':(isOffline()?'AI is offline — <a href="#" id="quickFreeAI">connect a free AI model →</a> Or just ask me anything below.':'Ask me anything below — incidents, risk, first aid, compliance.')}</p>`;
   body.appendChild(e);
+  const ops=document.createElement('div');ops.id='homeOps';ops.className='ops-wrap';
+  body.appendChild(ops);
+  try{renderOps();if(!OPS.loaded)opsLoad();}catch(err){}
   const on=(id,fn)=>{const b=$('#'+id);if(b)b.onclick=fn;};
   on('go-daily',()=>setView('daily'));on('go-permit',()=>setView('permit'));on('go-audit',()=>setView('audit'));
   on('go-team',openTeam);on('go-adm',tryOpenMaster);on('go-approvals',openApprovals);
@@ -4591,10 +4639,14 @@ function orgCan(){return cloud.user && (cloud.role==='org_admin'||cloud.role==='
 
 async function orgLoad(){
   const meta=$('#orgMeta');
-  if(!cloudEnabled()||!cloud.user){if(meta)meta.textContent='Sign in to load the portfolio.';return;}
+  const r=cloudReady();
+  if(!r.ok){if(meta)meta.textContent=r.why;
+    const pr=$('#projRows');if(pr)pr.innerHTML='<div class="ops-empty">'+esc(r.why)+'</div>';
+    const tr=$('#teamRows');if(tr)tr.innerHTML='';
+    return;}
   if(meta)meta.textContent='Loading…';
   try{
-    const {data,error}=await cloud.sb.rpc('org_dashboard');
+    const {data,error}=await sb.rpc('org_dashboard');
     if(error)throw error;
     ORG=data||{projects:[]};
     ORG.projects=ORG.projects||[];
@@ -4723,14 +4775,15 @@ function projEdit(p){
       +['planned','active','on_hold','closed'].map(s=>'<option value="'+s+'"'+(p.status===s?' selected':'')+'>'+s.replace('_',' ')+'</option>').join('')
     +'</select></div></div>';
   showModal(isNew?'New project':'Edit '+p.code, body, async ()=>{
+    if(!cloudGate())return false;
     const code=$('#pj_code').value.trim().toUpperCase(), name=$('#pj_name').value.trim();
     if(!code||!name){alert('A project needs a code and a name.');return false;}
     const rec={code:code,name:name,client_name:$('#pj_client').value.trim(),
       client_code:$('#pj_ccode').value.trim(),location:$('#pj_loc').value.trim(),
       manager:$('#pj_mgr').value.trim(),status:$('#pj_status').value};
     try{
-      if(isNew){rec.org_id=cloud.orgId; const {error}=await cloud.sb.from('projects').insert(rec); if(error)throw error;}
-      else{const {error}=await cloud.sb.from('projects').update(rec).eq('id',p.id); if(error)throw error;}
+      if(isNew){rec.org_id=cloud.org; const {error}=await sb.from('projects').insert(rec); if(error)throw error;}
+      else{const {error}=await sb.from('projects').update(rec).eq('id',p.id); if(error)throw error;}
       await orgLoad(); return true;
     }catch(e){
       alert(/duplicate|unique/i.test(e.message)
@@ -4757,13 +4810,14 @@ async function orgInviteFlow(){
     +'<div class="fld"><label>Valid for (days)</label><input id="iv_days" inputmode="numeric" value="14"></div>'
     +'</div><div class="doc-note" style="margin-top:10px">Organisation administrators cannot be invited by link — that step is deliberately manual, from the administration console.</div>';
   showModal('Invite by link', body, async ()=>{
+    if(!cloudGate())return false;
     const days=Math.max(1,Math.min(90,+$('#iv_days').value||14));
-    const rec={org_id:cloud.orgId,role:$('#iv_role').value,title:$('#iv_title').value.trim()||null,
+    const rec={org_id:cloud.org,role:$('#iv_role').value,title:$('#iv_title').value.trim()||null,
       project_id:$('#iv_proj').value||null,email:$('#iv_email').value.trim()||null,
       max_uses:Math.max(1,Math.min(50,+$('#iv_uses').value||1)),
       expires_at:new Date(Date.now()+days*864e5).toISOString()};
     try{
-      const {data,error}=await cloud.sb.from('invites').insert(rec).select('token').single();
+      const {data,error}=await sb.from('invites').insert(rec).select('token').single();
       if(error)throw error;
       const url=location.origin+location.pathname+'?invite='+data.token;
       showModal('Invitation link',
@@ -4783,14 +4837,14 @@ async function checkInviteLink(){
   if(!tok)return;
   if(!cloudEnabled())return;
   try{
-    const {data:prev}=await cloud.sb.rpc('invite_preview',{p_token:tok});
+    const {data:prev}=await sb.rpc('invite_preview',{p_token:tok});
     if(!prev||!prev.ok){toastMsg('That invitation link is no longer valid.');return;}
     if(!cloud.user){
       toastMsg('Sign in to join '+(prev.org||'the organisation')+'.');
       if(typeof showAuth==='function')showAuth(true);
       return;
     }
-    const {data:res}=await cloud.sb.rpc('redeem_invite',{p_token:tok});
+    const {data:res}=await sb.rpc('redeem_invite',{p_token:tok});
     if(res&&res.ok){
       toastMsg('You have joined '+res.org+' as '+String(res.role).replace('_',' ')+'.');
       history.replaceState(null,'',location.pathname);
@@ -4989,9 +5043,9 @@ const ROLE_WHAT={
   master:'Everything, across every organisation.'};
 
 async function teamLoad(){
-  if(!cloudEnabled()||!cloud.user)return;
+  if(!cloudReady().ok)return;
   try{
-    const {data,error}=await cloud.sb.rpc('org_members');
+    const {data,error}=await sb.rpc('org_members');
     if(error)throw error;
     TEAM=data||[];
     teamRender();
@@ -5072,7 +5126,7 @@ function teamRender(){
       const roleSel=row.querySelector('.tm-role');
       save.textContent='Saving…';save.disabled=true;
       try{
-        const {data,error}=await cloud.sb.rpc('set_member',{
+        const {data,error}=await sb.rpc('set_member',{
           p_user:id,
           p_role:roleSel?roleSel.value:null,
           p_title:row.querySelector('.tm-title').value.trim()||null,
@@ -5090,7 +5144,7 @@ function teamRender(){
       if(!confirm('Remove '+(m.full_name||m.email)+' from this organisation?\n\n'
         +'Their account is kept and their signatures stay on the permits they signed — they simply lose access to this organisation.'))return;
       try{
-        const {data,error}=await cloud.sb.rpc('remove_member',{p_user:id});
+        const {data,error}=await sb.rpc('remove_member',{p_user:id});
         if(error)throw error;
         if(data&&data.ok===false)toastMsg(data.error);
         else{toastMsg('Removed.');await teamLoad();await orgLoad();}
@@ -5108,6 +5162,299 @@ function teamRender(){
 /* the team list loads with the dashboard */
 const _orgLoadBase=orgLoad;
 orgLoad=async function(){ await _orgLoadBase.apply(this,arguments); try{await teamLoad();}catch(e){} };
+
+
+/* ================================================================
+   HOME — role-based operations dashboard
+   What needs this person's attention, what is live right now, and
+   what is falling behind. Each role sees only what it can act on.
+   ================================================================ */
+/* one place that answers: can we actually talk to the database right now? */
+function cloudReady(){
+  if(!cloudEnabled())return {ok:false,why:'This copy of Guardian has no database configured.'};
+  if(location.protocol==='file:')return {ok:false,
+    why:'Opened straight from a file, so sign-in and shared data cannot work. Serve the folder over http — see LOCAL-TESTING.md — or use the deployed address.'};
+  if(!sb)return {ok:false,why:'Still connecting to the database. Try again in a moment.'};
+  if(!cloud.user)return {ok:false,why:'Sign in to use this.'};
+  return {ok:true};
+}
+function cloudGate(where){
+  const r=cloudReady();
+  if(!r.ok){
+    const el=where?$(where):null;
+    if(el)el.innerHTML='<div class="ops-empty" style="color:var(--amber,#C77E00)">'+esc(r.why)+'</div>';
+    else if(typeof toastMsg==='function')toastMsg(r.why);
+  }
+  return r.ok;
+}
+
+let OPS={permits:[],loaded:false};
+
+async function opsLoad(){
+  OPS.permits=[];
+  if(cloudReady().ok&&cloud.org){
+    try{
+      const {data}=await sb.from('permit_requests')
+        .select('id,permit_no,work_types,status,requester_name,created_at,decided_at,project_id')
+        .order('created_at',{ascending:false}).limit(40);
+      OPS.permits=data||[];
+    }catch(e){}
+  }
+  OPS.loaded=true;
+  renderOps();
+}
+
+/* ---- the things this person actually has to do ---- */
+function opsActions(){
+  const A=[],role=cloud.role||'viewer';
+  const today=todayISO();
+  const todayEntry=state.daily&&state.daily[today];
+  const pending=OPS.permits.filter(p=>p.status==='pending');
+
+  if(role==='ehs_executive'||role==='org_admin'||role==='master'){
+    if(!todayEntry)A.push({p:1,t:"Today's register is empty",
+      s:'Log manpower, man-hours and activities for '+today,go:'daily',cta:'Open register'});
+    else if(!todayEntry.manhours)A.push({p:2,t:'Man-hours missing for today',
+      s:'The register is started but the hours are blank',go:'daily',cta:'Complete it'});
+  }
+  if(role==='ehs_executive'){
+    const st=state.permit&&state.permit.status;
+    if(st==='Draft')A.push({p:2,t:'A permit is still in draft',
+      s:(state.permit.header&&state.permit.header.permitNo||'Unnumbered')+' — it authorises nothing until submitted',
+      go:'permit',cta:'Finish it'});
+  }
+  if(role==='sme'){
+    if(pending.length)A.push({p:1,t:pending.length+' permit'+(pending.length>1?'s':'')+' awaiting your review',
+      s:'Add your review comments so they can be authorised',go:'approvals',cta:'Open review queue'});
+  }
+  if(role==='org_admin'||role==='master'){
+    if(pending.length)A.push({p:1,t:pending.length+' permit'+(pending.length>1?'s':'')+' awaiting a decision',
+      s:'Nobody can start work on these until they are issued',go:'approvals',cta:'Review and issue'});
+    const never=(typeof TEAM!=='undefined')?TEAM.filter(m=>!m.last_sign_in).length:0;
+    if(never)A.push({p:3,t:never+' account'+(never>1?'s have':' has')+' never signed in',
+      s:'They were invited but have not started — worth a nudge',go:'org',cta:'Open team'});
+    const stale=(typeof ORG!=='undefined'&&ORG.projects)
+      ? ORG.projects.filter(p=>p.status==='active'&&(!p.last_entry
+          || (Date.now()-new Date(p.last_entry).getTime())>7*864e5)).length : 0;
+    if(stale)A.push({p:2,t:stale+' active project'+(stale>1?'s have':' has')+' no entry this week',
+      s:'An active project with no register is a reporting gap, not a quiet week',go:'org',cta:'See projects'});
+  }
+  /* audit findings that are past due — everyone who can audit */
+  if(state.audit&&Array.isArray(state.audit.items)){
+    const over=state.audit.items.filter(f=>f.due&&f.status!=='Closed'&&new Date(f.due)<new Date()).length;
+    if(over)A.push({p:1,t:over+' audit finding'+(over>1?'s are':' is')+' past its due date',
+      s:'Overdue corrective actions are the first thing an auditor looks for',go:'audit',cta:'Open audit'});
+  }
+  if(typeof state.qa!=='undefined'&&Array.isArray(state.qa.rows)){
+    const majors=state.qa.rows.filter(r=>r.t==='Major NC'&&r.st!=='Closed').length;
+    if(majors)A.push({p:1,t:majors+' major non-conformity still open',
+      s:'Quality audit — these need a root cause and a corrective action',go:'qa',cta:'Open quality audit'});
+  }
+  if(typeof state.sec!=='undefined'&&Array.isArray(state.sec.rows)){
+    const crit=state.sec.rows.filter(r=>(r.sev==='High'||r.sev==='Critical')&&r.st!=='Closed').length;
+    if(crit)A.push({p:1,t:crit+' security event'+(crit>1?'s':'')+' unresolved',
+      s:'High or critical severity, still open',go:'sec',cta:'Open security log'});
+  }
+  return A.sort((a,b)=>a.p-b.p);
+}
+
+/* ---- permits that are live right now ---- */
+function opsLivePermits(){
+  const live=[];
+  const p=state.permit;
+  if(p&&['Issued','Active','Suspended'].includes(p.status)){
+    live.push({no:(p.header&&p.header.permitNo)||'Unnumbered',
+      what:permitTypeLabel(),status:p.status,
+      until:(p.valid&&p.valid.dayTo)||'',mine:true});
+  }
+  OPS.permits.filter(x=>x.status==='approved').slice(0,6).forEach(x=>{
+    live.push({no:x.permit_no||'—',what:x.work_types||'—',status:'Approved',
+      until:'',who:x.requester_name||''});
+  });
+  return live;
+}
+function opsReminders(){
+  const R=[],p=state.permit;
+  if(p&&['Issued','Active'].includes(p.status)){
+    if(p.valid&&p.valid.dayTo){
+      const hm=String(p.valid.dayTo).split(':');
+      if(hm.length===2){
+        const end=new Date();end.setHours(+hm[0],+hm[1],0,0);
+        const mins=Math.round((end-Date.now())/60000);
+        if(mins<0)R.push('The daily validity on '+((p.header&&p.header.permitNo)||'the open permit')
+          +' ended at '+p.valid.dayTo+' — work must stop until it is re-issued.');
+        else if(mins<90)R.push('Permit '+((p.header&&p.header.permitNo)||'')
+          +' expires at '+p.valid.dayTo+' — about '+mins+' minutes left.');
+      }
+    }
+    if(typeof gasNeeded==='function'&&gasNeeded()){
+      const latest=(typeof gasLatest==='function')?gasLatest():{};
+      if(!Object.keys(latest).length)R.push('This permit needs a gas test and none has been recorded.');
+    }
+  }
+  if(p&&p.valid&&p.valid.lifeTo){
+    const d=Math.ceil((new Date(p.valid.lifeTo)-Date.now())/864e5);
+    if(d>=0&&d<=2)R.push('The permit lifetime expires in '+(d===0?'today':d+' day'+(d>1?'s':''))+'.');
+  }
+  const t=todayISO(), e=state.daily&&state.daily[t];
+  if(e&&e.nearmiss>0)R.push(e.nearmiss+' near miss'+(e.nearmiss>1?'es':'')+' logged today — make sure the report is raised while it is fresh.');
+  return R;
+}
+
+function renderOps(){
+  const host=$('#homeOps'); if(!host)return;
+  const role=cloud.role||'viewer';
+  if(role==='viewer'){
+    host.innerHTML='<div class="ops-card"><h4>Nothing assigned to you yet</h4>'
+      +'<p class="ops-empty">Your account is registered as a viewer, so there is nothing to action. '
+      +'Once an administrator assigns your duty role, the permits, audits and reminders that belong to you will appear here.</p></div>';
+    return;
+  }
+  const acts=opsActions(), live=opsLivePermits(), rem=opsReminders();
+  const {c,days}=dailyCum();
+  const t=todayISO(), e=(state.daily&&state.daily[t])||{};
+
+  let html='';
+
+  /* needs attention */
+  html+='<div class="ops-card"><h4>Needs your attention'
+    +(acts.length?' <span class="ops-badge">'+acts.length+'</span>':'')+'</h4>';
+  html+= acts.length
+    ? '<div class="ops-list">'+acts.map((a,i)=>
+        '<div class="ops-item p'+a.p+'"><span class="ops-dot"></span>'
+        +'<span class="ops-txt"><b>'+esc(a.t)+'</b><span>'+esc(a.s)+'</span></span>'
+        +'<button class="pbtn ops-go" data-go="'+esc(a.go)+'">'+esc(a.cta)+'</button></div>').join('')+'</div>'
+    : '<p class="ops-empty">Nothing outstanding. The register is up to date and no approvals are waiting.</p>';
+  html+='</div>';
+
+  /* today's operations */
+  html+='<div class="ops-card"><h4>Today · '+esc(t)+'</h4>'
+    +'<div class="ops-mini">'
+    +miniStat('Man-hours',e.manhours||0)
+    +miniStat('On site',e.manpower||0)
+    +miniStat('Toolbox talks',e.tbt||0)
+    +miniStat('Near misses',e.nearmiss||0,(e.nearmiss>0))
+    +miniStat('First aid',e.firstaid||0,(e.firstaid>0))
+    +miniStat('Permits',e.permits||0)
+    +'</div>'
+    +'<div class="ops-foot"><span>'+days+' days logged · '+fmt(c.manhours)+' cumulative man-hours</span>'
+    +'<button class="pbtn ops-go" data-go="daily">Open register</button></div></div>';
+
+  /* live permits */
+  html+='<div class="ops-card"><h4>Live permits'
+    +(live.length?' <span class="ops-badge">'+live.length+'</span>':'')+'</h4>';
+  html+= live.length
+    ? '<div class="ops-list">'+live.map(l=>
+        '<div class="ops-item"><span class="ops-code">'+esc(l.no)+'</span>'
+        +'<span class="ops-txt"><b>'+esc(l.what)+'</b><span>'
+        +esc(l.status)+(l.until?' · valid until '+esc(l.until):'')+(l.who?' · '+esc(l.who):'')+'</span></span>'
+        +(l.mine?'<button class="pbtn ops-go" data-go="permit">Open</button>':'')+'</div>').join('')+'</div>'
+    : '<p class="ops-empty">No permit is currently issued or active.</p>';
+  html+='</div>';
+
+  /* reminders */
+  if(rem.length){
+    html+='<div class="ops-card warn"><h4>Reminders</h4><div class="ops-list">'
+      +rem.map(r=>'<div class="ops-item"><span class="ops-dot p1"></span>'
+        +'<span class="ops-txt"><b>'+esc(r)+'</b></span></div>').join('')+'</div></div>';
+  }
+
+  host.innerHTML=html;
+  host.querySelectorAll('.ops-go').forEach(b=>b.onclick=()=>{
+    const g=b.dataset.go;
+    if(g==='approvals'&&typeof openApprovals==='function')return openApprovals();
+    setView(g);
+  });
+}
+function miniStat(l,v,warn){
+  return '<div class="ops-ms'+(warn?' warn':'')+'"><b>'+esc(String(v))+'</b><span>'+esc(l)+'</span></div>';
+}
+
+
+/* ================================================================
+   ORGANISATIONS — platform administrator only
+   An organisation's admin is named by email address, so the claim
+   is bound to one person rather than to a link anyone could pass on.
+   ================================================================ */
+let ORGS=[];
+async function orgsLoad(){
+  const card=$('#orgsCard');if(!card)return;
+  card.style.display=(cloud.role==='master')?'':'none';
+  if(cloud.role!=='master')return;
+  if(!cloudGate('#orgsRows'))return;
+  try{
+    const {data,error}=await sb.rpc('all_organisations');
+    if(error)throw error;
+    ORGS=data||[];orgsRender();
+  }catch(e){
+    $('#orgsRows').innerHTML='<div class="ops-empty" style="color:var(--r-crit)">'+esc(e.message)
+      +(/function .*all_organisations/i.test(e.message)?' — run create-organisation.sql in Supabase.':'')+'</div>';
+  }
+}
+function orgsRender(){
+  const box=$('#orgsRows');if(!box)return;
+  $('#orgsCount').textContent=ORGS.length?ORGS.length+' organisations':'none yet';
+  box.innerHTML= ORGS.length ? ORGS.map(o=>{
+    const admins=(o.admins||[]),pending=(o.pending||[]);
+    return '<div class="org-row"><div class="pr-head">'
+      +'<b>'+esc(o.name)+'</b>'
+      +'<span class="pr-status s-active">'+o.members+' member'+(o.members===1?'':'s')+'</span>'
+      +'<span class="pr-status s-planned">'+o.projects+' project'+(o.projects===1?'':'s')+'</span>'
+      +'<button class="doc-btn org-admin-add" data-id="'+esc(o.id)+'" data-name="'+esc(o.name)+'">Name an admin</button>'
+      +'</div>'
+      +'<div class="pr-client">'
+      +(admins.length?'Admin: '+admins.map(esc).join(', '):'<span style="color:var(--amber,#C77E00)">No administrator yet</span>')
+      +(pending.length?' · <span style="color:var(--amber,#C77E00)">awaiting first sign-in: '+pending.map(esc).join(', ')+'</span>':'')
+      +'</div></div>';
+  }).join('') : '<div class="ops-empty">No organisations yet.</div>';
+
+  box.querySelectorAll('.org-admin-add').forEach(b=>b.onclick=()=>
+    orgCreateFlow({id:b.dataset.id,name:b.dataset.name}));
+}
+function orgCreateFlow(existing){
+  const isNew=!existing;
+  const body='<div class="grid2">'
+    +'<div class="fld full"><label>Organisation name *</label><input id="og_name" value="'
+      +esc(existing?existing.name:'')+'" placeholder="e.g. Acme Constructions"'+(existing?' disabled':'')+'></div>'
+    +'<div class="fld full"><label>Administrator email *</label><input id="og_email" type="email" '
+      +'placeholder="name@company.com — a work address or Gmail both work"></div>'
+    +'<div class="fld full"><label>Their job title</label><input id="og_title" value="Organisation Administrator"></div>'
+    +'</div>'
+    +'<div class="doc-note" style="margin-top:10px">If that address already has an account it becomes the administrator immediately. '
+    +'If not, the claim waits — they are promoted the first time they sign in, whether by Google or with an account you create for them.</div>';
+  showModal(isNew?'Add organisation':'Name an admin for '+existing.name, body, async ()=>{
+    if(!cloudGate())return false;
+    const name=(existing?existing.name:$('#og_name').value.trim());
+    const email=$('#og_email').value.trim();
+    if(!name){alert('The organisation needs a name.');return false;}
+    if(!email){alert('Enter the administrator email address.');return false;}
+    try{
+      const {data,error}=await sb.rpc('create_organisation',
+        {p_name:name,p_admin_email:email,p_title:$('#og_title').value.trim()||'Organisation Administrator'});
+      if(error)throw error;
+      if(data&&data.ok===false){alert(data.error);return false;}
+      toastMsg(data.status||'Organisation saved.');
+      await orgsLoad();await orgLoad();
+      return true;
+    }catch(e){alert(e.message);return false;}
+  }, isNew?'Create':'Assign');
+}
+(function(){
+  const on=(id,fn)=>{const b=$(id);if(b)b.onclick=fn;};
+  on('#orgNew',()=>orgCreateFlow(null));
+  on('#orgsRefresh',orgsLoad);
+})();
+/* organisations load with the dashboard; a pending admin claim settles at sign-in */
+const _orgLoadOrgs=orgLoad;
+orgLoad=async function(){ await _orgLoadOrgs.apply(this,arguments); try{await orgsLoad();}catch(e){} };
+async function claimAdminIfPending(){
+  if(!cloudReady().ok)return;
+  try{
+    const {data}=await sb.rpc('claim_pending_admin');
+    if(data&&data.ok){toastMsg('You are now the administrator of '+data.org+'.');
+      setTimeout(()=>location.reload(),1400);}
+  }catch(e){}
+}
 
 renderModes();renderSuggest();renderCtx();renderRailTools();renderThread();
 let permitInit=false,matrixInit=false;
@@ -5150,7 +5497,8 @@ function isGuest(){return cloudEnabled()&&cloud.guest&&!cloud.user}
   const _sb=setCloudBadge;
   setCloudBadge=function(){_sb.apply(this,arguments);
     try{if(typeof orgNavVisibility==='function')orgNavVisibility();}catch(e){}
-    try{if(typeof checkInviteLink==='function'&&!window._invChecked){window._invChecked=1;checkInviteLink();}}catch(e){}};
+    try{if(typeof checkInviteLink==='function'&&!window._invChecked){window._invChecked=1;checkInviteLink();}}catch(e){}
+    try{if(typeof claimAdminIfPending==='function'&&cloud.user&&!window._claimChecked){window._claimChecked=1;claimAdminIfPending();}}catch(e){}};
 })();
 function guestGate(what){
   if(!isGuest())return false;
