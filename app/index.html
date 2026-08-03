@@ -406,6 +406,71 @@
   .rl-high{background:#FBEDE3;color:var(--r-high)}
   .rl-crit{background:#FBEAEA;color:var(--r-crit)}
 
+  /* ---- organisation dashboard ---- */
+  .chart-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .chart-cell{border:1px solid var(--border);border-radius:10px;padding:16px;background:var(--surface)}
+  .chart-t{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--text-3);margin-bottom:12px}
+  .chart-empty{font-size:12.5px;color:var(--text-3);padding:24px 0;text-align:center}
+  .pie{width:120px;height:120px;margin:0 auto;display:block}
+  .legend{display:flex;flex-direction:column;gap:5px;margin-top:12px;font-size:11.5px;color:var(--text-2)}
+  .legend span{display:flex;align-items:center;gap:7px}
+  .legend i{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
+  .legend b{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--text)}
+  .hbars{display:flex;flex-direction:column;gap:8px}
+  .hbar{display:flex;align-items:center;gap:9px;font-size:11.5px}
+  .hb-l{font-family:"IBM Plex Mono",monospace;font-size:10.5px;width:74px;flex:0 0 auto;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-2)}
+  .hb-t{flex:1;height:9px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+  .hb-t i{display:block;height:100%;background:var(--accent);border-radius:99px}
+  .hb-v{font-family:"IBM Plex Mono",monospace;font-size:10.5px;width:62px;text-align:right;flex:0 0 auto;color:var(--text-2)}
+
+  .proj-row{border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:10px;background:var(--surface)}
+  .proj-row:hover{border-color:var(--border-2)}
+  .pr-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .pr-code{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.04em;
+    background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:3px 9px;flex:0 0 auto}
+  .pr-head b{font-size:14.5px;flex:1;min-width:120px}
+  .pr-status{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    border-radius:4px;padding:3px 8px}
+  .s-active{background:#E8F5EC;color:var(--r-low)}
+  .s-planned{background:#EAF1F8;color:var(--mandatory,#1F6FB2)}
+  .s-on_hold{background:#FBF3E0;color:#9A6B00}
+  .s-closed{background:var(--surface-2);color:var(--text-3)}
+  .pr-client{font-size:12.5px;color:var(--text-3);margin-top:7px}
+  .pr-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:11px;border-top:1px solid var(--border)}
+  .pr-stat{display:flex;flex-direction:column;gap:2px;border:1px solid var(--border);border-radius:7px;
+    padding:6px 11px;min-width:74px}
+  .pr-stat span{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);
+    font-family:"IBM Plex Mono",monospace}
+  .pr-stat b{font-size:14px;font-variant-numeric:tabular-nums}
+
+  @media(max-width:1000px){.chart-row{grid-template-columns:1fr}}
+  @media(max-width:600px){
+    .pr-stats{gap:6px}
+    .pr-stat{min-width:64px;padding:5px 9px}
+    .pr-stat b{font-size:13px}
+  }
+
+  /* ---- team management ---- */
+  .team-row{border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:10px;background:var(--surface)}
+  .tm-head{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+  .tm-av{width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;
+    font-weight:700;font-size:14px;flex:0 0 auto}
+  .tm-id{display:flex;flex-direction:column;gap:1px;flex:1;min-width:120px}
+  .tm-id b{font-size:14px}
+  .tm-mail{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--text-3);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tm-act{font-size:10.5px;font-weight:600;border-radius:5px;padding:3px 9px;flex:0 0 auto}
+  .tm-act.live{background:#E8F5EC;color:var(--r-low)}
+  .tm-act.stale{background:#FBF3E0;color:#9A6B00}
+  .tm-act.never{background:var(--surface-2);color:var(--text-3)}
+  .tm-what{font-size:11.5px;color:var(--text-3);margin-top:10px;padding-top:9px;border-top:1px solid var(--border)}
+  .tm-note{font-size:11.5px;color:var(--text-3);align-self:center}
+  .team-filter{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-2);cursor:pointer}
+  .team-filter input{width:15px;height:15px;accent-color:var(--accent)}
+  .team-row input:disabled,.team-row select:disabled{background:var(--surface-2);color:var(--text-3);cursor:not-allowed}
+
 /* ---- permit engine ---- */
   .hazgrp{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden}
   .hazgrp summary{display:flex;align-items:center;gap:9px;padding:12px 14px;cursor:pointer;font-size:13.5px;list-style:none}
@@ -675,6 +740,10 @@
     <button class="tool-btn" id="auditNav">
       <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m8.5 11 1.8 1.8 3.2-3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="tt">Audit<span class="sub">Form · evidence · compliance</span></span>
+    </button>
+    <button class="tool-btn" id="orgNav" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M6 21V10l6-4 6 4v11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 21v-5h4v5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span class="tt">Organisation<span class="sub">Projects · portfolio dashboard</span></span>
     </button>
     <button class="tool-btn" id="jsaNav">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 6H5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1M8 4h8v3H8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -988,6 +1057,56 @@
         <button class="pbtn" id="sAsk">Ask Guardian</button>
         <button class="pbtn" id="sReset">Reset</button>
         <button class="pbtn" id="sPrint">Print log</button>
+      </div>
+    </div>
+
+
+    <!-- Organisation dashboard (org_admin / master) -->
+    <div id="orgView" class="view" style="display:none">
+      <div class="permit-scroll"><div class="permit" style="max-width:1180px">
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:var(--accent)"></span>Portfolio overview <span class="sec-prog" id="orgScope"></span></h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 14px">Every project, its client and code, and the record behind it. Figures come straight from the database — no local copies.</p>
+          <div class="kpi-grid" id="orgKpis"></div>
+        </div>
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:var(--r-med)"></span>Where the effort went</h3>
+          <div class="chart-row">
+            <div class="chart-cell"><div class="chart-t">Activity mix</div><div id="pieActivity"></div></div>
+            <div class="chart-cell"><div class="chart-t">Man-hours by project</div><div id="barHours"></div></div>
+            <div class="chart-cell"><div class="chart-t">Permit outcomes</div><div id="piePermits"></div></div>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:#7C5CD6"></span>Team <span class="sec-prog" id="teamCount"></span></h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Assign what each person may do and which project they work on. Changes take effect the next time they load the app.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="pbtn" id="teamInvite">Invite someone</button>
+            <button class="pbtn" id="teamRefresh">Refresh</button>
+            <label class="team-filter"><input type="checkbox" id="teamActiveOnly"> Active in the last 30 days</label>
+          </div>
+          <div id="teamRows"></div>
+        </div>
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>Projects <span class="sec-prog" id="projCount"></span></h3>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="pbtn primary" id="projNew">+ New project</button>
+            <button class="pbtn" id="orgInvite">Invite by link</button>
+            <button class="pbtn" id="orgRefresh">Refresh</button>
+          </div>
+          <div id="projRows"></div>
+        </div>
+
+      </div></div>
+      <div class="pbar">
+        <span class="pleft" id="orgMeta"></span>
+        <button class="pbtn" id="orgAsk">Ask Guardian</button>
+        <button class="pbtn" id="orgXlsx">Export Excel</button>
+        <button class="pbtn primary" id="orgPptx">Download presentation</button>
       </div>
     </div>
 
@@ -4460,6 +4579,536 @@ function attClear(){ATT.files=[];attRender();}
   };
 })();
 
+
+/* ================================================================
+   ORGANISATION DASHBOARD
+   Projects carry a code; every record hangs off that code. One RPC
+   returns the whole portfolio rolled up, so this is a single call.
+   ================================================================ */
+let ORG={projects:[],generated:null,scope:''};
+
+function orgCan(){return cloud.user && (cloud.role==='org_admin'||cloud.role==='master');}
+
+async function orgLoad(){
+  const meta=$('#orgMeta');
+  if(!cloudEnabled()||!cloud.user){if(meta)meta.textContent='Sign in to load the portfolio.';return;}
+  if(meta)meta.textContent='Loading…';
+  try{
+    const {data,error}=await cloud.sb.rpc('org_dashboard');
+    if(error)throw error;
+    ORG=data||{projects:[]};
+    ORG.projects=ORG.projects||[];
+    orgRender();
+  }catch(e){
+    if(meta)meta.textContent='Could not load: '+e.message
+      +(/function .*org_dashboard/i.test(e.message)?' — run projects-and-invites.sql in Supabase.':'');
+  }
+}
+const nf=n=>Number(n||0).toLocaleString('en-IN');
+
+function orgTotals(){
+  const t={manhours:0,near_misses:0,first_aid:0,toolbox_talks:0,inductions:0,inspections:0,
+    audits:0,obs_raised:0,obs_closed:0,permits_total:0,permits_pending:0,permits_approved:0,
+    permits_rejected:0,team_size:0,days_logged:0};
+  ORG.projects.forEach(p=>Object.keys(t).forEach(k=>t[k]+=Number(p[k]||0)));
+  t.active=ORG.projects.filter(p=>p.status==='active').length;
+  t.projects=ORG.projects.length;
+  return t;
+}
+function orgRender(){
+  const t=orgTotals();
+  $('#orgScope').textContent=(ORG.scope||'')+' · '+t.projects+' projects';
+  $('#projCount').textContent=t.projects?t.active+' active of '+t.projects:'none yet';
+
+  const ltifr=t.manhours>0?((t.first_aid)*1e6/t.manhours):0;
+  $('#orgKpis').innerHTML=[
+    ['Projects',t.projects,t.active+' active'],
+    ['Man-hours',nf(t.manhours),t.days_logged+' days logged'],
+    ['People assigned',nf(t.team_size),'across the portfolio'],
+    ['Near misses',nf(t.near_misses),'reported'],
+    ['First-aid cases',nf(t.first_aid),(t.manhours?ltifr.toFixed(2)+' per million hrs':'no hours yet')],
+    ['Observations',nf(t.obs_raised),nf(t.obs_closed)+' closed'],
+    ['Toolbox talks',nf(t.toolbox_talks),nf(t.inductions)+' inductions'],
+    ['Permits',nf(t.permits_total),t.permits_pending+' pending']
+  ].map(([l,v,s])=>'<div class="kpi"><div class="k">'+l+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>').join('');
+
+  /* charts — plain SVG, no library, so they work offline and print */
+  drawPie('#pieActivity',[
+    ['Toolbox talks',t.toolbox_talks,'#0F766E'],['Inductions',t.inductions,'#1F6FB2'],
+    ['Inspections',t.inspections,'#C77E00'],['Audits',t.audits,'#7C5CD6'],
+    ['Observations',t.obs_raised,'#15A34A']]);
+  drawPie('#piePermits',[
+    ['Approved',t.permits_approved,'#15A34A'],['Pending',t.permits_pending,'#C77E00'],
+    ['Rejected',t.permits_rejected,'#DC2626']]);
+  drawBars('#barHours',ORG.projects.map(p=>[p.code,Number(p.manhours||0)]));
+
+  /* project table */
+  const rows=ORG.projects;
+  $('#projRows').innerHTML = rows.length ? rows.map(p=>{
+    const openObs=Number(p.obs_raised||0)-Number(p.obs_closed||0);
+    return '<div class="proj-row" data-id="'+esc(p.id)+'">'
+      +'<div class="pr-head"><span class="pr-code">'+esc(p.code)+'</span>'
+        +'<b>'+esc(p.name)+'</b>'
+        +'<span class="pr-status s-'+esc(p.status)+'">'+esc(p.status.replace('_',' '))+'</span>'
+        +'<button class="doc-btn pr-edit" title="Edit">Edit</button></div>'
+      +'<div class="pr-client">'+esc(p.client||'No client recorded')
+        +(p.client_code?' <span class="mono2">· '+esc(p.client_code)+'</span>':'')
+        +(p.location?' · '+esc(p.location):'')+(p.manager?' · '+esc(p.manager):'')+'</div>'
+      +'<div class="pr-stats">'
+        +statChip('Man-hours',nf(p.manhours))
+        +statChip('Team',nf(p.team_size))
+        +statChip('Near miss',nf(p.near_misses))
+        +statChip('First aid',nf(p.first_aid))
+        +statChip('Permits',nf(p.permits_total)+(Number(p.permits_pending)?' ('+p.permits_pending+' pending)':''))
+        +statChip('Open obs',nf(openObs))
+        +statChip('Last entry',p.last_entry?esc(p.last_entry):'—')
+      +'</div></div>';
+  }).join('') : '<div style="font-size:12.5px;color:var(--text-3)">No projects yet. Create one — every document, permit and register entry is filed against its code.</div>';
+
+  $('#projRows').querySelectorAll('.pr-edit').forEach(b=>b.onclick=()=>{
+    const id=b.closest('.proj-row').dataset.id;
+    projEdit(ORG.projects.find(p=>p.id===id));
+  });
+
+  $('#orgMeta').innerHTML='<b>'+t.projects+' projects · '+nf(t.manhours)+' man-hours</b>'
+    +' · generated '+(ORG.generated?new Date(ORG.generated).toLocaleString():'now');
+}
+function statChip(l,v){return '<span class="pr-stat"><span>'+l+'</span><b>'+v+'</b></span>'}
+
+/* ---- lightweight SVG charts ---- */
+function drawPie(sel,data){
+  const el=$(sel);if(!el)return;
+  const items=data.filter(d=>Number(d[1])>0);
+  const total=items.reduce((a,d)=>a+Number(d[1]),0);
+  if(!total){el.innerHTML='<div class="chart-empty">No data yet</div>';return;}
+  let a=-Math.PI/2,paths='';
+  items.forEach(([lbl,v,col])=>{
+    const frac=Number(v)/total, end=a+frac*Math.PI*2;
+    const x1=60+52*Math.cos(a), y1=60+52*Math.sin(a);
+    const x2=60+52*Math.cos(end), y2=60+52*Math.sin(end);
+    const large=frac>0.5?1:0;
+    paths+= (items.length===1)
+      ? '<circle cx="60" cy="60" r="52" fill="'+col+'"/>'
+      : '<path d="M60,60 L'+x1.toFixed(2)+','+y1.toFixed(2)+' A52,52 0 '+large+',1 '+x2.toFixed(2)+','+y2.toFixed(2)+' Z" fill="'+col+'"/>';
+    a=end;
+  });
+  el.innerHTML='<svg viewBox="0 0 120 120" class="pie">'+paths+'<circle cx="60" cy="60" r="26" fill="var(--surface)"/></svg>'
+    +'<div class="legend">'+items.map(([lbl,v,col])=>
+      '<span><i style="background:'+col+'"></i>'+esc(lbl)+' <b>'+Math.round(Number(v)/total*100)+'%</b></span>').join('')+'</div>';
+}
+function drawBars(sel,pairs){
+  const el=$(sel);if(!el)return;
+  const items=pairs.filter(p=>p[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  if(!items.length){el.innerHTML='<div class="chart-empty">No man-hours logged yet</div>';return;}
+  const max=Math.max(...items.map(i=>i[1]));
+  el.innerHTML='<div class="hbars">'+items.map(([code,v])=>
+    '<div class="hbar"><span class="hb-l">'+esc(code)+'</span>'
+    +'<span class="hb-t"><i style="width:'+Math.max(3,Math.round(v/max*100))+'%"></i></span>'
+    +'<span class="hb-v">'+nf(v)+'</span></div>').join('')+'</div>';
+}
+
+/* ---- create / edit a project ---- */
+function projEdit(p){
+  const isNew=!p;
+  p=p||{code:'',name:'',client:'',client_code:'',location:'',status:'active',manager:''};
+  const g=(l,id,v,ph)=>'<div class="fld"><label>'+l+'</label><input id="'+id+'" value="'+esc(v||'')+'" placeholder="'+esc(ph||'')+'"></div>';
+  const body='<div class="grid2">'
+    +g('Project code *','pj_code',p.code,'BLR-P3')
+    +g('Project name *','pj_name',p.name,'Package 3 — Viaduct')
+    +g('Client','pj_client',p.client,'Bengaluru Metro Rail Corporation')
+    +g('Client reference','pj_ccode',p.client_code,'BMRCL/2026/P3')
+    +g('Location','pj_loc',p.location,'city, state')
+    +g('Project manager','pj_mgr',p.manager,'name')
+    +'<div class="fld"><label>Status</label><select id="pj_status">'
+      +['planned','active','on_hold','closed'].map(s=>'<option value="'+s+'"'+(p.status===s?' selected':'')+'>'+s.replace('_',' ')+'</option>').join('')
+    +'</select></div></div>';
+  showModal(isNew?'New project':'Edit '+p.code, body, async ()=>{
+    const code=$('#pj_code').value.trim().toUpperCase(), name=$('#pj_name').value.trim();
+    if(!code||!name){alert('A project needs a code and a name.');return false;}
+    const rec={code:code,name:name,client_name:$('#pj_client').value.trim(),
+      client_code:$('#pj_ccode').value.trim(),location:$('#pj_loc').value.trim(),
+      manager:$('#pj_mgr').value.trim(),status:$('#pj_status').value};
+    try{
+      if(isNew){rec.org_id=cloud.orgId; const {error}=await cloud.sb.from('projects').insert(rec); if(error)throw error;}
+      else{const {error}=await cloud.sb.from('projects').update(rec).eq('id',p.id); if(error)throw error;}
+      await orgLoad(); return true;
+    }catch(e){
+      alert(/duplicate|unique/i.test(e.message)
+        ? 'That project code is already used in this organisation.' : e.message);
+      return false;
+    }
+  });
+}
+
+/* ---- invite by link ---- */
+async function orgInviteFlow(){
+  const body='<div class="grid2">'
+    +'<div class="fld"><label>Role</label><select id="iv_role">'
+      +'<option value="ehs_executive">EHS executive — prepares and requests permits</option>'
+      +'<option value="sme">SME — reviews permit requests</option>'
+      +'<option value="viewer">Viewer — dashboard only</option>'
+    +'</select></div>'
+    +'<div class="fld"><label>Job title</label><input id="iv_title" placeholder="e.g. Site Engineer"></div>'
+    +'<div class="fld"><label>Project</label><select id="iv_proj"><option value="">— none —</option>'
+      +ORG.projects.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.code)+' · '+esc(p.name)+'</option>').join('')
+    +'</select></div>'
+    +'<div class="fld"><label>Lock to email (optional)</label><input id="iv_email" placeholder="leave blank for anyone"></div>'
+    +'<div class="fld"><label>Uses</label><input id="iv_uses" inputmode="numeric" value="1"></div>'
+    +'<div class="fld"><label>Valid for (days)</label><input id="iv_days" inputmode="numeric" value="14"></div>'
+    +'</div><div class="doc-note" style="margin-top:10px">Organisation administrators cannot be invited by link — that step is deliberately manual, from the administration console.</div>';
+  showModal('Invite by link', body, async ()=>{
+    const days=Math.max(1,Math.min(90,+$('#iv_days').value||14));
+    const rec={org_id:cloud.orgId,role:$('#iv_role').value,title:$('#iv_title').value.trim()||null,
+      project_id:$('#iv_proj').value||null,email:$('#iv_email').value.trim()||null,
+      max_uses:Math.max(1,Math.min(50,+$('#iv_uses').value||1)),
+      expires_at:new Date(Date.now()+days*864e5).toISOString()};
+    try{
+      const {data,error}=await cloud.sb.from('invites').insert(rec).select('token').single();
+      if(error)throw error;
+      const url=location.origin+location.pathname+'?invite='+data.token;
+      showModal('Invitation link',
+        '<p style="font-size:13.5px;color:var(--text-2);margin-bottom:10px">Send this to the person you are inviting. It expires in '
+        +days+' day'+(days>1?'s':'')+'.</p>'
+        +'<textarea id="iv_url" readonly style="width:100%;min-height:70px;font-family:monospace;font-size:12px;'
+        +'border:1px solid var(--border-2);border-radius:9px;padding:11px">'+esc(url)+'</textarea>',
+        async ()=>{try{await navigator.clipboard.writeText(url);toastMsg('Link copied.');}catch(e){}; return true;},'Copy link');
+      return false;
+    }catch(e){alert(e.message);return false;}
+  },'Create link');
+}
+
+/* ---- redeem an invite arriving by link ---- */
+async function checkInviteLink(){
+  const tok=new URLSearchParams(location.search).get('invite');
+  if(!tok)return;
+  if(!cloudEnabled())return;
+  try{
+    const {data:prev}=await cloud.sb.rpc('invite_preview',{p_token:tok});
+    if(!prev||!prev.ok){toastMsg('That invitation link is no longer valid.');return;}
+    if(!cloud.user){
+      toastMsg('Sign in to join '+(prev.org||'the organisation')+'.');
+      if(typeof showAuth==='function')showAuth(true);
+      return;
+    }
+    const {data:res}=await cloud.sb.rpc('redeem_invite',{p_token:tok});
+    if(res&&res.ok){
+      toastMsg('You have joined '+res.org+' as '+String(res.role).replace('_',' ')+'.');
+      history.replaceState(null,'',location.pathname);
+      setTimeout(()=>location.reload(),1200);
+    } else toastMsg((res&&res.error)||'Could not accept that invitation.');
+  }catch(e){}
+}
+
+/* ---- a small reusable modal ---- */
+function showModal(title,bodyHtml,onOk,okLabel){
+  let ov=$('#gModal');
+  if(!ov){
+    ov=document.createElement('div');ov.id='gModal';ov.className='overlay';
+    ov.innerHTML='<div class="modal set" style="max-width:600px"><h2 id="gmT"></h2>'
+      +'<div id="gmB"></div><div class="m-actions">'
+      +'<button class="btn-ghost" id="gmC">Cancel</button>'
+      +'<button class="btn-save" id="gmO">Save</button></div></div>';
+    document.body.appendChild(ov);
+  }
+  $('#gmT').textContent=title;$('#gmB').innerHTML=bodyHtml;
+  $('#gmO').textContent=okLabel||'Save';
+  ov.classList.add('show');
+  $('#gmC').onclick=()=>ov.classList.remove('show');
+  $('#gmO').onclick=async()=>{const r=await onOk();if(r!==false)ov.classList.remove('show');};
+}
+
+
+/* ---- presentation export (PptxGenJS, loaded on first use) ---- */
+let _pptxLib=null;
+async function loadPptx(){
+  if(_pptxLib)return _pptxLib;
+  if(window.PptxGenJS){_pptxLib=window.PptxGenJS;return _pptxLib;}
+  await new Promise((res,rej)=>{const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';
+    s.onload=res;s.onerror=()=>rej(new Error('Could not load the presentation library — check your connection.'));
+    document.head.appendChild(s);});
+  _pptxLib=window.PptxGenJS;return _pptxLib;
+}
+async function orgExportPptx(){
+  const btn=$('#orgPptx'),old=btn?btn.textContent:'';
+  if(btn){btn.textContent='Building…';btn.disabled=true;}
+  try{
+    const P=await loadPptx();
+    const t=orgTotals(), pptx=new P();
+    pptx.layout='LAYOUT_WIDE';
+    const TEAL='0F766E', INK='111D1B', GREY='7B8886';
+    const orgName=(cloud.orgName||'Guardian EHS');
+
+    /* 1 — title */
+    let s=pptx.addSlide();
+    s.background={color:'FFFFFF'};
+    s.addShape(pptx.ShapeType.rect,{x:0,y:0,w:0.22,h:7.5,fill:{color:TEAL}});
+    s.addText('EHS Portfolio Review',{x:0.7,y:2.2,w:9,h:0.9,fontSize:40,bold:true,color:INK});
+    s.addText(orgName,{x:0.7,y:3.1,w:9,h:0.5,fontSize:20,color:TEAL});
+    s.addText(t.projects+' projects · '+nf(t.manhours)+' man-hours · '+t.active+' active',
+      {x:0.7,y:3.7,w:9,h:0.4,fontSize:14,color:GREY});
+    s.addText('Generated '+new Date().toLocaleString()+' · Guardian',
+      {x:0.7,y:6.6,w:9,h:0.3,fontSize:11,color:GREY});
+
+    /* 2 — the headline numbers */
+    s=pptx.addSlide();
+    s.addText('Portfolio at a glance',{x:0.5,y:0.35,w:9,h:0.5,fontSize:26,bold:true,color:INK});
+    const tiles=[['Projects',t.projects],['Man-hours',nf(t.manhours)],['People',nf(t.team_size)],
+      ['Near misses',nf(t.near_misses)],['First aid',nf(t.first_aid)],['Toolbox talks',nf(t.toolbox_talks)],
+      ['Observations',nf(t.obs_raised)],['Permits',nf(t.permits_total)]];
+    tiles.forEach((tl,i)=>{
+      const x=0.5+(i%4)*2.3, y=1.3+Math.floor(i/4)*1.6;
+      s.addShape(pptx.ShapeType.roundRect,{x:x,y:y,w:2.1,h:1.35,fill:{color:'F7F8F8'},line:{color:'E4E6E6'},rectRadius:0.08});
+      s.addText(String(tl[1]),{x:x,y:y+0.18,w:2.1,h:0.55,fontSize:26,bold:true,color:INK,align:'center'});
+      s.addText(tl[0],{x:x,y:y+0.78,w:2.1,h:0.35,fontSize:11,color:GREY,align:'center'});
+    });
+
+    /* 3 — real pie charts */
+    s=pptx.addSlide();
+    s.addText('Where the effort went',{x:0.5,y:0.35,w:9,h:0.5,fontSize:26,bold:true,color:INK});
+    const act=[['Toolbox talks',t.toolbox_talks],['Inductions',t.inductions],['Inspections',t.inspections],
+      ['Audits',t.audits],['Observations',t.obs_raised]].filter(r=>r[1]>0);
+    if(act.length)s.addChart(pptx.ChartType.pie,
+      [{name:'Activity',labels:act.map(r=>r[0]),values:act.map(r=>r[1])}],
+      {x:0.4,y:1.1,w:5.9,h:4.6,showLegend:true,legendPos:'b',showPercent:true,
+       chartColors:['0F766E','1F6FB2','C77E00','7C5CD6','15A34A']});
+    const perm=[['Approved',t.permits_approved],['Pending',t.permits_pending],['Rejected',t.permits_rejected]]
+      .filter(r=>r[1]>0);
+    if(perm.length)s.addChart(pptx.ChartType.doughnut,
+      [{name:'Permits',labels:perm.map(r=>r[0]),values:perm.map(r=>r[1])}],
+      {x:6.6,y:1.1,w:5.9,h:4.6,showLegend:true,legendPos:'b',showPercent:true,
+       chartColors:['15A34A','C77E00','DC2626']});
+    if(!act.length&&!perm.length)
+      s.addText('No activity recorded yet.',{x:0.5,y:3,w:9,h:0.5,fontSize:16,color:GREY});
+
+    /* 4 — man-hours by project */
+    const bars=ORG.projects.filter(p=>Number(p.manhours)>0).sort((a,b)=>b.manhours-a.manhours).slice(0,10);
+    if(bars.length){
+      s=pptx.addSlide();
+      s.addText('Man-hours by project',{x:0.5,y:0.35,w:9,h:0.5,fontSize:26,bold:true,color:INK});
+      s.addChart(pptx.ChartType.bar,
+        [{name:'Man-hours',labels:bars.map(p=>p.code),values:bars.map(p=>Number(p.manhours))}],
+        {x:0.5,y:1.1,w:12.3,h:5.3,barDir:'bar',showValue:true,chartColors:[TEAL],
+         catAxisLabelFontSize:11,valAxisLabelFontSize:11});
+    }
+
+    /* 5 — the project register */
+    s=pptx.addSlide();
+    s.addText('Projects',{x:0.5,y:0.35,w:9,h:0.5,fontSize:26,bold:true,color:INK});
+    const head=['Code','Project','Client','Status','Man-hrs','Near miss','Permits'];
+    const rows=[head.map(h=>({text:h,options:{bold:true,color:'FFFFFF',fill:{color:TEAL},fontSize:11}}))];
+    ORG.projects.slice(0,14).forEach(p=>rows.push([
+      {text:p.code||'',options:{fontSize:10,bold:true}},
+      {text:p.name||'',options:{fontSize:10}},
+      {text:p.client||'—',options:{fontSize:10}},
+      {text:(p.status||'').replace('_',' '),options:{fontSize:10}},
+      {text:nf(p.manhours),options:{fontSize:10,align:'right'}},
+      {text:nf(p.near_misses),options:{fontSize:10,align:'right'}},
+      {text:nf(p.permits_total),options:{fontSize:10,align:'right'}}
+    ]));
+    s.addTable(rows,{x:0.4,y:1.1,w:12.5,border:{type:'solid',color:'E4E6E6',pt:0.5},
+      colW:[1.5,3.2,3.2,1.4,1.1,1.1,1.0],rowH:0.32,valign:'middle'});
+    s.addText('Decision support only — verify against site records before issuing externally.',
+      {x:0.4,y:6.9,w:12.5,h:0.3,fontSize:9,color:GREY,italic:true});
+
+    await pptx.writeFile({fileName:'guardian-portfolio-'+todayISO()+'.pptx'});
+  }catch(e){
+    alert('Presentation export failed: '+e.message);
+  }finally{ if(btn){btn.textContent=old;btn.disabled=false;} }
+}
+
+async function orgExportXlsx(){
+  try{
+    const XLSX=await loadXLSX();
+    const head=['Code','Project','Client','Client ref','Location','Status','Manager','Team',
+      'Days logged','Man-hours','Near misses','First aid','Toolbox talks','Inductions','Inspections',
+      'Audits','Obs raised','Obs closed','Permits','Pending','Approved','Rejected','Last entry'];
+    const body=ORG.projects.map(p=>[p.code,p.name,p.client||'',p.client_code||'',p.location||'',p.status,
+      p.manager||'',p.team_size,p.days_logged,p.manhours,p.near_misses,p.first_aid,p.toolbox_talks,
+      p.inductions,p.inspections,p.audits,p.obs_raised,p.obs_closed,p.permits_total,
+      p.permits_pending,p.permits_approved,p.permits_rejected,p.last_entry||'']);
+    const wb=XLSX.utils.book_new();
+    const ws=XLSX.utils.aoa_to_sheet([['Guardian — EHS Portfolio'],[ 'Organisation',(cloud.orgName||'—')],
+      ['Exported',new Date().toLocaleString()],[],head,...body]);
+    ws['!cols']=head.map((h,i)=>({wch:i<3?24:13}));
+    ws['!freeze']={xSplit:1,ySplit:5};
+    XLSX.utils.book_append_sheet(wb,ws,'Portfolio');
+    XLSX.writeFile(wb,'guardian-portfolio-'+todayISO()+'.xlsx');
+  }catch(e){alert('Excel export failed: '+e.message);}
+}
+
+/* ---- wiring ---- */
+(function(){
+  const nav=$('#orgNav');if(!nav)return;
+  nav.onclick=()=>{setView('org');if(typeof closeNav==='function')closeNav();};
+  const on=(id,fn)=>{const b=$(id);if(b)b.onclick=fn;};
+  on('#orgRefresh',orgLoad);
+  on('#projNew',()=>projEdit(null));
+  on('#orgInvite',orgInviteFlow);
+  on('#orgPptx',orgExportPptx);
+  on('#orgXlsx',orgExportXlsx);
+  on('#orgAsk',()=>{
+    const t=orgTotals();
+    askGuardian('Review this EHS portfolio and tell me what deserves attention.\n\n'
+      +ORG.projects.map(p=>p.code+' ('+(p.client||'no client')+', '+p.status+'): '
+        +nf(p.manhours)+' man-hours, '+p.near_misses+' near misses, '+p.first_aid+' first aid, '
+        +(Number(p.obs_raised)-Number(p.obs_closed))+' observations still open, '
+        +p.permits_pending+' permits pending').join('\n')
+      +'\n\nWhich projects are under-reporting, and where is the risk concentrated?');
+  });
+})();
+
+/* org dashboard joins the view system */
+const _setViewOrg=setView;
+setView=function(v){
+  _setViewOrg(v);
+  const el=$('#orgView');if(el)el.style.display=(v==='org')?'flex':'none';
+  const n=$('#orgNav');if(n)n.classList.toggle('active',v==='org');
+  if(v==='org')orgLoad();
+};
+/* the nav entry only exists for people who run an organisation */
+function orgNavVisibility(){
+  const n=$('#orgNav');if(!n)return;
+  n.style.display=orgCan()?'flex':'none';
+}
+
+
+/* ================================================================
+   TEAM — who is in the organisation and what they may do
+   Every rule is enforced in the database (set_member / remove_member);
+   the interface only reflects them.
+   ================================================================ */
+let TEAM=[];
+const ROLE_LABEL={viewer:'Viewer',ehs_executive:'EHS executive',sme:'SME reviewer',
+  org_admin:'Organisation admin',master:'Platform admin'};
+const ROLE_WHAT={
+  viewer:'Dashboard only — cannot raise, review or issue anything.',
+  ehs_executive:'Prepares permits and submits them for approval.',
+  sme:'Adds review comments to permit requests. Cannot approve.',
+  org_admin:'Verifies and issues permits; manages this organisation.',
+  master:'Everything, across every organisation.'};
+
+async function teamLoad(){
+  if(!cloudEnabled()||!cloud.user)return;
+  try{
+    const {data,error}=await cloud.sb.rpc('org_members');
+    if(error)throw error;
+    TEAM=data||[];
+    teamRender();
+  }catch(e){
+    const box=$('#teamRows');
+    if(box)box.innerHTML='<div style="font-size:12.5px;color:var(--r-crit)">Could not load the team: '+esc(e.message)
+      +(/function .*org_members/i.test(e.message)?' — run team-management.sql in Supabase.':'')+'</div>';
+  }
+}
+function daysSince(iso){
+  if(!iso)return null;
+  return Math.floor((Date.now()-new Date(iso).getTime())/864e5);
+}
+function activityLabel(m){
+  const d=daysSince(m.last_sign_in);
+  if(d===null)return {t:'Never signed in',k:'never'};
+  if(d===0)return {t:'Active today',k:'live'};
+  if(d===1)return {t:'Active yesterday',k:'live'};
+  if(d<=30)return {t:'Active '+d+' days ago',k:'live'};
+  return {t:'Last seen '+d+' days ago',k:'stale'};
+}
+function teamRender(){
+  const box=$('#teamRows');if(!box)return;
+  const activeOnly=$('#teamActiveOnly')&&$('#teamActiveOnly').checked;
+  const list=TEAM.filter(m=>{
+    if(!activeOnly)return true;
+    const d=daysSince(m.last_sign_in);
+    return d!==null&&d<=30;
+  });
+  const live=TEAM.filter(m=>{const d=daysSince(m.last_sign_in);return d!==null&&d<=30;}).length;
+  $('#teamCount').textContent=TEAM.length?live+' active of '+TEAM.length:'nobody yet';
+
+  if(!list.length){
+    box.innerHTML='<div style="font-size:12.5px;color:var(--text-3)">'
+      +(TEAM.length?'Nobody has signed in within 30 days.':'No one has joined yet — use “Invite someone”.')+'</div>';
+    return;
+  }
+  const iAmMaster=cloud.role==='master';
+  box.innerHTML=list.map(m=>{
+    const a=activityLabel(m);
+    const locked=(!iAmMaster&&(m.role==='org_admin'||m.role==='master'));
+    const roles=iAmMaster?['viewer','ehs_executive','sme','org_admin','master']
+                         :['viewer','ehs_executive','sme'];
+    return '<div class="team-row" data-id="'+esc(m.id)+'">'
+      +'<div class="tm-head">'
+        +'<span class="tm-av">'+esc((m.full_name||m.email||'?').trim().charAt(0).toUpperCase())+'</span>'
+        +'<span class="tm-id"><b>'+esc(m.full_name||m.email)+'</b>'
+          +'<span class="tm-mail">'+esc(m.email||'')+'</span></span>'
+        +'<span class="tm-act '+a.k+'">'+a.t+'</span>'
+      +'</div>'
+      +'<div class="grid2" style="margin-top:10px">'
+        +'<div class="fld"><label>Role</label>'
+          +(locked
+            ? '<input value="'+esc(ROLE_LABEL[m.role]||m.role)+'" disabled title="Administrators are changed by the platform administrator">'
+            : '<select class="tm-role">'+roles.map(r=>'<option value="'+r+'"'+(m.role===r?' selected':'')
+                +'>'+ROLE_LABEL[r]+'</option>').join('')+'</select>')
+        +'</div>'
+        +'<div class="fld"><label>Job title</label><input class="tm-title" value="'+esc(m.title||'')
+          +'" placeholder="e.g. Site Engineer"'+(locked?' disabled':'')+'></div>'
+        +'<div class="fld"><label>Project</label><select class="tm-proj"'+(locked?' disabled':'')+'>'
+          +'<option value="">— not assigned —</option>'
+          +ORG.projects.map(p=>'<option value="'+esc(p.id)+'"'+(m.project_id===p.id?' selected':'')
+            +'>'+esc(p.code)+' · '+esc(p.name)+'</option>').join('')+'</select></div>'
+        +'<div class="fld"><label>&nbsp;</label><div style="display:flex;gap:8px">'
+          +(locked?'<span class="tm-note">Managed by the platform administrator</span>'
+                  :'<button class="pbtn tm-save">Save</button>'
+                   +(m.is_me?'':'<button class="pbtn tm-remove">Remove</button>'))
+        +'</div></div>'
+      +'</div>'
+      +'<div class="tm-what">'+esc(ROLE_WHAT[m.role]||'')+'</div>'
+      +'</div>';
+  }).join('');
+
+  box.querySelectorAll('.team-row').forEach(row=>{
+    const id=row.dataset.id, m=TEAM.find(x=>x.id===id);
+    const save=row.querySelector('.tm-save');
+    if(save)save.onclick=async()=>{
+      const roleSel=row.querySelector('.tm-role');
+      save.textContent='Saving…';save.disabled=true;
+      try{
+        const {data,error}=await cloud.sb.rpc('set_member',{
+          p_user:id,
+          p_role:roleSel?roleSel.value:null,
+          p_title:row.querySelector('.tm-title').value.trim()||null,
+          p_project:row.querySelector('.tm-proj').value||null,
+          p_clear_project:!row.querySelector('.tm-proj').value
+        });
+        if(error)throw error;
+        if(data&&data.ok===false){toastMsg(data.error);}
+        else{toastMsg('Updated '+(m.full_name||m.email)+'.');await teamLoad();await orgLoad();}
+      }catch(e){toastMsg(e.message);}
+      save.textContent='Save';save.disabled=false;
+    };
+    const rm=row.querySelector('.tm-remove');
+    if(rm)rm.onclick=async()=>{
+      if(!confirm('Remove '+(m.full_name||m.email)+' from this organisation?\n\n'
+        +'Their account is kept and their signatures stay on the permits they signed — they simply lose access to this organisation.'))return;
+      try{
+        const {data,error}=await cloud.sb.rpc('remove_member',{p_user:id});
+        if(error)throw error;
+        if(data&&data.ok===false)toastMsg(data.error);
+        else{toastMsg('Removed.');await teamLoad();await orgLoad();}
+      }catch(e){toastMsg(e.message);}
+    };
+  });
+}
+
+(function(){
+  const on=(id,fn)=>{const b=$(id);if(b)b.onclick=fn;};
+  on('#teamRefresh',teamLoad);
+  on('#teamInvite',()=>orgInviteFlow());
+  const f=$('#teamActiveOnly'); if(f)f.onchange=teamRender;
+})();
+/* the team list loads with the dashboard */
+const _orgLoadBase=orgLoad;
+orgLoad=async function(){ await _orgLoadBase.apply(this,arguments); try{await teamLoad();}catch(e){} };
+
 renderModes();renderSuggest();renderCtx();renderRailTools();renderThread();
 let permitInit=false,matrixInit=false;
 function ensurePermitInit(){if(permitInit)return;permitInit=true;bindHeader();renderTypeChips();renderChecks();renderPPE();updatePermitMeta();
@@ -4496,6 +5145,13 @@ function setCloudBadge(){
   }
 }
 function isGuest(){return cloudEnabled()&&cloud.guest&&!cloud.user}
+/* the Organisation nav appears only once we know the person runs one */
+(function(){
+  const _sb=setCloudBadge;
+  setCloudBadge=function(){_sb.apply(this,arguments);
+    try{if(typeof orgNavVisibility==='function')orgNavVisibility();}catch(e){}
+    try{if(typeof checkInviteLink==='function'&&!window._invChecked){window._invChecked=1;checkInviteLink();}}catch(e){}};
+})();
 function guestGate(what){
   if(!isGuest())return false;
   alert(what+' is available to signed-in members.\n\nCreate a free account (or sign in) to continue — your organization admin then assigns your site.');
