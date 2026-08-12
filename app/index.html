@@ -298,7 +298,8 @@
   @media(max-width:560px){.devgrid{grid-template-columns:1fr}}
 
   /* ================= adaptive layout by device class =================
-     Set on <body> from the device profile, so a phone, a tablet and a
+     Set on <body>
+<div class="beta-bar" id="betaBar" style="display:none"></div> from the device profile, so a phone, a tablet and a
      desktop each get a layout that suits the input and the screen. */
   body[data-device="phone"] .permit{max-width:none;padding:14px 12px 90px}
   body[data-device="phone"] .grid2,body[data-device="phone"] .devgrid{grid-template-columns:1fr}
@@ -582,6 +583,33 @@
     .lightbox.show{animation:none}
   }
 
+  /* ---- incident reporting ---- */
+  .inc-types{display:flex;gap:7px;flex-wrap:wrap}
+  .inc-type{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border-2);
+    background:var(--surface);border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:600;
+    color:var(--text-3);cursor:pointer;font-family:inherit;transition:.15s}
+  .inc-type .dot{width:8px;height:8px;border-radius:50%;background:var(--tc);flex:0 0 auto}
+  .inc-type:hover{border-color:var(--tc);color:var(--text)}
+  .inc-type.on{border-color:var(--tc);background:var(--tc);color:#fff}
+  .inc-type.on .dot{background:#fff}
+
+  /* ---- closed beta bar ---- */
+  .beta-bar{display:flex;align-items:center;gap:12px;padding:9px 16px;background:var(--accent);color:#fff;
+    font-size:12.5px;position:relative;z-index:70;flex-wrap:wrap}
+  .beta-bar.wait{background:#8A6A3B}
+  .beta-bar.stop{background:var(--r-crit)}
+  .bb-tag{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;
+    background:rgba(255,255,255,.22);border-radius:4px;padding:3px 8px;flex:0 0 auto}
+  .bb-t{flex:1;min-width:180px;line-height:1.45}
+  .bb-t b{font-weight:700}
+  .bb-btn{border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;
+    border-radius:7px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;flex:0 0 auto}
+  .bb-btn:hover{background:rgba(255,255,255,.24)}
+  .ack-box{border:1px solid var(--amber,#C77E00);background:#FDFAF3;border-radius:10px;padding:14px;margin-top:14px}
+  .ack-row{display:flex;gap:11px;align-items:flex-start;font-size:12.5px;line-height:1.55;cursor:pointer}
+  .ack-row input{width:18px;height:18px;accent-color:var(--accent);flex:0 0 auto;margin-top:1px}
+  @media(max-width:600px){.beta-bar{padding:8px 12px;font-size:12px}}
+
 /* ---- permit engine ---- */
   .hazgrp{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden}
   .hazgrp summary{display:flex;align-items:center;gap:9px;padding:12px 14px;cursor:pointer;font-size:13.5px;list-style:none}
@@ -855,6 +883,10 @@
     <button class="tool-btn" id="orgNav" style="display:none">
       <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M6 21V10l6-4 6 4v11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 21v-5h4v5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
       <span class="tt">Organisation<span class="sub">Projects · portfolio dashboard</span></span>
+    </button>
+    <button class="tool-btn" id="incidentNav">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5m0 3h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="tt">Report an incident<span class="sub">Near miss · hazard · CAPA</span></span>
     </button>
     <button class="tool-btn" id="jsaNav">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 6H5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1M8 4h8v3H8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -1191,6 +1223,12 @@
           </div>
         </div>
 
+        <div class="pcard" id="binCard" style="display:none">
+          <h3><svg viewBox="0 0 24 24" fill="none" width="15" height="15" style="color:var(--text-3)"><path d="M4 7h16l-1.2 13a1 1 0 0 1-1 .9H6.2a1 1 0 0 1-1-.9L4 7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 4h6v3H9zM10 11v6M14 11v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Recycle bin <span class="sec-prog" id="binCount"></span></h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Deleted projects wait here. Nothing is destroyed — restore one and its permits, register and signatures come back with it.</p>
+          <div id="binRows"></div>
+        </div>
+
         <div class="pcard" id="orgsCard" style="display:none">
           <h3><span class="tagdot" style="background:var(--r-high)"></span>Organisations <span class="sec-prog" id="orgsCount"></span></h3>
           <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Only the platform administrator sees this. Naming an organisation's administrator is done by email — never by a link that could be forwarded.</p>
@@ -1228,6 +1266,69 @@
         <button class="pbtn" id="orgAsk">Ask Guardian</button>
         <button class="pbtn" id="orgXlsx">Export Excel</button>
         <button class="pbtn primary" id="orgPptx">Download presentation</button>
+      </div>
+    </div>
+
+
+    <!-- Incident & hazard reporting -->
+    <div id="incidentView" class="view" style="display:none">
+      <div class="permit-scroll"><div class="permit">
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:var(--r-crit)"></span>Report it <span class="sec-prog" id="incBadge"></span></h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">The fastest useful report wins. Fill the four fields below and save — everything else can be added later by whoever reviews it.</p>
+          <div class="inc-types" id="incTypes"></div>
+          <div class="grid2" style="margin-top:14px">
+            <div class="fld full"><label>What happened *</label><textarea id="i_what" style="min-height:76px" placeholder="Plain description. What was being done, what went wrong, what stopped it getting worse."></textarea></div>
+            <div class="fld"><label>Where *</label><input id="i_where" placeholder="area, level, gate" /></div>
+            <div class="fld"><label>When</label><input id="i_when" type="datetime-local" /></div>
+            <div class="fld"><label>Reported by</label><input id="i_by" placeholder="name" /></div>
+            <div class="fld"><label>People involved</label><input id="i_who" placeholder="names, or 'none'" /></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+            <button class="pbtn primary" id="incSave">Save report</button>
+            <button class="pbtn" id="incPhoto">Add photo</button>
+            <button class="pbtn" id="incClassify">Classify with Guardian</button>
+          </div>
+          <input id="i_file" type="file" accept="image/*" capture="environment" multiple style="display:none" />
+          <div id="i_shots" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"></div>
+          <div class="msg" id="incMsg" style="font-size:12px;color:var(--text-3);margin-top:8px"></div>
+        </div>
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:var(--r-med)"></span>Review &amp; risk</h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">Score the <b>potential</b> outcome, not what happened to occur. A near miss that could have killed someone is a high-risk event.</p>
+          <div class="grid2">
+            <div class="fld"><label>Likelihood 1–5</label><input id="i_l" inputmode="numeric" placeholder="1–5" /></div>
+            <div class="fld"><label>Potential severity 1–5</label><input id="i_s" inputmode="numeric" placeholder="1–5" /></div>
+            <div class="fld"><label>Classification</label><input id="i_class" placeholder="near miss · first aid · MTC · LTI…" /></div>
+            <div class="fld"><label>Reportable to a regulator?</label><select id="i_rep">
+              <option>Not assessed</option><option>No</option><option>Yes — notify</option><option>Yes — already notified</option>
+            </select></div>
+            <div class="fld full"><label>Immediate action taken</label><textarea id="i_imm" style="min-height:56px" placeholder="What was done at once to make it safe."></textarea></div>
+          </div>
+          <div id="incScore"></div>
+        </div>
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>Corrective &amp; preventive action <span class="sec-prog" id="capaCount"></span></h3>
+          <p class="doc-note" style="border-top:none;padding-top:0;margin:0 0 12px">A correction fixes this instance. A corrective action stops it recurring. They are not the same thing, and an audit will ask for both.</p>
+          <div class="fld full"><label>Root cause — why was this possible?</label><textarea id="i_rc" style="min-height:56px" placeholder="Keep asking why until you reach something the organisation controls."></textarea></div>
+          <div id="capaRows"></div>
+          <button class="pbtn" id="capaAdd" style="width:100%;justify-content:center;margin-top:10px">+ Add an action</button>
+        </div>
+
+        <div class="pcard">
+          <h3><span class="tagdot" style="background:#7C5CD6"></span>Reports <span class="sec-prog" id="incCount"></span></h3>
+          <div id="incList"></div>
+        </div>
+
+      </div></div>
+      <div class="pbar">
+        <span class="pleft" id="incMeta"></span>
+        <button class="pbtn" id="incAsk">Ask Guardian</button>
+        <button class="pbtn" id="incNew">New report</button>
+        <button class="pbtn" id="incPrint">Print report</button>
       </div>
     </div>
 
@@ -1341,10 +1442,18 @@
       <div><div style="font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:17px">Guardian</div><div style="font-size:11px;color:var(--text-3)" id="authSub">Organization sign-in</div></div>
     </div>
 
-    <div class="field"><label for="authEmail">Work email</label><input id="authEmail" type="email" autocomplete="username" placeholder="you@company.com" style="font-family:inherit"/></div>
-    <div class="field"><label for="authPw">Password</label><input id="authPw" type="password" autocomplete="current-password" placeholder="••••••••"/></div>
-    <div class="prov-test" id="authMsg"></div>
-    <div class="m-actions"><button class="btn-save" id="authSignIn" style="flex:1">Sign in</button></div>
+    <div id="authForm">
+      <div class="field hidden" id="authNameW"><label for="authName">Your name</label><input id="authName" autocomplete="name" placeholder="First and last name" style="font-family:inherit"/></div>
+      <div class="field"><label for="authEmail">Work email</label><input id="authEmail" type="email" autocomplete="username" placeholder="you@company.com" style="font-family:inherit"/></div>
+      <div class="field"><label for="authPw">Password</label><input id="authPw" type="password" autocomplete="current-password" placeholder="••••••••"/></div>
+      <div class="prov-test" id="authMsg"></div>
+      <div class="m-actions"><button class="btn-save" id="authSignIn" style="flex:1">Sign in</button></div>
+      <div style="display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px">
+        <a href="#" id="authForgot" style="color:var(--text-3)">Forgot password?</a>
+        <a href="#" id="authSwitch" style="color:var(--accent);font-weight:600">Create an account</a>
+      </div>
+    </div>
+    <div id="authPanel" class="hidden"></div>
     <div class="auth-div"><span>or</span></div>
     <button class="gbtn" id="authGoogle">
       <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.6 39.6 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
@@ -1408,6 +1517,14 @@
     <div class="prov-tabs" id="provTabs"></div>
     <div id="provFields"></div>
     <div id="provTest" class="prov-test"></div>
+
+    <div class="devbox" style="margin-bottom:6px">
+      <div class="devhead"><b>Security</b><span id="mfaState" class="mono">password only</span></div>
+      <p style="font-size:12px;color:var(--text-3);line-height:1.55;margin-bottom:10px">
+        Two-factor adds a code from an authenticator app on top of your password. Recommended for anyone who
+        can issue permits or manage people.</p>
+      <button class="pbtn" id="mfaBtn" style="width:100%;justify-content:center">Set up two-factor authentication</button>
+    </div>
 
     <div class="devbox">
       <div class="devhead"><b>This device</b><span id="devSummary" class="mono"></span></div>
@@ -4905,7 +5022,21 @@ async function orgInviteFlow(){
         +days+' day'+(days>1?'s':'')+'.</p>'
         +'<textarea id="iv_url" readonly style="width:100%;min-height:70px;font-family:monospace;font-size:12px;'
         +'border:1px solid var(--border-2);border-radius:9px;padding:11px">'+esc(url)+'</textarea>',
-        async ()=>{try{await navigator.clipboard.writeText(url);toastMsg('Link copied.');}catch(e){}; return true;},'Copy link');
+        async ()=>{
+          try{
+            await navigator.clipboard.writeText(url);
+            toastMsg('Link copied.');
+          }catch(e){
+            /* clipboard needs a secure context and permission — if it is refused,
+               select the text so the person can copy it themselves rather than
+               pressing a button that appears to do nothing */
+            const ta=$('#iv_url');
+            if(ta){ta.focus();ta.select();try{document.execCommand('copy');toastMsg('Link copied.');}
+              catch(e2){toastMsg('Select the link above and copy it — this browser blocked automatic copying.');}}
+            else toastMsg('Could not copy automatically. Select the link and copy it.');
+          }
+          return true;
+        },'Copy link');
       return false;
     }catch(e){alert(e.message);return false;}
   },'Create link');
@@ -5271,14 +5402,19 @@ function cloudGate(where){
 let OPS={permits:[],loaded:false};
 
 async function opsLoad(){
-  OPS.permits=[];
+  OPS.permits=[];OPS.error='';
   if(cloudReady().ok&&cloud.org){
     try{
-      const {data}=await sb.from('permit_requests')
+      const {data,error}=await sb.from('permit_requests')
         .select('id,permit_no,work_types,status,requester_name,created_at,decided_at,project_id')
         .order('created_at',{ascending:false}).limit(40);
+      if(error)throw error;
       OPS.permits=data||[];
-    }catch(e){}
+    }catch(e){
+      /* saying "no permits" when the query failed would assert something we do
+         not know — and on this screen that reads as "nothing needs approving" */
+      OPS.error=e.message||'Could not reach the database.';
+    }
   }
   OPS.loaded=true;
   renderOps();
@@ -5429,7 +5565,10 @@ function renderOps(){
         +'<span class="ops-txt"><b>'+esc(l.what)+'</b><span>'
         +esc(l.status)+(l.until?' · valid until '+esc(l.until):'')+(l.who?' · '+esc(l.who):'')+'</span></span>'
         +(l.mine?'<button class="pbtn ops-go" data-go="permit">Open</button>':'')+'</div>').join('')+'</div>'
-    : '<p class="ops-empty">No permit is currently issued or active.</p>';
+    : (OPS.error
+        ? '<p class="ops-empty" style="color:var(--amber,#C77E00)">Could not load permits — '+esc(OPS.error)
+          +'. This list may be incomplete.</p>'
+        : '<p class="ops-empty">No permit is currently issued or active.</p>');
   html+='</div>';
 
   /* reminders */
@@ -5636,6 +5775,845 @@ async function projDelete(p){
 const _orgLoadBin=orgLoad;
 orgLoad=async function(){ await _orgLoadBin.apply(this,arguments); try{await binLoad();}catch(e){} };
 
+/* ================================================================
+   GUARDIAN — AUTHENTICATION
+   Self-signup · email confirmation · TOTP two-factor
+
+   Drop this into app and console. It expects three things to
+   already exist in the host page:
+       sb        the Supabase client
+       $(sel)    querySelector helper
+       esc(t)    HTML escaper
+
+   Two-factor uses Supabase's own MFA (TOTP, RFC 6238) — the same
+   thing Google Authenticator, 1Password and Authy speak. Codes are
+   verified by Supabase, never by this page, so a tampered client
+   cannot talk its way past the second factor.
+   ================================================================ */
+
+const AUTH = {
+  /* where the confirmation email should land people back */
+  redirectTo: location.origin + location.pathname,
+
+  /* ---------------------------------------------------------- */
+  /* 1. SIGN UP — with email confirmation                        */
+  /* ---------------------------------------------------------- */
+  async signUp(email, password, fullName){
+    email = String(email||'').trim().toLowerCase();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+      return {ok:false, error:'That does not look like an email address.'};
+    if(String(password||'').length < 8)
+      return {ok:false, error:'Use at least 8 characters. Longer is better than complicated.'};
+
+    const {data, error} = await sb.auth.signUp({
+      email, password,
+      options:{
+        emailRedirectTo: AUTH.redirectTo,
+        data:{ full_name: String(fullName||'').trim() || email.split('@')[0] }
+      }
+    });
+    if(error) return {ok:false, error: AUTH.readable(error)};
+
+    /* Supabase returns a user with no session when confirmation is on.
+       That is the signal the email has been sent and nothing else
+       should happen until they click it. */
+    if(data.user && !data.session)
+      return {ok:true, pending:true,
+        message:'Check '+email+' and click the link to confirm your account. '
+               +'The link expires in 24 hours. Look in spam if it has not arrived in a minute.'};
+
+    return {ok:true, pending:false, message:'Account created.'};
+  },
+
+  async resendConfirmation(email){
+    const {error} = await sb.auth.resend({
+      type:'signup', email:String(email||'').trim().toLowerCase(),
+      options:{ emailRedirectTo: AUTH.redirectTo }
+    });
+    return error ? {ok:false, error:AUTH.readable(error)}
+                 : {ok:true, message:'Sent again. Give it a minute, and check spam.'};
+  },
+
+  /* ---------------------------------------------------------- */
+  /* 2. SIGN IN — and detect when a second factor is required    */
+  /* ---------------------------------------------------------- */
+  async signIn(email, password){
+    const {data, error} = await sb.auth.signInWithPassword({
+      email:String(email||'').trim().toLowerCase(), password
+    });
+    if(error) return {ok:false, error: AUTH.readable(error)};
+
+    const need = await AUTH.mfaRequired();
+    if(need.required)
+      return {ok:true, mfa:true, factorId:need.factorId,
+              message:'Enter the 6-digit code from your authenticator app.'};
+
+    return {ok:true, mfa:false, user:data.user};
+  },
+
+  /* Signed in, but only at the first level? Then a factor is enrolled
+     and still has to be satisfied. Supabase reports this as
+     currentLevel aal1 while nextLevel is aal2. */
+  async mfaRequired(){
+    try{
+      const {data, error} = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+      if(error || !data) return {required:false};
+      if(data.currentLevel === data.nextLevel) return {required:false};
+
+      const {data:list} = await sb.auth.mfa.listFactors();
+      const f = (list && list.totp && list.totp.find(x=>x.status==='verified')) || null;
+      return f ? {required:true, factorId:f.id} : {required:false};
+    }catch(e){ return {required:false}; }
+  },
+
+  /* ---------------------------------------------------------- */
+  /* 3. SECOND FACTOR — challenge and verify                     */
+  /* ---------------------------------------------------------- */
+  async verifyCode(factorId, code){
+    code = String(code||'').replace(/\D/g,'');
+    if(code.length !== 6) return {ok:false, error:'The code is six digits.'};
+    try{
+      const {data:ch, error:e1} = await sb.auth.mfa.challenge({factorId});
+      if(e1) return {ok:false, error:AUTH.readable(e1)};
+
+      const {error:e2} = await sb.auth.mfa.verify({
+        factorId, challengeId: ch.id, code
+      });
+      if(e2) return {ok:false,
+        error: /invalid|incorrect/i.test(e2.message)
+          ? 'That code was not accepted. Codes last 30 seconds — wait for the next one and try again.'
+          : AUTH.readable(e2)};
+
+      return {ok:true};
+    }catch(e){ return {ok:false, error:e.message}; }
+  },
+
+  /* ---------------------------------------------------------- */
+  /* 4. ENROL A NEW AUTHENTICATOR                                */
+  /* ---------------------------------------------------------- */
+  async enrolStart(friendlyName){
+    try{
+      /* clear an abandoned half-finished enrolment first, or the
+         next attempt fails with "factor already exists" */
+      const {data:list} = await sb.auth.mfa.listFactors();
+      const stale = (list && list.totp || []).filter(f=>f.status!=='verified');
+      for(const f of stale){ try{ await sb.auth.mfa.unenroll({factorId:f.id}); }catch(e){} }
+
+      const {data, error} = await sb.auth.mfa.enroll({
+        factorType:'totp',
+        friendlyName: String(friendlyName||'Guardian').slice(0,40)
+      });
+      if(error) return {ok:false, error:AUTH.readable(error)};
+      return {ok:true, factorId:data.id, qr:data.totp.qr_code, secret:data.totp.secret};
+    }catch(e){ return {ok:false, error:e.message}; }
+  },
+
+  /* the same verify call completes an enrolment */
+  async enrolFinish(factorId, code){
+    const r = await AUTH.verifyCode(factorId, code);
+    return r.ok ? {ok:true, message:'Two-factor authentication is on. You will be asked for a code each time you sign in.'} : r;
+  },
+
+  async listFactors(){
+    try{
+      const {data} = await sb.auth.mfa.listFactors();
+      return (data && data.totp) || [];
+    }catch(e){ return []; }
+  },
+
+  async removeFactor(factorId){
+    const {error} = await sb.auth.mfa.unenroll({factorId});
+    return error ? {ok:false, error:AUTH.readable(error)}
+                 : {ok:true, message:'Two-factor authentication removed. Your account is now protected by password alone.'};
+  },
+
+  /* ---------------------------------------------------------- */
+  /* 5. PASSWORD RESET                                           */
+  /* ---------------------------------------------------------- */
+  async sendReset(email){
+    const {error} = await sb.auth.resetPasswordForEmail(
+      String(email||'').trim().toLowerCase(),
+      {redirectTo: AUTH.redirectTo + '?reset=1'}
+    );
+    /* deliberately the same answer whether or not the address exists —
+       otherwise this endpoint tells an attacker who has an account */
+    return {ok:true, message:'If that address has an account, a reset link is on its way.'};
+  },
+
+  async setPassword(newPassword){
+    if(String(newPassword||'').length < 8)
+      return {ok:false, error:'Use at least 8 characters.'};
+    const {error} = await sb.auth.updateUser({password:newPassword});
+    return error ? {ok:false, error:AUTH.readable(error)} : {ok:true, message:'Password changed.'};
+  },
+
+  /* ---------------------------------------------------------- */
+  /* 6. Turn Supabase errors into something a person can act on  */
+  /* ---------------------------------------------------------- */
+  readable(e){
+    const m = String((e && e.message) || e || '');
+    if(/email not confirmed/i.test(m))
+      return 'That account has not been confirmed yet. Click the link in the email we sent, or ask for a new one.';
+    if(/invalid login credentials/i.test(m))
+      return 'That email and password do not match an account.';
+    if(/user already registered/i.test(m))
+      return 'There is already an account with that address. Sign in, or reset the password.';
+    if(/rate limit|too many/i.test(m))
+      return 'Too many attempts. Wait a minute and try again.';
+    if(/weak password/i.test(m))
+      return 'That password is too easy to guess. Use a longer one.';
+    if(/factor.*already|already.*enrolled/i.test(m))
+      return 'An authenticator is already set up on this account. Remove it before adding another.';
+    return m || 'Something went wrong.';
+  },
+
+  /* handle links arriving from an email (confirm / reset / invite) */
+  async handleEmailLink(){
+    const qs = new URLSearchParams(location.search);
+    const hash = new URLSearchParams(location.hash.replace(/^#/,''));
+    const err = qs.get('error_description') || hash.get('error_description');
+    if(err) return {kind:'error', message:decodeURIComponent(err).replace(/\+/g,' ')};
+
+    if(qs.get('code')){
+      const {error} = await sb.auth.exchangeCodeForSession(qs.get('code'));
+      history.replaceState(null,'',location.pathname);
+      if(error) return {kind:'error', message:AUTH.readable(error)};
+      return {kind: qs.get('reset') ? 'reset' : 'confirmed'};
+    }
+    if(hash.get('access_token')){
+      history.replaceState(null,'',location.pathname);
+      return {kind: hash.get('type')==='recovery' ? 'reset' : 'confirmed'};
+    }
+    return {kind:'none'};
+  }
+};
+
+/* ================================================================
+   MINIMAL UI HELPERS
+   The host page owns its own styling; these only build the markup
+   that the flows above need.
+   ================================================================ */
+const AUTH_UI = {
+  /* the 2FA code box — six digits, pasteable, auto-submitting */
+  codeBox(onSubmit){
+    return {
+      html:'<div class="fld"><label for="mfaCode">Authentication code</label>'
+        +'<input id="mfaCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" '
+        +'placeholder="000000" style="text-align:center;letter-spacing:.4em;font-size:20px;'
+        +'font-family:\'IBM Plex Mono\',monospace"></div>'
+        +'<p style="font-size:12px;color:var(--text-3);line-height:1.55">'
+        +'From your authenticator app. Codes change every 30 seconds — if one is refused, wait for the next.</p>',
+      bind(){
+        const el = $('#mfaCode'); if(!el) return;
+        el.focus();
+        el.addEventListener('input', ()=>{
+          el.value = el.value.replace(/\D/g,'').slice(0,6);
+          if(el.value.length === 6) onSubmit(el.value);
+        });
+        el.addEventListener('keydown', e=>{
+          if(e.key === 'Enter' && el.value.length === 6) onSubmit(el.value);
+        });
+      }
+    };
+  },
+
+  /* the enrolment panel — QR plus the secret for anyone who cannot scan */
+  enrolPanel(qr, secret){
+    return '<p style="font-size:13.5px;color:var(--text-2);line-height:1.6;margin-bottom:14px">'
+      +'Scan this with an authenticator app — Google Authenticator, Authy, 1Password or similar. '
+      +'It works offline; no text messages are involved.</p>'
+      +'<div style="text-align:center;padding:16px;background:#fff;border:1px solid var(--border);'
+      +'border-radius:12px;margin-bottom:14px"><img src="'+qr+'" alt="Two-factor QR code" '
+      +'style="width:190px;height:190px"></div>'
+      +'<details style="margin-bottom:14px"><summary style="font-size:12.5px;cursor:pointer;color:var(--text-2)">'
+      +'Cannot scan it?</summary>'
+      +'<p style="font-size:12px;color:var(--text-3);margin:8px 0 6px">Enter this key by hand instead:</p>'
+      +'<code style="display:block;padding:10px;background:var(--surface-2);border-radius:7px;'
+      +'font-size:12.5px;word-break:break-all;letter-spacing:.05em">'+esc(secret)+'</code></details>';
+  },
+
+  /* what to say once an account is waiting on its confirmation email */
+  pending(email){
+    return '<div style="text-align:center;padding:10px 0">'
+      +'<div style="width:52px;height:52px;border-radius:14px;background:var(--accent-soft);'
+      +'display:grid;place-items:center;margin:0 auto 16px">'
+      +'<svg width="26" height="26" viewBox="0 0 24 24" fill="none">'
+      +'<rect x="3" y="5" width="18" height="14" rx="2" stroke="#0F766E" stroke-width="1.6"/>'
+      +'<path d="m3 7 9 6 9-6" stroke="#0F766E" stroke-width="1.6" stroke-linejoin="round"/></svg></div>'
+      +'<h3 style="font-size:17px;margin-bottom:8px">Confirm your email</h3>'
+      +'<p style="font-size:13.5px;color:var(--text-2);line-height:1.65">'
+      +'We sent a link to <b>'+esc(email)+'</b>. Click it to finish setting up your account.<br><br>'
+      +'The link lasts 24 hours. If it has not arrived within a minute, check your spam folder.</p></div>';
+  }
+};
+
+
+/* ================================================================
+   AUTH FLOWS — signup with email confirmation, 2FA, reset
+   Uses AUTH from auth-module.js. Every rule is Supabase's; this
+   only drives the screens.
+   ================================================================ */
+let AUTH_MODE='signin';   /* signin | signup */
+
+function authPanel(html){
+  $('#authForm').classList.add('hidden');
+  const p=$('#authPanel'); p.classList.remove('hidden'); p.innerHTML=html;
+}
+function authFormBack(){
+  $('#authPanel').classList.add('hidden');
+  $('#authForm').classList.remove('hidden');
+  authMsg('');
+}
+function authMsg(t,bad){
+  const m=$('#authMsg'); if(!m)return;
+  m.textContent=t||'';
+  m.style.color=bad?'var(--r-crit)':'var(--text-3)';
+}
+function authMode(mode){
+  AUTH_MODE=mode;
+  const signup=mode==='signup';
+  $('#authNameW').classList.toggle('hidden',!signup);
+  $('#authSub').textContent=signup?'Create your account':'Organization sign-in';
+  $('#authSignIn').textContent=signup?'Create account':'Sign in';
+  $('#authSwitch').textContent=signup?'I already have an account':'Create an account';
+  $('#authPw').setAttribute('autocomplete',signup?'new-password':'current-password');
+  $('#authNote').textContent=signup
+    ? 'You will get an email to confirm the address. Your administrator assigns your site and duties once you are in.'
+    : 'Accounts are created by your administrator, or you can create your own and be assigned a site.';
+  authMsg('');
+}
+
+/* ---- the second factor, after a correct password ---- */
+function authTwoFactor(factorId){
+  const box=AUTH_UI.codeBox(async code=>{
+    authPanelMsg('Checking…');
+    const v=await AUTH.verifyCode(factorId,code);
+    if(v.ok){authPanelMsg('Verified. Loading Guardian…');setTimeout(()=>location.reload(),600);}
+    else{authPanelMsg(v.error,true);const el=$('#mfaCode');if(el){el.value='';el.focus();}}
+  });
+  authPanel('<div style="text-align:center;margin-bottom:16px">'
+    +'<h3 style="font-size:17px;margin-bottom:6px">Two-factor authentication</h3>'
+    +'<p style="font-size:13px;color:var(--text-2)">Your password was accepted. One more step.</p></div>'
+    +box.html+'<div class="prov-test" id="authPanelMsg"></div>'
+    +'<div class="m-actions" style="margin-top:12px"><button class="btn-ghost" id="mfaCancel" style="flex:1">Cancel</button></div>');
+  box.bind();
+  $('#mfaCancel').onclick=async()=>{try{await sb.auth.signOut();}catch(e){} authFormBack(); authMode('signin');};
+}
+function authPanelMsg(t,bad){
+  const m=$('#authPanelMsg'); if(!m)return;
+  m.textContent=t||''; m.style.color=bad?'var(--r-crit)':'var(--text-3)';
+}
+
+/* ---- the one button that does both jobs ---- */
+async function authSubmit(){
+  const btn=$('#authSignIn'), email=$('#authEmail').value.trim(), pw=$('#authPw').value;
+  if(!email||!pw)return authMsg('Enter your email and password.',true);
+  const label=btn.textContent; btn.disabled=true;
+
+  if(AUTH_MODE==='signup'){
+    btn.textContent='Creating…'; authMsg('');
+    const r=await AUTH.signUp(email,pw,$('#authName').value);
+    btn.disabled=false; btn.textContent=label;
+    if(!r.ok)return authMsg(r.error,true);
+    if(r.pending){
+      authPanel(AUTH_UI.pending(email)
+        +'<div class="m-actions" style="margin-top:16px">'
+        +'<button class="btn-ghost" id="authResend" style="flex:1">Send it again</button>'
+        +'<button class="btn-save" id="authBack" style="flex:1">Back to sign in</button></div>'
+        +'<div class="prov-test" id="authPanelMsg"></div>');
+      $('#authResend').onclick=async()=>{
+        authPanelMsg('Sending…');
+        const s=await AUTH.resendConfirmation(email);
+        authPanelMsg(s.ok?s.message:s.error,!s.ok);
+      };
+      $('#authBack').onclick=()=>{authFormBack();authMode('signin');};
+      return;
+    }
+    return location.reload();
+  }
+
+  btn.textContent='Signing in…'; authMsg('');
+  const r=await AUTH.signIn(email,pw);
+  btn.disabled=false; btn.textContent=label;
+  if(!r.ok){
+    authMsg(r.error,true);
+    /* an unconfirmed account is a dead end without this */
+    if(/not been confirmed/i.test(r.error)){
+      const m=$('#authMsg');
+      const a=document.createElement('a');
+      a.href='#'; a.textContent=' Send the email again';
+      a.style.cssText='color:var(--accent);font-weight:600';
+      a.onclick=async e=>{e.preventDefault();
+        const s=await AUTH.resendConfirmation(email);authMsg(s.ok?s.message:s.error,!s.ok);};
+      m.appendChild(a);
+    }
+    return;
+  }
+  if(r.mfa)return authTwoFactor(r.factorId);
+  location.reload();
+}
+
+/* ---- forgotten password ---- */
+async function authForgot(){
+  const email=$('#authEmail').value.trim();
+  if(!email)return authMsg('Type your email address first, then choose this.',true);
+  authMsg('Sending…');
+  const r=await AUTH.sendReset(email);
+  authMsg(r.message);
+}
+
+/* ---- links arriving from an email ---- */
+async function authHandleLink(){
+  if(!cloudEnabled()||!sb)return;
+  const link=await AUTH.handleEmailLink();
+  if(link.kind==='confirmed')toastMsg('Email confirmed — welcome to Guardian.');
+  else if(link.kind==='error')toastMsg(link.message);
+  else if(link.kind==='reset'){
+    showAuth(true);
+    authPanel('<h3 style="font-size:17px;margin-bottom:6px">Choose a new password</h3>'
+      +'<p style="font-size:13px;color:var(--text-2);margin-bottom:14px">At least 8 characters. Length matters more than symbols.</p>'
+      +'<div class="field"><label for="npw">New password</label><input id="npw" type="password" autocomplete="new-password"></div>'
+      +'<div class="prov-test" id="authPanelMsg"></div>'
+      +'<div class="m-actions"><button class="btn-save" id="npwGo" style="flex:1">Set password</button></div>');
+    $('#npwGo').onclick=async()=>{
+      authPanelMsg('Saving…');
+      const r=await AUTH.setPassword($('#npw').value);
+      if(r.ok){authPanelMsg('Password changed. Loading…');setTimeout(()=>location.reload(),700);}
+      else authPanelMsg(r.error,true);
+    };
+  }
+}
+
+/* ---- managing your own two-factor, from Settings ---- */
+async function twoFactorPanel(){
+  if(!cloudReady().ok)return toastMsg(cloudReady().why);
+  const factors=await AUTH.listFactors();
+  const on=factors.filter(f=>f.status==='verified');
+
+  if(on.length){
+    showModal('Two-factor authentication',
+      '<p style="font-size:13.5px;color:var(--text-2);line-height:1.6">'
+      +'Two-factor is <b>on</b> for this account. You are asked for a code from your authenticator each time you sign in.</p>'
+      +'<div class="row" style="margin-top:14px;border:1px solid var(--border);border-radius:9px;padding:12px">'
+      +'<b style="font-size:13.5px">'+esc(on[0].friendly_name||'Authenticator')+'</b>'
+      +'<div style="font-size:12px;color:var(--text-3);margin-top:4px">Added '
+      +new Date(on[0].created_at||Date.now()).toLocaleDateString()+'</div></div>'
+      +'<p style="font-size:12px;color:var(--amber,#C77E00);margin-top:14px;line-height:1.55">'
+      +'Removing it leaves this account protected by password alone. There are no recovery codes — if you lose the '
+      +'device, an administrator has to remove the factor for you.</p>',
+      async()=>{
+        if(!confirm('Turn off two-factor authentication for this account?'))return false;
+        const r=await AUTH.removeFactor(on[0].id);
+        toastMsg(r.ok?r.message:r.error);
+        return true;
+      },'Turn it off');
+    return;
+  }
+
+  const e=await AUTH.enrolStart('Guardian');
+  if(!e.ok)return toastMsg(e.error);
+  showModal('Set up two-factor authentication',
+    AUTH_UI.enrolPanel(e.qr,e.secret)
+    +'<div class="fld"><label for="mfaCode">Enter the code it shows</label>'
+    +'<input id="mfaCode" inputmode="numeric" maxlength="6" placeholder="000000" '
+    +'style="text-align:center;letter-spacing:.4em;font-size:20px;font-family:\'IBM Plex Mono\',monospace"></div>'
+    +'<div class="prov-test" id="enrolMsg"></div>',
+    async()=>{
+      const code=($('#mfaCode').value||'').replace(/\D/g,'');
+      const m=$('#enrolMsg');
+      if(code.length!==6){m.textContent='The code is six digits.';m.style.color='var(--r-crit)';return false;}
+      m.textContent='Verifying…';m.style.color='var(--text-3)';
+      const r=await AUTH.enrolFinish(e.factorId,code);
+      if(!r.ok){m.textContent=r.error;m.style.color='var(--r-crit)';return false;}
+      toastMsg(r.message);
+      return true;
+    },'Turn it on');
+}
+
+/* ---- wire it all up ---- */
+(function(){
+  const b=$('#mfaBtn');
+  if(b)b.onclick=twoFactorPanel;
+  /* reflect the real state whenever settings opens */
+  const st=$('#mfaState');
+  if(st&&typeof AUTH!=='undefined')AUTH.listFactors().then(f=>{
+    const on=f.filter(x=>x.status==='verified').length;
+    st.textContent=on?'two-factor on':'password only';
+    if(b)b.textContent=on?'Manage two-factor authentication':'Set up two-factor authentication';
+  }).catch(()=>{});
+})();
+(function(){
+  const s=$('#authSignIn'); if(!s)return;
+  s.onclick=authSubmit;
+  $('#authPw').addEventListener('keydown',e=>{if(e.key==='Enter')authSubmit();});
+  $('#authSwitch').onclick=e=>{e.preventDefault();authMode(AUTH_MODE==='signup'?'signin':'signup');};
+  $('#authForgot').onclick=e=>{e.preventDefault();authForgot();};
+  authMode('signin');
+  setTimeout(authHandleLink,400);
+})();
+
+
+/* ================================================================
+   INCIDENT & HAZARD REPORTING with CAPA
+   Fast to file, structured to close. The scoring asks for the
+   POTENTIAL outcome, because a near miss that could have killed
+   somebody is a high-risk event however it actually ended.
+   ================================================================ */
+const INC_TYPES=[
+  {id:'nearmiss', t:'Near miss',        c:'var(--amber,#C77E00)'},
+  {id:'hazard',   t:'Hazard',           c:'var(--r-med)'},
+  {id:'observation',t:'Observation',    c:'var(--mandatory,#1F6FB2)'},
+  {id:'firstaid', t:'First aid',        c:'#7C5CD6'},
+  {id:'injury',   t:'Injury',           c:'var(--r-crit)'},
+  {id:'property', t:'Property damage',  c:'#8A6A3B'},
+  {id:'environment',t:'Environmental',  c:'var(--r-low)'},
+  {id:'security', t:'Security',         c:'var(--text-2)'}
+];
+const defaultInc=()=>({id:'',type:'nearmiss',what:'',where:'',when:'',by:'',who:'',
+  l:'',s:'',cls:'',rep:'Not assessed',imm:'',rc:'',capa:[],shots:[],created:''});
+function incStore(){try{return JSON.parse(store.get('guardian.incidents')||'[]')}catch(e){return []}}
+function incSave(list){store.set('guardian.incidents',JSON.stringify(list.slice(-80)))}
+state.inc=Object.assign(defaultInc(),JSON.parse(store.get('guardian.incDraft')||'null')||{});
+const persistInc=()=>store.set('guardian.incDraft',JSON.stringify(state.inc));
+
+function incBind(){
+  [['i_what','what'],['i_where','where'],['i_when','when'],['i_by','by'],['i_who','who'],
+   ['i_l','l'],['i_s','s'],['i_class','cls'],['i_rep','rep'],['i_imm','imm'],['i_rc','rc']]
+  .forEach(([id,k])=>{const el=$('#'+id);if(!el)return;el.value=state.inc[k]||'';
+    const h=()=>{state.inc[k]=el.value;persistInc();incScore();};el.oninput=h;el.onchange=h;});
+}
+function incRenderTypes(){
+  const box=$('#incTypes');if(!box)return;
+  box.innerHTML=INC_TYPES.map(t=>'<button class="inc-type'+(state.inc.type===t.id?' on':'')
+    +'" data-t="'+t.id+'" style="--tc:'+t.c+'"><span class="dot"></span>'+t.t+'</button>').join('');
+  box.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{
+    state.inc.type=b.dataset.t;persistInc();incRenderTypes();incScore();});
+}
+function incScore(){
+  const L=+state.inc.l||0,S=+state.inc.s||0,v=L*S;
+  const el=$('#incScore');
+  if(el)el.innerHTML=v?('<div class="jsa-score" style="margin-top:12px"><b class="rl rl-'+jsaBand(v).k+'">'
+    +L+' × '+S+' = '+v+' · '+jsaBand(v).t+' potential</b><span>'+esc(jsaBand(v).a)+'</span></div>'):'';
+  const t=INC_TYPES.find(x=>x.id===state.inc.type);
+  const b=$('#incBadge');if(b)b.textContent=t?t.t:'';
+  const open=state.inc.capa.filter(c=>c.st!=='Closed').length;
+  const cc=$('#capaCount');if(cc)cc.textContent=state.inc.capa.length?open+' open of '+state.inc.capa.length:'none yet';
+  const m=$('#incMeta');
+  if(m)m.innerHTML='<b>'+(t?t.t:'Report')+(v?' · '+jsaBand(v).t+' potential':'')+'</b>'
+    +' · '+incStore().length+' saved'+(open?' · '+open+' action'+(open>1?'s':'')+' open':'');
+}
+function capaRender(){
+  const box=$('#capaRows');if(!box)return;
+  box.innerHTML= state.inc.capa.length ? state.inc.capa.map((c,i)=>
+    '<div class="jsa-row" data-i="'+i+'"><div class="jsa-head"><span class="hazcode">'+(i+1)+'</span>'
+    +'<select class="c-kind">'+['Correction','Corrective action','Preventive action']
+      .map(k=>'<option'+(c.kind===k?' selected':'')+'>'+k+'</option>').join('')+'</select>'
+    +'<button class="doc-btn c-del">✕</button></div>'
+    +'<div class="grid2" style="margin-top:8px">'
+    +'<div class="fld full"><label>What will be done</label><textarea class="c-d" style="min-height:52px">'+esc(c.d||'')+'</textarea></div>'
+    +'<div class="fld"><label>Owner</label><input class="c-o" value="'+esc(c.o||'')+'"></div>'
+    +'<div class="fld"><label>Due</label><input class="c-due" type="date" value="'+esc(c.due||'')+'"></div>'
+    +'<div class="fld"><label>Status</label><select class="c-st">'
+      +['Open','In progress','Closed'].map(s=>'<option'+(c.st===s?' selected':'')+'>'+s+'</option>').join('')+'</select></div>'
+    +'<div class="fld"><label>Verified by</label><input class="c-v" value="'+esc(c.v||'')+'"></div>'
+    +'</div></div>').join('') : '<div style="font-size:12.5px;color:var(--text-3)">No actions yet. A report without one changes nothing.</div>';
+  box.querySelectorAll('.jsa-row').forEach(row=>{
+    const i=+row.dataset.i,c=state.inc.capa[i];
+    const b=(sel,k)=>{const el=row.querySelector(sel);if(!el)return;
+      const h=()=>{c[k]=el.value;persistInc();incScore();};el.oninput=h;el.onchange=h;};
+    b('.c-kind','kind');b('.c-d','d');b('.c-o','o');b('.c-due','due');b('.c-st','st');b('.c-v','v');
+    row.querySelector('.c-del').onclick=()=>{state.inc.capa.splice(i,1);persistInc();capaRender();};
+  });
+}
+function incListRender(){
+  const box=$('#incList');if(!box)return;
+  const list=incStore().slice().reverse();
+  $('#incCount').textContent=list.length?list.length+' saved':'none yet';
+  box.innerHTML= list.length ? list.map(r=>{
+    const t=INC_TYPES.find(x=>x.id===r.type)||{t:r.type,c:'var(--text-3)'};
+    const v=(+r.l||0)*(+r.s||0);
+    const open=(r.capa||[]).filter(c=>c.st!=='Closed').length;
+    return '<div class="proj-row" data-id="'+esc(r.id)+'"><div class="pr-head">'
+      +'<span class="pr-code" style="background:transparent;border:1px solid '+t.c+';color:'+t.c+'">'+esc(t.t)+'</span>'
+      +'<b>'+esc((r.what||'').slice(0,70)||'Untitled')+'</b>'
+      +(v?'<span class="pr-status s-'+(v>=15?'on_hold':'active')+'">'+jsaBand(v).t+'</span>':'')
+      +'<span class="pr-acts">'+iconBtn('edit','Open this report','i-open')
+        +iconBtn('trash','Delete this report','i-del')+'</span></div>'
+      +'<div class="pr-client">'+esc(r.where||'location not given')
+      +(r.when?' · '+new Date(r.when).toLocaleString():'')
+      +(r.by?' · '+esc(r.by):'')
+      +(open?' · <span style="color:var(--amber,#C77E00)">'+open+' action'+(open>1?'s':'')+' open</span>':
+        (r.capa&&r.capa.length?' · all actions closed':' · no actions'))
+      +'</div></div>';
+  }).join('') : '<div style="font-size:12.5px;color:var(--text-3)">Nothing reported yet.</div>';
+
+  box.querySelectorAll('.i-open').forEach(b=>b.onclick=()=>{
+    const r=incStore().find(x=>x.id===b.closest('.proj-row').dataset.id);
+    if(!r)return;
+    state.inc=Object.assign(defaultInc(),r);persistInc();
+    incBind();incRenderTypes();capaRender();incScore();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  box.querySelectorAll('.i-del').forEach(b=>b.onclick=()=>{
+    const id=b.closest('.proj-row').dataset.id;
+    if(!confirm('Delete this report? An incident record is usually worth keeping even after it is closed.'))return;
+    incSave(incStore().filter(x=>x.id!==id));incListRender();incScore();
+  });
+}
+function incCommit(){
+  const i=state.inc;
+  if(!(i.what||'').trim()){$('#incMsg').textContent='Describe what happened — that is the part nobody else can reconstruct later.';return;}
+  if(!(i.where||'').trim()){$('#incMsg').textContent='Say where it happened.';return;}
+  if(!i.when)i.when=new Date().toISOString().slice(0,16);
+  const list=incStore();
+  if(!i.id){i.id='INC-'+Date.now().toString(36).toUpperCase();i.created=new Date().toISOString();list.push(Object.assign({},i));}
+  else{const k=list.findIndex(x=>x.id===i.id);if(k>=0)list[k]=Object.assign({},i);else list.push(Object.assign({},i));}
+  incSave(list);persistInc();incListRender();incScore();
+  $('#incMsg').textContent='Saved as '+i.id+'. Add the actions that stop it happening again.';
+}
+function incPrintDoc(){
+  const i=state.inc, t=INC_TYPES.find(x=>x.id===i.type)||{t:i.type};
+  const v=(+i.l||0)*(+i.s||0);
+  const rows=(i.capa||[]).map((c,n)=>'<tr><td class="a">'+(n+1)+'</td><td>'+esc(c.kind||'')+'</td>'
+    +'<td>'+esc(c.d||'').replace(/\n/g,'<br>')+'</td><td>'+esc(c.o||'')+'</td>'
+    +'<td class="a">'+esc(c.due||'')+'</td><td class="a">'+esc(c.st||'Open')+'</td>'
+    +'<td>'+esc(c.v||'')+'</td></tr>').join('');
+  return '<div class="print-doc">'+docHead('Incident / Hazard Report',
+      (i.id||'Unsaved')+'  ·  '+t.t+(v?'  ·  '+jsaBand(v).t+' potential':''))
+    +'<table class="pt head"><tbody>'
+    +'<tr><td>Type</td><td>'+esc(t.t)+'</td><td>When</td><td>'+(i.when?new Date(i.when).toLocaleString():'—')+'</td></tr>'
+    +'<tr><td>Location</td><td>'+esc(i.where||'—')+'</td><td>Reported by</td><td>'+esc(i.by||'—')+'</td></tr>'
+    +'<tr><td>People involved</td><td colspan="3">'+esc(i.who||'—')+'</td></tr>'
+    +'<tr><td>What happened</td><td colspan="3">'+esc(i.what||'').replace(/\n/g,'<br>')+'</td></tr>'
+    +'<tr><td>Immediate action</td><td colspan="3">'+esc(i.imm||'—').replace(/\n/g,'<br>')+'</td></tr>'
+    +'<tr><td>Potential risk</td><td>'+(v?(i.l+' × '+i.s+' = '+v+' · '+jsaBand(v).t):'not scored')+'</td>'
+      +'<td>Classification</td><td>'+esc(i.cls||'—')+'</td></tr>'
+    +'<tr><td>Regulator reportable</td><td colspan="3">'+esc(i.rep||'Not assessed')+'</td></tr>'
+    +'<tr><td>Root cause</td><td colspan="3">'+esc(i.rc||'—').replace(/\n/g,'<br>')+'</td></tr>'
+    +'</tbody></table>'
+    +'<h4>Corrective &amp; preventive action</h4><table class="pt"><tbody>'
+    +'<tr><td><strong>#</strong></td><td><strong>Type</strong></td><td><strong>Action</strong></td>'
+    +'<td><strong>Owner</strong></td><td><strong>Due</strong></td><td><strong>Status</strong></td><td><strong>Verified</strong></td></tr>'
+    +(rows||'<tr><td colspan="7">No actions recorded — this report changes nothing until it has at least one.</td></tr>')
+    +'</tbody></table>'
+    +'<div class="sigs"><div>Reported by</div><div>Reviewed by</div><div>Actions verified by</div><div>Date</div></div></div>';
+}
+/* ---- wiring ---- */
+(function(){
+  const nav=$('#incidentNav');if(!nav)return;
+  nav.onclick=()=>{
+    if(typeof guestGate==='function'&&guestGate('Incident reporting'))return;
+    setView('incident');if(typeof closeNav==='function')closeNav();};
+  const on=(id,fn)=>{const b=$(id);if(b)b.onclick=fn;};
+  on('#incSave',incCommit);
+  on('#capaAdd',()=>{state.inc.capa.push({kind:'Corrective action',d:'',o:'',due:'',st:'Open',v:''});
+    persistInc();capaRender();incScore();});
+  on('#incNew',()=>{if(!confirm('Start a new report? Save the current one first if you need it.'))return;
+    state.inc=defaultInc();persistInc();incBind();incRenderTypes();capaRender();incScore();
+    $('#i_shots').innerHTML='';$('#incMsg').textContent='';});
+  on('#incPrint',()=>{$('#printArea').innerHTML=incPrintDoc();window.print();});
+  on('#incPhoto',()=>$('#i_file').click());
+  const f=$('#i_file');
+  if(f)f.onchange=e=>{
+    [...e.target.files].slice(0,4).forEach(file=>{
+      const fr=new FileReader();
+      fr.onload=()=>{
+        state.inc.shots.push(String(fr.result).slice(0,900000));persistInc();
+        $('#i_shots').innerHTML=state.inc.shots.map(s=>
+          '<img src="'+s+'" data-zoom="'+s+'" alt="Incident photo" style="width:64px;height:64px;'
+          +'object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:zoom-in">').join('');
+      };
+      fr.readAsDataURL(file);
+    });
+    e.target.value='';
+  };
+  on('#incClassify',()=>{
+    const i=state.inc;
+    const off=(typeof offlineAnswer==='function')?offlineAnswer(i.what+' '+(i.imm||'')):'';
+    const m=off.match(/\*\*Likely classification: ([^*]+)\*\*/);
+    if(m){state.inc.cls=m[1].trim();$('#i_class').value=m[1].trim();persistInc();
+      $('#incMsg').textContent='Offline classifier suggests: '+m[1].trim()+'. Confirm it against your own scheme.';}
+    else askGuardian('Classify this and tell me what to do next.\n\nType: '
+      +(INC_TYPES.find(x=>x.id===i.type)||{}).t+'\nWhat happened: '+i.what
+      +'\nImmediate action: '+(i.imm||'none recorded')
+      +'\n\nIs it recordable, is it reportable to a regulator, and what should the corrective action address?');
+  });
+  on('#incAsk',()=>{
+    const i=state.inc;
+    askGuardian('Review this incident report.\n\nType: '+((INC_TYPES.find(x=>x.id===i.type)||{}).t||'')
+      +'\nWhat happened: '+(i.what||'not described')
+      +'\nImmediate action: '+(i.imm||'none')
+      +'\nRoot cause so far: '+(i.rc||'not identified')
+      +'\nActions: '+((i.capa||[]).map(c=>c.kind+' — '+c.d).join('; ')||'none')
+      +'\n\nIs the root cause credible, and would these actions actually stop it recurring?');
+  });
+})();
+/* incident joins the view system */
+const _setViewInc=setView;
+setView=function(v){
+  _setViewInc(v);
+  const el=$('#incidentView');if(el)el.style.display=(v==='incident')?'flex':'none';
+  const n=$('#incidentNav');if(n)n.classList.toggle('active',v==='incident');
+  if(v==='incident'){incBind();incRenderTypes();capaRender();incListRender();incScore();}
+};
+
+
+/* ================================================================
+   CLOSED BETA — vetted testers, recorded acknowledgement, feedback
+   These are practitioners who may sit this alongside real work, so
+   the parallel-running condition is a gate, not a footnote.
+   ================================================================ */
+const BUILD='2026-08-06';
+let BETA={applied:false,status:null,checked:false};
+
+async function betaStatus(){
+  if(!cloudReady().ok)return BETA;
+  try{
+    const {data}=await sb.rpc('my_beta_status');
+    BETA=Object.assign({checked:true},data||{});
+  }catch(e){BETA.checked=true;}
+  betaPaint();
+  return BETA;
+}
+function betaApproved(){return BETA.status==='approved'||BETA.is_master===true}
+
+function betaPaint(){
+  const bar=$('#betaBar');
+  if(!bar)return;
+  if(!cloudReady().ok||!BETA.checked){bar.style.display='none';return;}
+  if(betaApproved()){
+    bar.style.display='flex';
+    bar.className='beta-bar';
+    bar.innerHTML='<span class="bb-tag">BETA</span>'
+      +'<span class="bb-t">Run Guardian <b>alongside</b> your existing system, not instead of it. '
+      +'A permit here does not authorise work.</span>'
+      +'<button class="bb-btn" id="fbOpen">Report something</button>';
+    const f=$('#fbOpen');if(f)f.onclick=feedbackPanel;
+  } else if(BETA.status==='pending'){
+    bar.style.display='flex';bar.className='beta-bar wait';
+    bar.innerHTML='<span class="bb-tag">PENDING</span>'
+      +'<span class="bb-t">Your tester application is with us. You have read-only access until it is reviewed.</span>';
+  } else if(BETA.status==='rejected'||BETA.status==='suspended'){
+    bar.style.display='flex';bar.className='beta-bar stop';
+    bar.innerHTML='<span class="bb-tag">NO ACCESS</span>'
+      +'<span class="bb-t">'+esc(BETA.note||'Your tester access is not active.')+'</span>';
+  } else {
+    bar.style.display='flex';bar.className='beta-bar wait';
+    bar.innerHTML='<span class="bb-tag">CLOSED BETA</span>'
+      +'<span class="bb-t">Guardian is in closed testing with EHS professionals.</span>'
+      +'<button class="bb-btn" id="betaApply">Apply to test</button>';
+    const a=$('#betaApply');if(a)a.onclick=betaApplyPanel;
+  }
+}
+
+/* ---- the application ---- */
+function betaApplyPanel(){
+  if(!cloudGate())return;
+  const f=(l,id,ph,type)=>'<div class="fld"><label>'+l+'</label><input id="'+id+'"'
+    +(type?' type="'+type+'"':'')+' placeholder="'+esc(ph||'')+'"></div>';
+  showModal('Apply to test Guardian',
+    '<p style="font-size:13.5px;color:var(--text-2);line-height:1.6;margin-bottom:16px">'
+    +'Testing is limited to working EHS, safety and security professionals. We read every application by hand — '
+    +'tell us enough to judge it.</p>'
+    +'<div class="grid2">'
+    +f('Full name *','b_name','as it appears professionally')
+    +f('Organisation','b_org','employer or consultancy')
+    +f('Job title','b_title','e.g. EHS Manager')
+    +f('Country','b_country','')
+    +f('Years in EHS','b_years','','number')
+    +f('Sectors','b_sectors','construction, oil & gas, FM…')
+    +'<div class="fld full"><label>Qualifications you hold</label>'
+      +'<input id="b_cred" placeholder="NEBOSH IGC / Diploma, IOSH, CSP, Dip.NEBOSH…"></div>'
+    +f('Membership or certificate number','b_ref','helps us verify you')
+    +f('LinkedIn','b_li','profile URL')
+    +'<div class="fld full"><label>What would you use it for?</label>'
+      +'<textarea id="b_why" style="min-height:64px" placeholder="Which module matters most to you, and on what kind of site."></textarea></div>'
+    +'</div>'
+    +'<div class="ack-box">'
+      +'<label class="ack-row"><input type="checkbox" id="b_ack">'
+      +'<span><b>I will run Guardian in parallel, not in place of my existing system.</b><br>'
+      +'A permit, audit or assessment produced here does not authorise work, and I will not rely on it '
+      +'as the controlling record while Guardian is in beta. I remain the competent person.</span></label>'
+    +'</div>'
+    +'<p class="note" style="font-size:11.5px;color:var(--text-3);margin-top:10px">'
+    +'We store what you enter here to judge the application. Your certificate number is checked by a person; '
+    +'it is not verified against any register automatically.</p>'
+    +'<div class="prov-test" id="b_msg"></div>',
+    async()=>{
+      const m=$('#b_msg');
+      if(!$('#b_ack').checked){
+        m.textContent='The parallel-running condition has to be accepted — it is the basis on which we give access.';
+        m.style.color='var(--r-crit)';return false;}
+      const v=id=>($('#'+id).value||'').trim();
+      if(!v('b_name')){m.textContent='Your name is required.';m.style.color='var(--r-crit)';return false;}
+      m.textContent='Sending…';m.style.color='var(--text-3)';
+      try{
+        const {data,error}=await sb.rpc('apply_for_beta',{
+          p_full_name:v('b_name'),p_org:v('b_org'),p_title:v('b_title'),p_country:v('b_country'),
+          p_years:parseInt(v('b_years'))||null,p_credentials:v('b_cred'),p_cred_ref:v('b_ref'),
+          p_linkedin:v('b_li'),p_sectors:v('b_sectors'),p_why:v('b_why'),p_ack:true});
+        if(error)throw error;
+        if(data&&data.ok===false){m.textContent=data.error;m.style.color='var(--r-crit)';return false;}
+        toastMsg(data.message||'Application received.');
+        await betaStatus();
+        return true;
+      }catch(e){m.textContent=e.message;m.style.color='var(--r-crit)';return false;}
+    },'Send application');
+}
+
+/* ---- feedback ---- */
+function feedbackPanel(){
+  if(!cloudGate())return;
+  const view=(typeof state!=='undefined'&&state.view)||'';
+  const mod={permit:'Permit to work',audit:'Audit',incident:'Incident',daily:'Daily register',
+    jsa:'Risk assessment',qa:'Quality audit',sec:'Security portal',org:'Organisation',
+    chat:'Assistant',home:'Home'}[view]||view||'—';
+  showModal('Report something',
+    '<p style="font-size:13px;color:var(--text-2);margin-bottom:14px">'
+    +'You were on <b>'+esc(mod)+'</b>. The most useful reports say what you expected and what actually happened.</p>'
+    +'<div class="grid2">'
+    +'<div class="fld"><label>What kind</label><select id="f_kind">'
+      +'<option value="wrong_result">Wrong result — it decided something incorrectly</option>'
+      +'<option value="bug">Bug — it broke or did nothing</option>'
+      +'<option value="usability">Hard to use</option>'
+      +'<option value="missing">Something missing</option>'
+      +'<option value="idea">Idea</option><option value="praise">This worked well</option>'
+    +'</select></div>'
+    +'<div class="fld"><label>How bad</label><select id="f_sev">'
+      +'<option value="blocker">Blocker — could mislead someone on site</option>'
+      +'<option value="high">High</option><option value="medium" selected>Medium</option>'
+      +'<option value="low">Low</option></select></div>'
+    +'<div class="fld full"><label>One-line summary *</label><input id="f_title" placeholder="e.g. Permit authorised with a gas reading out of limits"></div>'
+    +'<div class="fld full"><label>What did you expect?</label><textarea id="f_exp" style="min-height:52px"></textarea></div>'
+    +'<div class="fld full"><label>What happened instead?</label><textarea id="f_act" style="min-height:52px"></textarea></div>'
+    +'<div class="fld full"><label>Anything else</label><textarea id="f_det" style="min-height:52px"></textarea></div>'
+    +'</div><div class="prov-test" id="f_msg"></div>',
+    async()=>{
+      const m=$('#f_msg');
+      const t=($('#f_title').value||'').trim();
+      if(!t){m.textContent='A one-line summary, at least.';m.style.color='var(--r-crit)';return false;}
+      m.textContent='Sending…';m.style.color='var(--text-3)';
+      try{
+        const {data,error}=await sb.rpc('submit_feedback',{
+          p_module:mod,p_kind:$('#f_kind').value,p_severity:$('#f_sev').value,p_title:t,
+          p_detail:($('#f_det').value||'').trim(),p_expected:($('#f_exp').value||'').trim(),
+          p_actual:($('#f_act').value||'').trim(),p_page:view,p_build:BUILD,
+          p_device:(typeof DEVICE!=='undefined'?DEVICE.klass():'')});
+        if(error)throw error;
+        if(data&&data.ok===false){m.textContent=data.error;m.style.color='var(--r-crit)';return false;}
+        toastMsg(data.message||'Logged — thank you.');
+        return true;
+      }catch(e){m.textContent=e.message;m.style.color='var(--r-crit)';return false;}
+    },'Send');
+}
+
+/* check status once we know who is signed in */
+(function(){
+  const _sb=setCloudBadge;
+  setCloudBadge=function(){_sb.apply(this,arguments);
+    try{if(cloud.user&&!BETA.checked)betaStatus();}catch(e){}};
+})();
+
 renderModes();renderSuggest();renderCtx();renderRailTools();renderThread();
 let permitInit=false,matrixInit=false;
 function ensurePermitInit(){if(permitInit)return;permitInit=true;bindHeader();renderTypeChips();renderChecks();renderPPE();updatePermitMeta();
@@ -5796,14 +6774,7 @@ async function initCloud(){
   else showAuth(true);
 }
 $('#authPw').addEventListener('keydown',e=>{if(e.key==='Enter')$('#authSignIn').click();});
-$('#authSignIn').onclick=async()=>{
-  const email=$('#authEmail').value.trim(),pw=$('#authPw').value;
-  if(!email||!pw){authMsg('Enter email and password.','bad');return;}
-  authMsg('Signing in…','wait');
-  const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
-  if(error){authMsg(error.message,'bad');return;}
-  cloud.user=data.user;authMsg('');await afterSignIn();
-};
+/* replaced by authSubmit() in the auth flows below */
 $('#authGoogle').onclick=async()=>{
   authMsg('Redirecting to Google…','wait');
   const {error}=await sb.auth.signInWithOAuth({provider:'google',
