@@ -17,6 +17,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
 <noscript><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" /></noscript>
+<script>
+  window.GhostConfig = {
+    appName: 'Guardian EHS',
+    supabaseUrl: 'https://yhiwmwkrtvqkeevcgkqj.supabase.co',
+    supabaseKey: 'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ',
+    realtimeEndpoint: 'https://guardianehs.github.io/app/',
+    adminPanelUrl: 'https://guardianehs.github.io/guardian-ghost-admin-panel.html',
+  };
+</script>
+
+<script type="module">
+  import { GhostEHS } from './ghost-integration-ehs.js';
+  GhostEHS.init(window.GhostConfig);
+</script>
 <style>
   :root{
     --bg:#FBFBFA;--surface:#FFFFFF;--surface-2:#F5F5F3;--border:#EAEAE6;--border-2:#DEDED9;
