@@ -128,7 +128,7 @@ async function boot(){
     x.onload=res;x.onerror=()=>rej();document.head.appendChild(x);})
     .catch(()=>{msg('#authMsg','Could not load the auth library — check your connection.','bad');});
   if(!window.supabase)return;
-  sb=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{detectSessionInUrl:true}});
+  sb=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{detectSessionInUrl:true,flowType:'pkce'}});
   sb.auth.onAuthStateChange((ev,s)=>{
     if(s&&!me){me=s.user;afterSignIn();}
     else if(ev==='SIGNED_OUT'){me=null;role=null;unlocked=false;render();}

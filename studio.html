@@ -215,7 +215,7 @@ async function boot(){
     x.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
     x.onload=res;x.onerror=rej;document.head.appendChild(x);}).catch(()=>{});
   if(!window.supabase){show('#authCard',true);msg('#authMsg','Could not load the sign-in library — check your connection.','bad');return;}
-  sb=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{detectSessionInUrl:true}});
+  sb=window.supabase.createClient(CLOUD.url,CLOUD.anonKey,{auth:{detectSessionInUrl:true,flowType:'pkce'}});
   sb.auth.onAuthStateChange((ev,s)=>{
     if(s&&!me){me=s.user;afterSignIn();}
     else if(ev==='SIGNED_OUT'){me=null;prof=null;render();}

@@ -287,8 +287,8 @@ by Jobel or Sajil, and not reachable when you're not at that machine.
 **Supabase → Authentication → URL Configuration** — add every address that
 needs to complete a sign-in redirect:
 
-    Site URL:      https://guardianehs.github.io/
-    Redirect URLs: https://guardianehs.github.io/*
+    Site URL:      https://arunwilliams.github.io/guardian/
+    Redirect URLs: https://arunwilliams.github.io/guardian/*
                    https://guardian-ehs-app.pages.dev/*
                    https://guardian-ehs-console.netlify.app/*
 

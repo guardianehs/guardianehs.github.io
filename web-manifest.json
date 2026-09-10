@@ -1,0 +1,6 @@
+{
+  "name": "Guardian Web",
+  "description": "Organized public web layer for Guardian Intelligence Platform.",
+  "entry": "../index.html",
+  "folders": ["assets/css", "assets/js", "components", "pages"]
+}

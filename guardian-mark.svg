@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Guardian</title>
+  <desc id="desc">Animated Guardian shield mark</desc>
+  <defs>
+    <linearGradient id="g" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F766E"/><stop offset="1" stop-color="#0B5A54"/>
+    </linearGradient>
+  </defs>
+  <path class="shield-path" d="M32 5 9 13v17c0 13.5 9.4 23.8 23 29 13.6-5.2 23-15.5 23-29V13L32 5Z" fill="url(#g)"/>
+  <path d="m21 31 7 7 15-16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="pulse" cx="48" cy="14" r="4" fill="#9DE2DA"/>
+</svg>
