@@ -1,6 +1,6 @@
-# Guardian — EHS Assistant
+# Guardian — Intelligence Platform
 
-A single-file, client-side EHS assistant: incident triage, near miss, first aid,
+Guardian is an organized web + application platform. The public home presentation is modularized under `web/`, while the app remains a self-contained EHS workspace: incident triage, near miss, first aid,
 risk assessment, compliance, and a digital **Permit to Work** (fill → AI review →
 print). It works **offline out of the box** and can optionally connect to Claude,
 any free/OpenAI-compatible LLM, or a local Ollama model.
@@ -20,7 +20,7 @@ Admin and the app off GitHub Pages," for the full explanation and steps.
 
 | File | What it is | Served to visitors |
 |---|---|---|
-| `index.html` | **Public home page** — what Guardian is, the AI, functions, use cases, development, docs, about, with a *Try Guardian* call to action | yes |
+| `index.html` | **Public home entry point** — imports the modular `web/` presentation layer | yes |
 | `promo.html` | Self-playing animated tour | yes |
 | `post.html` | Reads published journal articles straight from the database | yes |
 | `sw.js` | Service worker for offline launch — must sit beside `index.html` | — |
@@ -29,7 +29,7 @@ Admin and the app off GitHub Pages," for the full explanation and steps.
 | `projects.html` | Modules, roadmap and future models | yes |
 | `team.html` | Who builds Guardian, and open places | yes |
 | `blog.html` + `post-*.html` | Blog index and posts | yes |
-| `site.css` | Shared stylesheet for every public page | — |
+| `web/` | Organized public-web assets, components and page sources | — |
 | `img-*.png`, `blog-*.png` | Product images and post covers | — |
 | `supabase-setup.sql` | Database schema, roles and policies — run in Supabase, never served | no |
 
@@ -206,3 +206,7 @@ Guardian is decision-support, not a substitute for a qualified professional,
 site-specific procedures, or legal advice. Offline answers are concise
 best-practice summaries — verify against the current regulation for your
 jurisdiction.
+
+## Web structure
+
+The public site presentation is organized under `web/` rather than keeping the home page's CSS and interaction scripts embedded in `index.html`. `web/assets/css/home.css` contains the visual system, `web/assets/js/home.js` contains page interactions, and `web/assets/js/guardian-chat.js` provides the reusable Guardian reply component. The animated shield lives in `web/components/guardian-mark.svg`. The root `index.html` remains the GitHub Pages entry point.

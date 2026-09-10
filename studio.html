@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="./guardian-cloud-config.js"></script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0F766E" />
@@ -200,7 +201,7 @@ A paragraph. Use **bold** where it matters.
 </div>
 
 <script>
-const CLOUD={url:'https://yhiwmwkrtvqkeevcgkqj.supabase.co',anonKey:'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ'};
+const CLOUD=window.GUARDIAN_CLOUD||{url:'https://yhiwmwkrtvqkeevcgkqj.supabase.co',anonKey:'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ'};
 const $=s=>document.querySelector(s);
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let sb=null,me=null,prof=null,editing=null;

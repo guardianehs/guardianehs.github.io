@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="./guardian-cloud-config.js"></script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0F766E" />
@@ -99,10 +98,6 @@
   .scroll{flex:1 1 auto;overflow-y:auto;padding:26px 22px 10px}
   .thread{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
   .msg{display:flex;gap:12px;align-items:flex-start}
-  .reply-mark{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin:1px 7px 0 0;border:1px solid var(--border);border-radius:7px;background:var(--surface-2);font-size:12px;vertical-align:top;animation:reply-pop .32s ease-out both}
-  @keyframes reply-pop{from{opacity:0;transform:scale(.75) translateY(2px)}to{opacity:1;transform:scale(1) translateY(0)}}
-  @media(prefers-reduced-motion:reduce){.reply-mark{animation:none}}
-
   .msg.user{flex-direction:row-reverse}
   .avatar{width:30px;height:30px;border-radius:8px;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:13px}
   .avatar.bot{background:var(--accent)}
@@ -889,6 +884,10 @@
 .induction-records{display:grid;gap:8px}.ind-row{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;border:1px solid var(--border);border-radius:10px;padding:8px;background:var(--surface)}.ind-row img{width:52px;height:64px;object-fit:cover;border-radius:6px}.ind-row b{font-size:12px}.ind-row span{font-size:10px;color:var(--text-3);display:block;margin-top:2px}.ind-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.seal-preview{border:1px dashed var(--border-2);border-radius:9px;padding:10px;font-size:10px;color:var(--text-3)}
 #indPrintArea{display:none}@media print{body.ind-printing #indPrintArea{display:block!important}body.ind-printing .app,body.ind-printing #printArea{display:none!important}.id-card-print{width:85.6mm;height:53.98mm;box-sizing:border-box;border:1px solid #222;border-radius:3mm;overflow:hidden;font-family:Arial,sans-serif;position:relative;background:#fff;color:#111}.id-card-print .top{height:13mm;background:#111d1b;color:#fff;padding:2.7mm 3.5mm;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center}.id-card-print .brand{font-weight:800;font-size:12px}.id-card-print .seal{font-size:7px;border:1px solid #fff;border-radius:50%;padding:3px;width:10mm;height:10mm;text-align:center;box-sizing:border-box;display:flex;align-items:center;justify-content:center}.id-card-print .body{display:flex;padding:3mm;gap:3mm}.id-card-print img{width:25mm;height:31mm;object-fit:cover;border:1px solid #999}.id-card-print .info{font-size:7.5px;line-height:1.45}.id-card-print .info b{font-size:11px;display:block;margin-bottom:1mm}.id-card-print .foot{position:absolute;bottom:2mm;left:3mm;right:3mm;border-top:1px solid #bbb;padding-top:1mm;font-size:6px;display:flex;justify-content:space-between}.id-card-print .wm{position:absolute;right:3mm;bottom:8mm;font-size:6px;opacity:.3;transform:rotate(-18deg)}@page{size:85.6mm 53.98mm;margin:0}}
 @media(max-width:900px){.ehs-kpis{grid-template-columns:repeat(3,1fr)}.ehs-grid,.induction-layout{grid-template-columns:1fr}}@media(max-width:560px){.ehs-kpis{grid-template-columns:1fr 1fr}.ehs-head{flex-direction:column}.ehs-live{justify-content:flex-start}.ind-form{grid-template-columns:1fr}.ind-form .full{grid-column:auto}.pie-wrap{flex-direction:column;align-items:flex-start}}
+
+  /* Guardian 2.0 connected safety graph */
+  .graph-hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;padding:8px 0 22px}.graph-kicker{font:600 10px "IBM Plex Mono",monospace;color:var(--accent);letter-spacing:.11em}.graph-hero h2{font:700 30px "Hanken Grotesk",sans-serif;margin:6px 0}.graph-hero p{margin:0;max-width:720px;color:var(--text-2);line-height:1.55}.graph-actions{display:flex;gap:8px;flex-wrap:wrap}.graph-context{display:grid;grid-template-columns:1fr 1fr;gap:14px}.graph-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.graph-fields label{font-size:11px;color:var(--text-2);font-weight:600}.graph-fields input{display:block;width:100%;margin-top:5px;border:1px solid var(--border-2);border-radius:8px;padding:9px 10px;background:var(--bg);color:var(--text);font:13px "IBM Plex Mono",monospace}.graph-note{margin-top:10px;color:var(--text-3);font-size:11.5px;line-height:1.5}.ai-consent{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--bg);cursor:pointer}.ai-consent input{margin-top:3px;accent-color:var(--accent)}.ai-consent b{display:block;font-size:13px}.ai-consent small{display:block;color:var(--text-3);line-height:1.45;margin-top:3px}.graph-stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:14px 0}.graph-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px}.graph-stat .n{font:700 22px "Hanken Grotesk",sans-serif}.graph-stat .l{font-size:11px;color:var(--text-3);margin-top:2px}.graph-map{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;padding:22px 10px;margin-bottom:14px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg,#fff,#f7f8f6)}.g-node{padding:9px 11px;border:1px solid var(--border-2);border-radius:10px;background:#fff;font-size:12px;font-weight:700}.g-node b{display:block;font:600 10px "IBM Plex Mono",monospace;color:var(--accent);margin-bottom:3px}.g-arrow{color:var(--text-3)}.graph-list-head{display:flex;justify-content:space-between;align-items:center}.graph-list-head h3{margin:0}.graph-row{display:grid;grid-template-columns:90px 1fr auto;gap:12px;padding:12px 0;border-top:1px solid var(--border);align-items:center}.graph-row:first-child{border-top:0}.graph-type{font:600 10px "IBM Plex Mono",monospace;color:var(--accent)}.graph-row b{font-size:13px}.graph-row span{display:block;color:var(--text-3);font-size:11px;margin-top:2px}.graph-id{font:500 10px "IBM Plex Mono",monospace;color:var(--text-3)}
+  @media(max-width:800px){.graph-hero{display:block}.graph-actions{margin-top:14px}.graph-context{grid-template-columns:1fr}.graph-fields{grid-template-columns:1fr}.graph-stats{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -905,6 +904,10 @@
     <button class="tool-btn" id="homeNav" style="display:none">
       <svg viewBox="0 0 24 24" fill="none"><path d="M3 11 12 3l9 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="tt">Home<span class="sub">Your dashboard</span></span>
+    </button>
+    <button class="tool-btn" id="graphNav">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="7" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="18" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="m8.2 7.2 7.5-0.7M7.5 8.1l3 7.4m7-5.5-4.1 5.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="tt">Safety graph<span class="sub">Connected records · Guardian AI</span></span>
     </button>
     <button class="tool-btn" id="dailyNav">
       <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 15h3v3H7z" fill="currentColor" opacity=".5"/><path d="M13 14l2 2 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1460,6 +1463,25 @@
       </div>
     </div>
 
+    <!-- Connected safety graph view -->
+    <div id="graphView" class="view" style="display:none">
+      <div class="permit-scroll">
+        <div class="permit">
+          <div class="graph-hero">
+            <div><div class="graph-kicker">GUARDIAN 2.0 · CONNECTED SAFETY OPERATING SYSTEM</div><h2>One connected safety record</h2><p>Link people, work, risk, controls, evidence and events so Guardian AI can reason over the same safety context instead of isolated forms.</p></div>
+            <div class="graph-actions"><button class="pbtn" id="graphExport">Export graph</button><button class="pbtn primary" id="graphAsk">Ask Guardian about this record</button></div>
+          </div>
+          <div class="graph-context">
+            <div class="pcard"><h3>Active context</h3><div class="graph-fields"><label>Worker ID<input id="gxWorker" placeholder="e.g. WRK-002481"></label><label>Work ID<input id="gxWork" placeholder="e.g. WORK-2026-004821"></label><label>Risk ID<input id="gxRisk" placeholder="e.g. RISK-2026-00128"></label><label>Site / Location<input id="gxLocation" placeholder="e.g. 11F Electrical Room"></label></div><div class="graph-note">These IDs become the common keys across HIRA/JSA, PTW, inspections, incidents, CAPA and evidence. They can be changed without deleting records.</div></div>
+            <div class="pcard"><h3>Guardian AI data use</h3><label class="ai-consent"><input type="checkbox" id="gxAi" checked><span><b>Use connected safety data for AI answers</b><small>Guardian sends relevant connected record context to the AI provider selected in Settings. This is contextual reasoning, not model training.</small></span></label><div class="graph-note">For confidential or personal data, use a private/local model or turn this off. Do not place API secrets in frontend code.</div></div>
+          </div>
+          <div class="graph-stats" id="graphStats"></div>
+          <div class="graph-map" id="graphMap"></div>
+          <div class="pcard"><div class="graph-list-head"><h3>Connected records</h3><button class="pbtn" id="graphRefresh">Refresh</button></div><div id="graphRecords"></div></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Daily dashboard view -->
     <div id="dailyView" class="view" style="display:none">
       <div class="permit-scroll">
@@ -1693,7 +1715,7 @@
      it grants nothing beyond what row-level security allows).
    NEVER put the service_role key anywhere in this repo.
    Leave both empty ('') to run in local mode (no login, data stays on-device). */
-const CLOUD=window.GUARDIAN_CLOUD||{url:'https://yhiwmwkrtvqkeevcgkqj.supabase.co',anonKey:'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ'};
+const CLOUD={url:'https://yhiwmwkrtvqkeevcgkqj.supabase.co',anonKey:'sb_publishable_jcmNK-g19f_YIfy8pJsJjw_OyM1R4qJ'};
 function cloudEnabled(){return !!(CLOUD.url&&CLOUD.anonKey)}
 let sb=null;                      /* supabase client */
 const cloud={user:null,role:null,org:null,orgName:''};
@@ -1770,6 +1792,77 @@ const state={
   messages:JSON.parse(store.get('guardian.msgs')||'[]'),
   busy:false
 };
+
+/* ================= GUARDIAN 2.0 SAFETY GRAPH =================
+   A local-first relationship layer. It does not replace RLS or backend security.
+   Every module gets stable IDs and a shared context; AI receives a bounded snapshot,
+   only when the user enables connected-data context. */
+function gid(prefix){return prefix+'-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,7).toUpperCase()}
+function graphDefault(){return {version:2,context:{workerId:'',workId:'',riskId:'',location:''},aiContext:true,records:{},links:[],updatedAt:null}}
+let safetyGraph=(()=>{try{return Object.assign(graphDefault(),JSON.parse(store.get('guardian.safetyGraph')||'null')||{})}catch(_){return graphDefault()}})();
+safetyGraph.context=Object.assign(graphDefault().context,safetyGraph.context||{}); safetyGraph.records=safetyGraph.records||{}; safetyGraph.links=Array.isArray(safetyGraph.links)?safetyGraph.links:[];
+function graphEnsureIds(){
+  const c=safetyGraph.context;
+  if(!c.workId)c.workId='WORK-'+todaySafe()+'-'+Math.random().toString(36).slice(2,7).toUpperCase();
+  if(!c.riskId)c.riskId='RISK-'+todaySafe()+'-'+Math.random().toString(36).slice(2,7).toUpperCase();
+  return c;
+}
+function todaySafe(){return new Date().toISOString().slice(0,10).replace(/-/g,'')}
+function graphTypeId(type){const map={daily:'DAY',permit:'PTW',risk:'JSA',audit:'AUD',incident:'INC',quality:'QAL',security:'SEC'};return map[type]||String(type||'REC').toUpperCase()}
+function graphSource(type){
+  const source={type,id:null,title:'',data:null};
+  if(type==='daily'){source.id='DAY-'+(Object.keys(state.daily||{}).sort().pop()||todaySafe());source.title='Daily EHS register';source.data=state.daily||{}}
+  else if(type==='permit'){source.id=(state.permit&&state.permit.header&&state.permit.header.permitNo)||gid('PTW');source.title='Permit to work';source.data=state.permit||{}}
+  else if(type==='risk'){source.id=state.jsa&&state.jsa.id||gid('JSA');source.title='HIRA / JSA';source.data=state.jsa||{}}
+  else if(type==='audit'){source.id=state.audit&&state.audit.ref||gid('AUD');source.title='EHS audit';source.data=state.audit||{}}
+  else if(type==='incident'){source.id=state.inc&&state.inc.ref||gid('INC');source.title='Incident / event';source.data=state.inc||{}}
+  else if(type==='quality'){source.id=gid('QAL');source.title='Quality audit';source.data=state.qa||{}}
+  else if(type==='security'){source.id=gid('SEC');source.title='Security log';source.data=state.sec||{}}
+  return source;
+}
+function graphSchedule(type){clearTimeout(graphSchedule._t);graphSchedule._t=setTimeout(()=>graphCapture(type),350)}
+function graphCapture(type){
+  try{
+    graphEnsureIds();
+    const src=graphSource(type); const c=safetyGraph.context;
+    const rid=src.id;
+    safetyGraph.records[rid]={recordId:rid,type,title:src.title,workerId:c.workerId||'',workId:c.workId||'',riskId:c.riskId||'',location:c.location||'',updatedAt:new Date().toISOString(),summary:graphSummarize(type,src.data)};
+    const links=[['worker',c.workerId],['work',c.workId],['risk',c.riskId],['record',rid]].filter(x=>x[1]);
+    links.forEach(([kind,id])=>{if(!safetyGraph.links.some(l=>l.from===id&&l.to===rid&&l.kind===kind))safetyGraph.links.push({from:id,to:rid,kind});});
+    safetyGraph.updatedAt=new Date().toISOString();
+    store.set('guardian.safetyGraph',JSON.stringify(safetyGraph));
+    if(typeof cloudSaveGraph==='function'&&sb&&cloud.user&&cloud.org)cloudSaveGraph();
+    if(state.view==='graph')renderSafetyGraph();
+  }catch(e){console.warn('Guardian safety graph:',e)}
+}
+function graphSummarize(type,d){
+  if(type==='daily'){const o={};Object.keys(d||{}).sort().slice(-14).forEach(k=>o[k]=d[k]);return o}
+  const x=JSON.parse(JSON.stringify(d||{}));
+  // Keep AI graph context compact and avoid storing browser-only blobs/keys.
+  ['file','b64','thumb','base64','token','key','password','secret'].forEach(k=>stripKey(x,k));
+  return x;
+}
+function stripKey(o,k){if(!o||typeof o!=='object')return;if(Array.isArray(o)){o.forEach(v=>stripKey(v,k));return}Object.keys(o).forEach(key=>{if(key.toLowerCase().includes(k))delete o[key];else if(o[key]&&typeof o[key]==='object')stripKey(o[key],k)})}
+function graphContextText(){
+  if(!safetyGraph.aiContext)return '';
+  graphEnsureIds();
+  const c=safetyGraph.context; const rec=Object.values(safetyGraph.records).slice(-24);
+  return '\n\nCONNECTED GUARDIAN SAFETY CONTEXT (use as supporting evidence, not as an authority):\n'
+    +'Worker ID: '+(c.workerId||'not set')+'\nWork ID: '+(c.workId||'not set')+'\nRisk ID: '+(c.riskId||'not set')+'\nLocation: '+(c.location||'not set')+'\n'
+    +'Connected records:\n'+rec.map(r=>'- '+r.type+' '+r.recordId+' | '+r.title+' | updated '+r.updatedAt+' | '+JSON.stringify(r.summary).slice(0,1800)).join('\n');
+}
+function graphSetContext(k,v){safetyGraph.context[k]=String(v||'').trim();safetyGraph.updatedAt=new Date().toISOString();store.set('guardian.safetyGraph',JSON.stringify(safetyGraph));Object.keys({daily:1,permit:1,risk:1,audit:1,incident:1,quality:1,security:1}).forEach(t=>graphCapture(t))}
+function graphAllCapture(){['daily','permit','risk','audit','incident','quality','security'].forEach(graphCapture)}
+function renderSafetyGraph(){
+  const c=safetyGraph.context; ['worker','work','risk','location'].forEach(k=>{const el=$('#gx'+k[0].toUpperCase()+k.slice(1));if(el&&document.activeElement!==el)el.value=c[k+'Id']||c[k]||''});
+  const rec=Object.values(safetyGraph.records); const counts={};rec.forEach(r=>counts[r.type]=(counts[r.type]||0)+1);
+  const stat=[['People',c.workerId?1:0],['Work',c.workId?1:0],['Risk',c.riskId?1:0],['Records',rec.length],['Links',safetyGraph.links.length],['AI context',safetyGraph.aiContext?'ON':'OFF']];
+  const gs=$('#graphStats');if(gs)gs.innerHTML=stat.map(x=>'<div class="graph-stat"><div class="n">'+esc(x[1])+'</div><div class="l">'+esc(x[0])+'</div></div>').join('');
+  const gm=$('#graphMap');if(gm)gm.innerHTML=['Worker','Work','Risk','HIRA/JSA','PTW','Inspection/Audit','Incident','CAPA','Evidence','AI'].map((x,i)=>'<div class="g-node"><b>0'+(i+1)+'</b>'+x+'</div>'+ (i<9?'<span class="g-arrow">→</span>':'')).join('');
+  const box=$('#graphRecords');if(box)box.innerHTML=rec.length?rec.slice().reverse().map(r=>'<div class="graph-row"><div class="graph-type">'+esc(r.type)+'</div><div><b>'+esc(r.title)+'</b><span>'+esc(r.location||'')+' · Work '+esc(r.workId||'—')+' · Risk '+esc(r.riskId||'—')+'</span></div><div class="graph-id">'+esc(r.recordId)+'</div></div>').join(''):'<div class="doc-note">No connected records yet. Open a module and save it.</div>';
+}
+async function cloudSaveGraph(){if(!sb||!cloud.user||!cloud.org)return;try{await sb.from('safety_graph').upsert({org_id:cloud.org,graph_id:'default',data:safetyGraph,updated_by:cloud.user.id})}catch(e){console.warn('Safety graph cloud save:',e)}}
+async function cloudLoadGraph(){if(!sb||!cloud.user||!cloud.org)return;try{const {data}=await sb.from('safety_graph').select('data').eq('org_id',cloud.org).eq('graph_id','default').maybeSingle();if(data&&data.data){safetyGraph=Object.assign(graphDefault(),data.data);safetyGraph.context=Object.assign(graphDefault().context,safetyGraph.context||{});safetyGraph.records=safetyGraph.records||{};safetyGraph.links=safetyGraph.links||[];store.set('guardian.safetyGraph',JSON.stringify(safetyGraph));if(state.view==='graph')renderSafetyGraph()}}catch(e){console.warn('Safety graph cloud load:',e)}}
 
 const PROVIDERS={offline:'Offline',anthropic:'Claude',openai:'Free LLM',ollama:'Ollama (local)'};
 const FREE_PRESETS=[
@@ -1853,12 +1946,14 @@ function setView(v){
   $('#chatView').style.display=v==='chat'?'flex':'none';
   $('#permitView').style.display=v==='permit'?'flex':'none';
   $('#dailyView').style.display=v==='daily'?'flex':'none';
+  $('#graphView').style.display=v==='graph'?'flex':'none';
   $('#auditView').style.display=v==='audit'?'flex':'none';
   $('#homeView').style.display=v==='home'?'flex':'none';
   $('#auditNav').classList.toggle('active',v==='audit');
   $('#homeNav').classList.toggle('active',v==='home');
   $('#permitNav').classList.toggle('active',v==='permit');
   $('#dailyNav').classList.toggle('active',v==='daily');
+  $('#graphNav').classList.toggle('active',v==='graph');
   const fab=$('#askFab');if(fab)fab.style.display=(v!=='chat'&&v!=='home')?'flex':'none';
   if(v==='permit'){
     if(typeof ensurePermitInit==='function')ensurePermitInit();
@@ -1945,6 +2040,13 @@ $('#permitReset').onclick=()=>{if(!confirm('Clear this permit?'))return;state.pe
 $('#permitNav').onclick=()=>{if(typeof guestGate==='function'&&guestGate('The permit-to-work system (contains site-sensitive data)'))return;if(roleGate('permit','The permit-to-work system'))return;setView('permit');closeNav();};
 $('#homeNav').onclick=()=>{setView('home');closeNav();};
 $('#dailyNav').onclick=()=>{if(typeof guestGate==='function'&&guestGate('The site register & dashboard'))return;setView('daily');closeNav();};
+$('#graphNav').onclick=()=>{if(typeof guestGate==='function'&&guestGate('The connected safety graph'))return;setView('graph');closeNav();renderSafetyGraph();};
+$('#graphRefresh').onclick=()=>{graphAllCapture();renderSafetyGraph();toastMsg('Safety graph refreshed.');};
+$('#gxAi').onchange=e=>{safetyGraph.aiContext=!!e.target.checked;store.set('guardian.safetyGraph',JSON.stringify(safetyGraph));};
+['Worker','Work','Risk','Location'].forEach(k=>{const el=$('#gx'+k);if(el)el.onchange=()=>graphSetContext(k==='Worker'?'workerId':k==='Work'?'workId':k==='Risk'?'riskId':'location',el.value)});
+$('#graphExport').onclick=()=>{const blob=new Blob([JSON.stringify(safetyGraph,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='guardian-safety-graph-'+todaySafe()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('#graphAsk').onclick=()=>askGuardian('Review the connected Guardian safety record. Identify relationships, missing controls, repeat-risk patterns, and the highest-priority actions. Do not invent facts.');
+
 $('#auditNav').onclick=()=>{if(typeof guestGate==='function'&&guestGate('The audit module (contains site-sensitive data)'))return;if(roleGate('audit','The audit module'))return;setView('audit');closeNav();};
 
 /* ---- audit form ---- */
@@ -1998,7 +2100,7 @@ function createAttachments(o){ /* o:{input,cam,pick,camBtn,list,folder:()=>strin
   return inst;
 }
 let attAudit={files:[],render:()=>{}},attPermit={files:[],render:()=>{}},attDaily={files:[],render:()=>{}};
-function persistAudit(){store.set('guardian.audit',JSON.stringify(state.audit))}
+function persistAudit(){store.set('guardian.audit',JSON.stringify(state.audit));graphSchedule('audit')}
 let auditInit=false;
 function ensureAuditInit(){
   if(auditInit){updateAuditMeta();return;}auditInit=true;
@@ -2454,7 +2556,7 @@ function migratePermit(p){
   return out;
 }
 state.permit=migratePermit(JSON.parse(store.get('guardian.permit')||'null'));
-function persistPermit(){store.set('guardian.permit',JSON.stringify(state.permit))}
+function persistPermit(){store.set('guardian.permit',JSON.stringify(state.permit));graphSchedule('permit')}
 
 function activeSections(){
   const p=state.permit,out=['general'];
@@ -3170,7 +3272,7 @@ const DAILY_METRICS=[
   {id:'permits',l:'Permits issued',cum:true}
 ];
 state.daily=JSON.parse(store.get('guardian.daily')||'{}');
-function persistDaily(){store.set('guardian.daily',JSON.stringify(state.daily))}
+function persistDaily(){store.set('guardian.daily',JSON.stringify(state.daily));graphSchedule('daily')}
 function todayISO(){return new Date().toISOString().slice(0,10)}
 function dailyCum(){const c={};DAILY_METRICS.forEach(m=>c[m.id]=0);let days=0;
   Object.values(state.daily).forEach(e=>{days++;DAILY_METRICS.forEach(m=>c[m.id]+=(+e[m.id]||0));});
@@ -3471,11 +3573,9 @@ function mdToHtml(t){
 }
 function addMsg(role,text,opts={}){
   const el=document.createElement('div');el.className='msg '+(role==='user'?'user':'bot');
-  const replyIcons={incident:'🚨',firstaid:'🩹',risk:'⚠️',compliance:'📚',near:'👀',general:'🛡️'};
-  const replyIcon=replyIcons[state.mode]||'🛡️';
   el.innerHTML=`<div class="avatar ${role==='user'?'you':'bot'}">${role==='user'?'YOU':'<span class="glogo av-shield"><svg viewBox="0 0 24 24" fill="none" width="17" height="17"><path class="g-shield" d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path class="g-core" d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'}</div><div class="bubble"><div class="content ${opts.err?'err':''}"></div></div>`;
   const c=el.querySelector('.content');
-  if(role==='user'){c.textContent=text}else{c.innerHTML=text?mdToHtml(text):''; const mark=document.createElement('span'); mark.className='reply-mark'; mark.textContent=replyIcon; mark.title='Guardian context'; c.prepend(mark)}
+  if(role==='user'){c.textContent=text}else{c.innerHTML=text?mdToHtml(text):''}
   thread.appendChild(el);scroll.scrollTop=scroll.scrollHeight;return c;
 }
 function renderThread(){thread.innerHTML='';if(state.messages.length===0){renderEmpty();return}state.messages.forEach(m=>addMsg(m.role,m.content));}
@@ -3587,6 +3687,7 @@ async function runTurn(text,focusLine){
   let system=SYS_BASE+'\n\n'+standardsLine()+'\n\nCurrent focus: '+focusLine;
   const _ctx=(typeof pageContext==='function')?pageContext():'';
   if(_ctx)system+='\n\nWhere the user is right now: '+_ctx;
+  const _graphCtx=graphContextText(); if(_graphCtx)system+=_graphCtx;
   if(typeof GMEM!=='undefined'){
     const past=GMEM.recall(text,3);
     if(past.length){
@@ -4452,7 +4553,7 @@ function jsaBand(v){
 const defaultJSA=()=>({ref:'',date:'',task:'',loc:'',by:'',env:'',rows:[]});
 state.jsa=Object.assign(defaultJSA(),JSON.parse(store.get('guardian.jsa')||'null')||{});
 if(!Array.isArray(state.jsa.rows))state.jsa.rows=[];
-const persistJSA=()=>store.set('guardian.jsa',JSON.stringify(state.jsa));
+const persistJSA=()=>{store.set('guardian.jsa',JSON.stringify(state.jsa));graphSchedule('risk')};
 
 function jsaBind(){
   [['j_ref','ref'],['j_date','date'],['j_task','task'],['j_loc','loc'],['j_by','by'],['j_env','env']].forEach(([id,k])=>{
@@ -4552,7 +4653,7 @@ function jsaPrintDoc(){
 const defaultQA=()=>({ref:'',date:'',scope:'',by:'',basis:'ISO 9001:2015',lot:'',crit:'',rows:[]});
 state.qa=Object.assign(defaultQA(),JSON.parse(store.get('guardian.qa')||'null')||{});
 if(!Array.isArray(state.qa.rows))state.qa.rows=[];
-const persistQA=()=>store.set('guardian.qa',JSON.stringify(state.qa));
+const persistQA=()=>{store.set('guardian.qa',JSON.stringify(state.qa));graphSchedule('quality')};
 const QA_TYPES=['Major NC','Minor NC','Observation','OFI','Conforms'];
 
 function qaBind(){
@@ -4636,7 +4737,7 @@ const defaultSEC=()=>({date:'',shift:'Day',by:'',post:'',
 state.sec=Object.assign(defaultSEC(),JSON.parse(store.get('guardian.sec')||'null')||{});
 if(!Array.isArray(state.sec.rows))state.sec.rows=[];
 if(!state.sec.checks)state.sec.checks={};
-const persistSEC=()=>store.set('guardian.sec',JSON.stringify(state.sec));
+const persistSEC=()=>{store.set('guardian.sec',JSON.stringify(state.sec));graphSchedule('security')};
 const SEC_SEV=['Info','Low','Medium','High','Critical'];
 
 function secBind(){
@@ -6443,7 +6544,7 @@ const defaultInc=()=>({id:'',type:'nearmiss',what:'',where:'',when:'',by:'',who:
 function incStore(){try{return JSON.parse(store.get('guardian.incidents')||'[]')}catch(e){return []}}
 function incSave(list){store.set('guardian.incidents',JSON.stringify(list.slice(-80)))}
 state.inc=Object.assign(defaultInc(),JSON.parse(store.get('guardian.incDraft')||'null')||{});
-const persistInc=()=>store.set('guardian.incDraft',JSON.stringify(state.inc));
+const persistInc=()=>{store.set('guardian.incDraft',JSON.stringify(state.inc));graphSchedule('incident')};
 
 function incBind(){
   [['i_what','what'],['i_where','where'],['i_when','when'],['i_by','by'],['i_who','who'],
@@ -6853,9 +6954,11 @@ async function cloudLoadDays(){
   if(state.view==='daily')renderDaily();
   if(state.view==='home')renderHome();   /* refresh dashboard stats */
 }
+cloudLoadGraph();
 async function cloudSaveDay(dateISO,entry){
   if(!sb||!cloud.org)return;
   await sb.from('daily_entries').upsert({org_id:cloud.org,date:dateISO,data:entry,updated_by:cloud.user.id});
+  graphCapture('daily');
 }
 /* ---- realtime: the org's data stays live without refreshing ---- */
 let rtChannel=null;
@@ -7298,8 +7401,8 @@ if(_ic&&_ic.then)_ic.then(checkAdmRoute);else checkAdmRoute();
     $('#indVideoUrl').onchange=e=>{const u=e.target.value.trim();if(u)setVideo(u,'video URL')};
     $('#indMarkWatched').onclick=()=>{$('#indWatchStatus').dataset.watched='1';$('#indWatchStatus').textContent='Confirmed watched ✓';refreshIndButtons()};
     $('#indCamStart').onclick=startCam;
-    $('#indCapture').onclick=()=>{indPhoto=captureCanvas();if(!indPhoto)return;$('#indPhotoPreview').src=indPhoto;$('#indRetake').style.display='';stopCam();const v=$('#indCamVideo');if(v)v.srcObject=null;$('#indCamPlaceholder').style.display='';$('#indCapture').disabled=true;toastMsg('Attendance photo captured with watermark and timestamp. Camera closed.')};
-    $('#indRetake').onclick=()=>{indPhoto='';$('#indPhotoPreview').removeAttribute('src');$('#indRetake').style.display='none';startCam()};
+    $('#indCapture').onclick=()=>{indPhoto=captureCanvas();if(!indPhoto)return;$('#indPhotoPreview').src=indPhoto;$('#indRetake').style.display='';refreshIndButtons();toastMsg('Attendance photo captured with watermark and timestamp.')};
+    $('#indRetake').onclick=()=>{indPhoto='';$('#indPhotoPreview').removeAttribute('src');$('#indCapture').disabled=!indStream};
     $('#indLogo').onchange=e=>loadLogo(e.target.files[0]);
     $('#indEvidence').onchange=e=>{indEvidence=Array.from(e.target.files||[]).map(f=>({name:f.name,type:f.type,size:f.size}));};
     ['indName','indEmp','indOrg','indRole','indType','indExpiry','indSeal'].forEach(id=>$('#'+id).addEventListener('input',refreshIndButtons));

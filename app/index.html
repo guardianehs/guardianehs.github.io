@@ -98,6 +98,10 @@
   .scroll{flex:1 1 auto;overflow-y:auto;padding:26px 22px 10px}
   .thread{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
   .msg{display:flex;gap:12px;align-items:flex-start}
+  .reply-mark{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin:1px 7px 0 0;border:1px solid var(--border);border-radius:7px;background:var(--surface-2);font-size:12px;vertical-align:top;animation:reply-pop .32s ease-out both}
+  @keyframes reply-pop{from{opacity:0;transform:scale(.75) translateY(2px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @media(prefers-reduced-motion:reduce){.reply-mark{animation:none}}
+
   .msg.user{flex-direction:row-reverse}
   .avatar{width:30px;height:30px;border-radius:8px;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:13px}
   .avatar.bot{background:var(--accent)}
@@ -282,6 +286,16 @@
   .support-card .pbtn{flex-shrink:0;text-decoration:none}
   @media(max-width:560px){.plan-grid{grid-template-columns:1fr}.support-card{flex-direction:column;align-items:flex-start}}
   /* daily dashboard */
+.manpower-panel{margin-top:16px;border:1px solid var(--line,#e5e7eb);border-radius:14px;background:var(--surface,#fff);overflow:hidden}
+.manpower-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line,#e5e7eb)}
+.manpower-title{font-weight:700;font-size:14px}.manpower-sub{font-size:11.5px;color:var(--text-3);margin-top:3px}
+.manpower-actions{display:flex;gap:8px;flex-wrap:wrap}.mp-btn{border:1px solid var(--line,#d9dde3);background:var(--surface,#fff);border-radius:9px;padding:8px 11px;font:inherit;font-size:12px;cursor:pointer}.mp-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mp-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:12px 16px;background:var(--surface-2,#f8fafc)}
+.mp-stat{border:1px solid var(--line,#e5e7eb);border-radius:10px;padding:10px 12px;background:var(--surface,#fff)}.mp-stat .v{font-weight:750;font-size:18px}.mp-stat .l{font-size:10.5px;color:var(--text-3);margin-top:2px}
+.mp-table-wrap{overflow-x:auto}.mp-table{width:100%;border-collapse:collapse;font-size:12px}.mp-table th,.mp-table td{padding:9px 12px;border-bottom:1px solid var(--line,#eef0f2);text-align:left;white-space:nowrap}.mp-table th{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-3);font-weight:700}.mp-table td.num,.mp-table th.num{text-align:right}.mp-empty{padding:16px;color:var(--text-3);font-size:12px}
+.mp-modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.42);z-index:120;display:flex;align-items:center;justify-content:center;padding:18px}.mp-modal{width:min(560px,100%);max-height:88vh;overflow:auto;background:var(--surface,#fff);border:1px solid var(--line,#e5e7eb);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.18);padding:18px}.mp-modal h3{margin:0 0 5px;font-size:17px}.mp-modal p{margin:0 0 15px;color:var(--text-3);font-size:12px}.mp-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mp-form .full{grid-column:1/-1}.mp-form label{display:block;font-size:11px;font-weight:650;color:var(--text-2,#475569);margin-bottom:5px}.mp-form input,.mp-form select{width:100%;box-sizing:border-box;border:1px solid var(--line,#d9dde3);border-radius:9px;padding:10px 11px;font:inherit;background:var(--surface,#fff);color:inherit}.mp-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.mp-note{font-size:11px;color:var(--text-3);margin-top:10px;line-height:1.45}
+@media(max-width:650px){.mp-summary{grid-template-columns:1fr 1fr}.mp-form{grid-template-columns:1fr}.mp-form .full{grid-column:auto}.manpower-head{align-items:flex-start;flex-direction:column}}
+
   .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
   .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm)}
   .kpi .kv{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;line-height:1.1}
@@ -863,6 +877,17 @@
   .ppe-print{font-size:12px;border:1px solid #999;padding:7px 9px}
   .sigs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}
   .sigs div{border-top:1px solid #000;padding-top:6px;font-size:10px;text-align:center}
+
+/* ===== Guardian EHS intelligence + induction evidence module ===== */
+.ehs-home{display:grid;gap:14px}.ehs-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.ehs-title h1{margin:0;font-size:24px;letter-spacing:-.02em}.ehs-title p{margin:5px 0 0;color:var(--text-3);font-size:12px}.ehs-live{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.live-chip{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 10px;font-size:10.5px;color:var(--text-2)}
+.period-tabs{display:flex;gap:6px;flex-wrap:wrap}.period-tab{border:1px solid var(--border);background:var(--surface);border-radius:9px;padding:8px 13px;font-size:11px;font-weight:650;cursor:pointer;color:var(--text-2)}.period-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ehs-kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.ehs-kpi{border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:12px}.ehs-kpi .n{font-size:20px;font-weight:760;line-height:1.1}.ehs-kpi .l{font-size:10.5px;color:var(--text-2);margin-top:4px}.ehs-kpi .s{font-size:9.5px;color:var(--text-3);margin-top:4px}
+.ehs-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:12px}.chart-card{border:1px solid var(--border);background:var(--surface);border-radius:13px;padding:14px;min-width:0}.chart-card h3{margin:0 0 4px;font-size:13px}.chart-sub{font-size:10.5px;color:var(--text-3);margin-bottom:9px}.chart-scroll{overflow-x:auto}.line-chart{width:100%;min-width:620px;height:230px;display:block}.axis-text{font-size:9px;fill:currentColor;color:var(--text-3)}.chart-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:var(--text-2);margin-top:5px}.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:4px}.bar-grid{display:grid;grid-template-columns:repeat(12,1fr);align-items:end;height:210px;gap:7px;padding-top:10px}.period-bar{height:var(--h);min-height:3px;border-radius:5px 5px 2px 2px;background:var(--accent);position:relative}.period-bar span{position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--text-3);white-space:nowrap}.pie-wrap{display:flex;gap:18px;align-items:center;min-height:210px}.donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--accent) 0 var(--p1),var(--r-med) var(--p1) var(--p2),var(--r-low) var(--p2) var(--p3),var(--mandatory,#1F6FB2) var(--p3) 100%);position:relative;flex-shrink:0}.donut:after{content:'';position:absolute;inset:35px;border-radius:50%;background:var(--surface)}.pie-list{display:grid;gap:8px;font-size:10.5px}.pie-item{display:flex;gap:7px;align-items:center}.pie-item i{width:9px;height:9px;border-radius:3px;background:var(--c)}
+.evidence-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}.evidence-pill{padding:6px 9px;border-radius:8px;background:var(--surface-2);font-size:10px;color:var(--text-2);border:1px solid var(--border)}
+.induction-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.video-box{border:1px solid var(--border);background:#111;border-radius:12px;overflow:hidden;min-height:310px;display:flex;align-items:center;justify-content:center}.video-box video{width:100%;max-height:460px;display:block;background:#000}.video-empty{color:#fff8;text-align:center;padding:30px;font-size:12px}.ind-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ind-form .full{grid-column:1/-1}.ind-form label{font-size:10.5px;font-weight:650;color:var(--text-2);display:block;margin-bottom:5px}.ind-form input,.ind-form select,.ind-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--border-2);background:var(--surface);border-radius:9px;padding:9px 10px;font:inherit;font-size:12px;color:inherit}.cam-card{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0d1117}.cam-stage{position:relative;aspect-ratio:4/3;background:#090d12}.cam-stage video{width:100%;height:100%;object-fit:cover;display:block}.cam-stage canvas{display:none}.cam-placeholder{color:#fff9;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;font-size:12px}.cam-actions{display:flex;gap:7px;padding:9px}.cam-actions .pbtn{flex:1;justify-content:center}.photo-preview{width:94px;height:115px;border-radius:8px;object-fit:cover;border:1px solid var(--border);background:var(--surface-2)}
+.induction-records{display:grid;gap:8px}.ind-row{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;border:1px solid var(--border);border-radius:10px;padding:8px;background:var(--surface)}.ind-row img{width:52px;height:64px;object-fit:cover;border-radius:6px}.ind-row b{font-size:12px}.ind-row span{font-size:10px;color:var(--text-3);display:block;margin-top:2px}.ind-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.seal-preview{border:1px dashed var(--border-2);border-radius:9px;padding:10px;font-size:10px;color:var(--text-3)}
+#indPrintArea{display:none}@media print{body.ind-printing #indPrintArea{display:block!important}body.ind-printing .app,body.ind-printing #printArea{display:none!important}.id-card-print{width:85.6mm;height:53.98mm;box-sizing:border-box;border:1px solid #222;border-radius:3mm;overflow:hidden;font-family:Arial,sans-serif;position:relative;background:#fff;color:#111}.id-card-print .top{height:13mm;background:#111d1b;color:#fff;padding:2.7mm 3.5mm;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center}.id-card-print .brand{font-weight:800;font-size:12px}.id-card-print .seal{font-size:7px;border:1px solid #fff;border-radius:50%;padding:3px;width:10mm;height:10mm;text-align:center;box-sizing:border-box;display:flex;align-items:center;justify-content:center}.id-card-print .body{display:flex;padding:3mm;gap:3mm}.id-card-print img{width:25mm;height:31mm;object-fit:cover;border:1px solid #999}.id-card-print .info{font-size:7.5px;line-height:1.45}.id-card-print .info b{font-size:11px;display:block;margin-bottom:1mm}.id-card-print .foot{position:absolute;bottom:2mm;left:3mm;right:3mm;border-top:1px solid #bbb;padding-top:1mm;font-size:6px;display:flex;justify-content:space-between}.id-card-print .wm{position:absolute;right:3mm;bottom:8mm;font-size:6px;opacity:.3;transform:rotate(-18deg)}@page{size:85.6mm 53.98mm;margin:0}}
+@media(max-width:900px){.ehs-kpis{grid-template-columns:repeat(3,1fr)}.ehs-grid,.induction-layout{grid-template-columns:1fr}}@media(max-width:560px){.ehs-kpis{grid-template-columns:1fr 1fr}.ehs-head{flex-direction:column}.ehs-live{justify-content:flex-start}.ind-form{grid-template-columns:1fr}.ind-form .full{grid-column:auto}.pie-wrap{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -883,6 +908,10 @@
     <button class="tool-btn" id="dailyNav">
       <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 15h3v3H7z" fill="currentColor" opacity=".5"/><path d="M13 14l2 2 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="tt">Daily dashboard<span class="sub">Log activities · daily vs cumulative</span></span>
+    </button>
+    <button class="tool-btn" id="inductionNav">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 17c.9-2.3 2.4-3.4 4.5-3.4s3.6 1.1 4.5 3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="tt">Induction centre<span class="sub">Video · webcam · ID card</span></span>
     </button>
 
     <div class="side-label">Permits</div>
@@ -1351,6 +1380,40 @@
       <div class="permit-scroll"><div class="permit" id="homeBody"></div></div>
     </div>
 
+    <!-- Induction centre view -->
+    <div id="inductionView" class="view" style="display:none">
+      <div class="permit-scroll"><div class="permit">
+        <div class="pcard">
+          <div class="ehs-head"><div><h3><span class="tagdot" style="background:var(--accent)"></span>Induction centre</h3><div class="chart-sub">Watch the approved induction, capture attendance evidence from webcam, then issue a print-ready induction ID card.</div></div><div class="evidence-strip"><span class="evidence-pill" id="indGeo">Location pending</span><span class="evidence-pill" id="indClock">—</span></div></div>
+        </div>
+        <div class="induction-layout">
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--mandatory,#1F6FB2)"></span>1 · Watch induction video</h3>
+            <div class="ind-form" style="margin-bottom:10px"><div class="full"><label>Induction video</label><input id="indVideoFile" type="file" accept="video/*" /></div><div class="full"><label>Or use approved video URL</label><input id="indVideoUrl" placeholder="https://… (optional)" /></div></div>
+            <div class="video-box" id="indVideoBox"><div class="video-empty">Upload the project's approved induction video or enter its URL.</div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;gap:8px"><span class="evidence-pill" id="indWatchStatus">Not started</span><button class="pbtn" id="indMarkWatched" disabled>Mark watched</button></div>
+          </div>
+          <div class="pcard">
+            <h3><span class="tagdot" style="background:var(--r-med)"></span>2 · Individual attendance &amp; photo</h3>
+            <div class="ind-form">
+              <div><label>Full name *</label><input id="indName" placeholder="Worker full name" /></div>
+              <div><label>Employee / ID no. *</label><input id="indEmp" placeholder="EMP-001" /></div>
+              <div><label>Organization *</label><input id="indOrg" placeholder="Contractor / company" /></div>
+              <div><label>Category / designation</label><input id="indRole" placeholder="Skilled / Electrician / Engineer" /></div>
+              <div><label>Induction type</label><select id="indType"><option>Site induction</option><option>Visitor induction</option><option>Contractor induction</option><option>Refresher induction</option><option>Custom</option></select></div>
+              <div><label>Validity / expiry</label><input id="indExpiry" type="date" /></div>
+              <div class="full"><label>Custom seal / watermark text</label><input id="indSeal" value="INDUCTED · GUARDIAN EHS" placeholder="e.g. SITE INDUCTION · 2026" /></div>
+              <div class="full"><label>Custom logo (optional)</label><input id="indLogo" type="file" accept="image/*" /></div><div class="full"><label>Supporting evidence upload (optional)</label><input id="indEvidence" type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" /><div class="chart-sub" style="margin-top:4px">Attach certificate, acknowledgement, attendance sheet or other supporting evidence to the record.</div></div>
+            </div>
+            <div class="cam-card" style="margin-top:10px"><div class="cam-stage"><video id="indCamVideo" autoplay muted playsinline></video><canvas id="indCanvas"></canvas><div class="cam-placeholder" id="indCamPlaceholder">Camera is off. Start webcam to capture the individual's attendance photo.</div></div><div class="cam-actions"><button class="pbtn" id="indCamStart">Start webcam</button><button class="pbtn primary" id="indCapture" disabled>Capture photo</button><button class="pbtn" id="indRetake" style="display:none">Retake</button></div></div>
+            <div style="display:flex;gap:10px;align-items:center;margin-top:10px"><img class="photo-preview" id="indPhotoPreview" alt="Captured photo" /><div class="seal-preview"><b>Evidence bundle</b><br>Video watched + name + ID + organization + timestamp + location + webcam photo + watermark. Save it as one auditable induction record.</div></div>
+            <div style="display:flex;gap:7px;margin-top:11px"><button class="pbtn primary" id="indSave" style="flex:1;justify-content:center" disabled>Save induction record</button><button class="pbtn" id="indPrintCard" disabled>Print ID card</button></div>
+          </div>
+        </div>
+        <div class="pcard"><h3><span class="tagdot" style="background:var(--r-low)"></span>3 · Induction register <span class="sec-prog" id="indCount"></span></h3><div id="indRecords" class="induction-records"></div></div>
+      </div></div>
+    </div>
+
     <!-- Audit view -->
     <div id="auditView" class="view" style="display:none">
       <div class="permit-scroll">
@@ -1411,6 +1474,7 @@
               <div class="fld"><label>Date</label><input id="d_date" type="date" /></div>
               <div class="fld"><label>Remarks / highlights</label><input id="d_remarks" placeholder="Optional" /></div>
             </div>
+            <div id="manpowerPanel"></div>
             <div class="num-grid" id="numGrid"></div>
           </div>
           <div class="pcard">
@@ -3139,15 +3203,102 @@ function renderTrend(){
     +'<div class="bar-lbls">'+dates.map(dt=>'<span>'+dt.slice(8)+'</span>').join('')+'</div>';
   $('#trendChart').innerHTML=bars;
 }
+const DEFAULT_MP_CATEGORIES=[
+  'Project Manager','C&I Manager','Project Coordinator','Officer','EHS Manager','EHS Officer','Manager','Engineer','QA/QC','Supervisor',
+  'Skilled','Unskilled','Technician','Electrician','Carpenter','Mason','Welder','Helper','Operator','Security','Custom'
+];
+const DEFAULT_MP_ORGS=['PMC','Main Contractor','Subcontractor','Vendor','Client','Custom'];
+const SHIFT_HOURS_DEFAULT=8;
+
+function ensureManpowerConfig(){
+  if(!state.manpowerConfig||typeof state.manpowerConfig!=='object')state.manpowerConfig={organizations:[...DEFAULT_MP_ORGS],categories:[...DEFAULT_MP_CATEGORIES],shiftHours:SHIFT_HOURS_DEFAULT};
+  if(!Array.isArray(state.manpowerConfig.organizations))state.manpowerConfig.organizations=[...DEFAULT_MP_ORGS];
+  if(!Array.isArray(state.manpowerConfig.categories))state.manpowerConfig.categories=[...DEFAULT_MP_CATEGORIES];
+  if(!Number.isFinite(+state.manpowerConfig.shiftHours)||+state.manpowerConfig.shiftHours<=0)state.manpowerConfig.shiftHours=SHIFT_HOURS_DEFAULT;
+  state.manpowerConfig.organizations=[...new Set(state.manpowerConfig.organizations.map(String).map(x=>x.trim()).filter(Boolean))];
+  state.manpowerConfig.categories=[...new Set(state.manpowerConfig.categories.map(String).map(x=>x.trim()).filter(Boolean))];
+}
+ensureManpowerConfig();
+function persistManpowerConfig(){store.set('guardian.manpowerConfig',JSON.stringify(state.manpowerConfig));}
+(function(){try{const x=JSON.parse(store.get('guardian.manpowerConfig')||'null');if(x){state.manpowerConfig=x;ensureManpowerConfig();}}catch(_){}})();
+
+function getManpowerRows(date){
+  const e=state.daily[date]||{};
+  if(Array.isArray(e.manpowerBreakdown))return e.manpowerBreakdown.map(x=>({organization:x.organization||'',category:x.category||'',count:Math.max(0,+x.count||0)})).filter(x=>x.organization&&x.category&&x.count>0);
+  /* Preserve older daily records that only stored total manpower. */
+  const legacy=Math.max(0,+e.manpower||0);
+  return legacy?[{organization:'Existing / legacy',category:'Manpower',count:legacy}]:[];
+}
+function getShiftHours(){return Math.max(.25,+state.manpowerConfig.shiftHours||SHIFT_HOURS_DEFAULT);}
+function calculateManpower(rows){return rows.reduce((n,r)=>n+(+r.count||0),0);}
+function calculateManhours(manpower){return manpower*getShiftHours();}
+function updateManpowerTotals(date,rows){
+  const e=state.daily[date]||{};const mp=calculateManpower(rows);e.manpower=mp;e.manhours=calculateManhours(mp);e.manpowerBreakdown=rows;state.daily[date]=e;
+}
+function mpEsc(v){return esc(String(v==null?'':v));}
+function renderManpowerPanel(){
+  ensureManpowerConfig();
+  const panel=$('#manpowerPanel');if(!panel)return;
+  const date=$('#d_date').value||todayISO();const rows=getManpowerRows(date);const total=calculateManpower(rows);const hours=calculateManhours(total);
+  const orgCount=new Set(rows.map(r=>r.organization)).size;
+  panel.innerHTML='<div class="manpower-panel">'
+    +'<div class="manpower-head"><div><div class="manpower-title">Manpower &amp; man-hours</div><div class="manpower-sub">Add people by organization and category. Man-hours calculate automatically at <b>'+fmt(getShiftHours())+' h/person</b>.</div></div>'
+    +'<div class="manpower-actions"><button type="button" class="mp-btn" id="mpSettings">Shift hours</button><button type="button" class="mp-btn primary" id="mpAdd">+ Add custom</button></div></div>'
+    +'<div class="mp-summary"><div class="mp-stat"><div class="v" id="mpTotal">'+fmt(total)+'</div><div class="l">Manpower on site</div></div>'
+    +'<div class="mp-stat"><div class="v" id="mpHours">'+fmt(hours)+'</div><div class="l">Auto man-hours</div></div>'
+    +'<div class="mp-stat"><div class="v">'+fmt(orgCount)+'</div><div class="l">Organizations</div></div></div>'
+    +'<div class="mp-table-wrap">'+(rows.length?'<table class="mp-table"><thead><tr><th>Organization</th><th>Category</th><th class="num">People</th><th></th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td>'+mpEsc(r.organization)+'</td><td>'+mpEsc(r.category)+'</td><td class="num">'+fmt(r.count)+'</td><td class="num"><button type="button" class="mp-btn mp-remove" data-i="'+i+'" style="padding:5px 8px">Remove</button></td></tr>').join('')+'</tbody></table>':'<div class="mp-empty">No manpower breakdown yet. Click <b>+ Add custom</b> to add an organization and category.</div>')+'</div></div>';
+  $('#mpAdd').onclick=()=>openManpowerModal(date);
+  $('#mpSettings').onclick=openShiftHoursModal;
+  panel.querySelectorAll('.mp-remove').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;const rr=getManpowerRows(date);rr.splice(i,1);updateManpowerTotals(date,rr);persistDaily();renderDaily();});
+}
+function mpSelectOptions(list,selected){return list.map(x=>'<option value="'+mpEsc(x)+'"'+(x===selected?' selected':'')+'>'+mpEsc(x)+'</option>').join('');}
+function openManpowerModal(date){
+  ensureManpowerConfig();
+  const back=document.createElement('div');back.className='mp-modal-backdrop';back.id='mpModal';
+  back.innerHTML='<div class="mp-modal" role="dialog" aria-modal="true"><h3>Add manpower</h3><p>Enter the organization name, choose a category and enter the number of people. Reusing the same organization/category adds to its existing count.</p>'
+    +'<div class="mp-form"><div class="full"><label>Organization name</label><input id="mpOrgName" list="mpOrgList" placeholder="e.g. ABC Contractors"><datalist id="mpOrgList">'+mpSelectOptions(state.manpowerConfig.organizations,'').replace(/<option/g,'<option')+'</datalist></div>'
+    +'<div><label>Category</label><select id="mpCat">'+mpSelectOptions(state.manpowerConfig.categories,'')+'</select></div>'
+    +'<div><label>Number of people</label><input id="mpCount" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 5"></div>'
+    +'<div class="full"><label>Custom category (optional)</label><input id="mpCustomCat" placeholder="Use this only when the category is not in the list"></div></div>'
+    +'<div class="mp-note">Examples: Project Manager, C&amp;I Manager, Project Coordinator, EHS Officer, QA/QC, Skilled, Unskilled, Technician, Electrician, Carpenter, Mason, Welder, Helper, Operator.</div>'
+    +'<div class="mp-modal-actions"><button type="button" class="mp-btn" id="mpCancel">Cancel</button><button type="button" class="mp-btn primary" id="mpAddRow">Add manpower</button></div></div>';
+  document.body.appendChild(back);
+  const cat=$('#mpCat');
+  cat.insertAdjacentHTML('beforeend','<option value="__custom__">+ Custom category…</option>');
+  $('#mpCancel').onclick=()=>back.remove();
+  back.onclick=e=>{if(e.target===back)back.remove();};
+  $('#mpAddRow').onclick=()=>{
+    const organization=$('#mpOrgName').value.trim(),customCat=$('#mpCustomCat').value.trim(),category=customCat||cat.value,count=Math.floor(+$('#mpCount').value||0);
+    if(!organization){alert('Enter an organization name.');$('#mpOrgName').focus();return;}
+    if(!category||category==='__custom__'){alert('Choose a category or enter a custom category.');return;}
+    if(count<1){alert('Number of people must be at least 1.');$('#mpCount').focus();return;}
+    if(!state.manpowerConfig.organizations.includes(organization))state.manpowerConfig.organizations.push(organization);
+    if(!state.manpowerConfig.categories.includes(category))state.manpowerConfig.categories.push(category);
+    persistManpowerConfig();
+    const rows=getManpowerRows(date).filter(r=>!(r.organization==='Existing / legacy'&&r.category==='Manpower'));
+    const existing=rows.find(r=>r.organization===organization&&r.category===category);
+    if(existing)existing.count+=count;else rows.push({organization,category,count});
+    updateManpowerTotals(date,rows);persistDaily();back.remove();renderDaily();
+  };
+  setTimeout(()=>$('#mpOrgName').focus(),0);
+}
+function openShiftHoursModal(){
+  const back=document.createElement('div');back.className='mp-modal-backdrop';back.id='mpHoursModal';
+  back.innerHTML='<div class="mp-modal" role="dialog" aria-modal="true"><h3>Working hours</h3><p>Man-hours are calculated automatically as <b>daily manpower × working hours</b>.</p><div class="mp-form"><div><label>Hours per person / day</label><input id="mpShiftHours" type="number" min="0.25" max="24" step="0.25" value="'+mpEsc(getShiftHours())+'"></div></div><div class="mp-note">Changing this setting affects automatic man-hour calculation for current and future daily entries based on their saved manpower.</div><div class="mp-modal-actions"><button type="button" class="mp-btn" id="mpHoursCancel">Cancel</button><button type="button" class="mp-btn primary" id="mpHoursSave">Save hours</button></div></div>';
+  document.body.appendChild(back);$('#mpHoursCancel').onclick=()=>back.remove();back.onclick=e=>{if(e.target===back)back.remove();};
+  $('#mpHoursSave').onclick=()=>{const h=+$('#mpShiftHours').value;if(!(h>0&&h<=24)){alert('Enter working hours between 0.25 and 24.');return;}state.manpowerConfig.shiftHours=h;persistManpowerConfig();Object.keys(state.daily).forEach(dt=>{const rows=getManpowerRows(dt);if(rows.length)updateManpowerTotals(dt,rows);});persistDaily();back.remove();renderDaily();};
+}
 function renderNumGrid(){
   const g=$('#numGrid');g.innerHTML='';
   const sel=$('#d_date').value||todayISO();const e=state.daily[sel]||{};
-  DAILY_METRICS.forEach(m=>{
+  DAILY_METRICS.filter(m=>m.id!=='manpower'&&m.id!=='manhours').forEach(m=>{
     const w=document.createElement('div');w.className='fld';
     w.innerHTML='<label>'+m.l+'</label><input id="dm_'+m.id+'" type="number" min="0" inputmode="numeric" placeholder="0" value="'+(e[m.id]!=null?e[m.id]:'')+'">';
     g.appendChild(w);
   });
   $('#d_remarks').value=e.remarks||'';
+  renderManpowerPanel();
 }
 function renderRecent(){
   const t=$('#recentTable');
@@ -3173,8 +3324,9 @@ function renderDaily(){
 }
 $('#d_date').onchange=renderDaily;
 $('#dailySave').onclick=()=>{
-  const sel=$('#d_date').value||todayISO();const e={};
-  DAILY_METRICS.forEach(m=>{const v=$('#dm_'+m.id).value;if(v!=='')e[m.id]=+v;});
+  const sel=$('#d_date').value||todayISO();const old=state.daily[sel]||{};const e={};
+  DAILY_METRICS.filter(m=>m.id!=='manpower'&&m.id!=='manhours').forEach(m=>{const v=$('#dm_'+m.id).value;if(v!=='')e[m.id]=+v;});
+  const rows=getManpowerRows(sel);updateManpowerTotals(sel,rows);Object.assign(e,{manpower:state.daily[sel].manpower||0,manhours:state.daily[sel].manhours||0,manpowerBreakdown:rows});
   const rm=$('#d_remarks').value.trim();if(rm)e.remarks=rm;
   state.daily[sel]=e;persistDaily();renderDaily();
 };
@@ -3318,9 +3470,11 @@ function mdToHtml(t){
 }
 function addMsg(role,text,opts={}){
   const el=document.createElement('div');el.className='msg '+(role==='user'?'user':'bot');
+  const replyIcons={incident:'🚨',firstaid:'🩹',risk:'⚠️',compliance:'📚',near:'👀',general:'🛡️'};
+  const replyIcon=replyIcons[state.mode]||'🛡️';
   el.innerHTML=`<div class="avatar ${role==='user'?'you':'bot'}">${role==='user'?'YOU':'<span class="glogo av-shield"><svg viewBox="0 0 24 24" fill="none" width="17" height="17"><path class="g-shield" d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path class="g-core" d="m9 12 2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'}</div><div class="bubble"><div class="content ${opts.err?'err':''}"></div></div>`;
   const c=el.querySelector('.content');
-  if(role==='user'){c.textContent=text}else{c.innerHTML=text?mdToHtml(text):''}
+  if(role==='user'){c.textContent=text}else{c.innerHTML=text?mdToHtml(text):''; const mark=document.createElement('span'); mark.className='reply-mark'; mark.textContent=replyIcon; mark.title='Guardian context'; c.prepend(mark)}
   thread.appendChild(el);scroll.scrollTop=scroll.scrollHeight;return c;
 }
 function renderThread(){thread.innerHTML='';if(state.messages.length===0){renderEmpty();return}state.messages.forEach(m=>addMsg(m.role,m.content));}
@@ -7063,6 +7217,123 @@ if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostnam
 
 const _ic=initCloud();
 if(_ic&&_ic.then)_ic.then(checkAdmRoute);else checkAdmRoute();
+
+/* ================================================================
+   Guardian EHS Intelligence Home + Evidence-first Induction Centre
+   Browser-local implementation: no camera/photo is uploaded unless
+   the user explicitly uses an existing app upload mechanism.
+   ================================================================ */
+(function(){
+  const STORE_KEY='guardian.induction.records.v2';
+  const CONFIG_KEY='guardian.induction.config.v2';
+  let indStream=null, indPhoto='', indLogo='', indLogoImg=null, indEvidence=[];
+  const read=(k,d)=>{try{return JSON.parse(store.get(k)||JSON.stringify(d))}catch(_){return d}};
+  const write=(k,v)=>store.set(k,JSON.stringify(v));
+  function inductionRecords(){const x=read(STORE_KEY,[]);return Array.isArray(x)?x:[]}
+  function geoText(g){return g&&g.lat!=null?Number(g.lat).toFixed(5)+', '+Number(g.lng).toFixed(5):'Location unavailable'}
+  function getLocation(cb){
+    if(!navigator.geolocation){cb({label:'Location unavailable'});return;}
+    navigator.geolocation.getCurrentPosition(p=>cb({label:Number(p.coords.latitude).toFixed(5)+', '+Number(p.coords.longitude).toFixed(5),lat:p.coords.latitude,lng:p.coords.longitude,accuracy:Math.round(p.coords.accuracy||0)}),()=>cb({label:'Location permission unavailable'}),{enableHighAccuracy:true,timeout:7000,maximumAge:60000});
+  }
+  function clock(){const d=new Date();const s=d.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'medium'});const el=$('#indClock');if(el)el.textContent=s;return {iso:d.toISOString(),display:s};}
+  setInterval(()=>{if($('#inductionView').style.display!=='none')clock()},1000);
+
+  function escapeAttr(x){return esc(String(x||''));}
+  function drawGuardianMark(ctx,x,y,w,h,logoImg){
+    if(logoImg){try{ctx.drawImage(logoImg,x,y,w,h);return}catch(_){} }
+    ctx.save();ctx.translate(x,y);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=Math.max(2,w*.06);ctx.beginPath();ctx.moveTo(w*.5,0);ctx.lineTo(w*.12,h*.14);ctx.lineTo(w*.15,h*.55);ctx.quadraticCurveTo(w*.2,h*.82,w*.5,h);ctx.quadraticCurveTo(w*.8,h*.82,w*.85,h*.55);ctx.lineTo(w*.88,h*.14);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.moveTo(w*.3,h*.5);ctx.lineTo(w*.45,h*.65);ctx.lineTo(w*.7,h*.35);ctx.stroke();ctx.restore();
+  }
+  function captureCanvas(){
+    const v=$('#indCamVideo'),c=$('#indCanvas');if(!v||!v.videoWidth)return '';
+    c.width=v.videoWidth;c.height=v.videoHeight;const ctx=c.getContext('2d');ctx.drawImage(v,0,0,c.width,c.height);
+    ctx.fillStyle='rgba(0,0,0,.42)';ctx.fillRect(0,c.height-54,c.width,54);
+    drawGuardianMark(ctx,14,14,42,42,indLogoImg);
+    const seal=($('#indSeal')?.value||'INDUCTED · GUARDIAN EHS').trim();ctx.fillStyle='#fff';ctx.font='700 16px Arial';ctx.fillText(seal,c.width-ctx.measureText(seal).width-16,c.height-31);ctx.font='11px Arial';ctx.fillText('Guardian EHS · '+new Date().toLocaleString('en-IN'),60,c.height-13);
+    return c.toDataURL('image/jpeg',.9);
+  }
+  async function startCam(){
+    try{if(indStream)indStream.getTracks().forEach(t=>t.stop());indStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:960}},audio:false});$('#indCamVideo').srcObject=indStream;$('#indCamPlaceholder').style.display='none';$('#indCapture').disabled=false;toastMsg('Webcam ready.');}
+    catch(e){alert('Camera could not start. Allow camera access for this site, then try again.');}
+  }
+  function stopCam(){if(indStream){indStream.getTracks().forEach(t=>t.stop());indStream=null}}
+  function loadLogo(file){if(!file)return;const r=new FileReader();r.onload=()=>{indLogo=r.result;indLogoImg=new Image();indLogoImg.onload=()=>toastMsg('Custom logo loaded. It will be applied to the next captured photo.');indLogoImg.src=indLogo;};r.readAsDataURL(file)}
+
+  function inductionReady(){return !!(indPhoto && $('#indName').value.trim() && $('#indEmp').value.trim() && $('#indOrg').value.trim() && $('#indWatchStatus').dataset.watched==='1')}
+  function refreshIndButtons(){const ok=inductionReady();$('#indSave').disabled=!ok;$('#indPrintCard').disabled=!ok}
+  function setVideo(src,label){const box=$('#indVideoBox');box.innerHTML='<video id="indVideo" controls playsinline preload="metadata"></video>';const v=$('#indVideo');v.src=src;$('#indWatchStatus').textContent='Not started · '+(label||'approved video');$('#indWatchStatus').dataset.watched='0';$('#indMarkWatched').disabled=true;v.addEventListener('play',()=>{$('#indWatchStatus').textContent='Watching…';});v.addEventListener('timeupdate',()=>{if(v.duration&&v.currentTime/v.duration>=.9){$('#indMarkWatched').disabled=false;$('#indWatchStatus').textContent='90% viewed · ready to confirm';}});v.addEventListener('ended',()=>{$('#indMarkWatched').disabled=false;$('#indWatchStatus').textContent='Video completed · ready to confirm';});}
+  function renderInduction(){
+    const rows=inductionRecords();$('#indCount').textContent=rows.length?rows.length+' records':'';
+    const box=$('#indRecords');if(!rows.length){box.innerHTML='<div class="mp-empty">No induction records yet. Complete the video, capture each individual, then save.</div>';return;}
+    box.innerHTML=rows.slice().reverse().map((r,i)=>'<div class="ind-row"><img src="'+escapeAttr(r.photo)+'" alt=""><div><b>'+esc(r.name)+'</b><span>'+esc(r.employeeId)+' · '+esc(r.organization)+'</span><span>'+esc(r.category||'—')+' · '+esc(r.type)+' · '+esc(r.timestampDisplay)+'</span><span>Location: '+esc(r.location?.label||'—')+' · Evidence: video + webcam + metadata'+(r.evidence?.length?' + '+r.evidence.length+' attachment(s)':'')+'</span></div><div class="ind-actions"><button class="pbtn ind-print-one" data-id="'+escapeAttr(r.id)+'">Print ID</button><button class="pbtn ind-del-one" data-id="'+escapeAttr(r.id)+'">Delete</button></div></div>').join('');
+    box.querySelectorAll('.ind-print-one').forEach(b=>b.onclick=()=>{const r=rows.find(x=>x.id===b.dataset.id);if(r)printIndCard(r)});
+    box.querySelectorAll('.ind-del-one').forEach(b=>b.onclick=()=>{if(confirm('Delete this induction record?')){write(STORE_KEY,rows.filter(x=>x.id!==b.dataset.id));renderInduction();}});
+  }
+  function printIndCard(r){
+    const area=$('#indPrintArea');area.innerHTML='<div class="id-card-print"><div class="top"><div class="brand">GUARDIAN EHS<br><span style="font-size:6px;font-weight:400">INDUCTION ID</span></div><div class="seal">'+esc((r.seal||'INDUCTED').slice(0,24))+'</div></div><div class="body"><img src="'+escapeAttr(r.photo)+'"><div class="info"><b>'+esc(r.name)+'</b><div>ID: '+esc(r.employeeId)+'</div><div>Org: '+esc(r.organization)+'</div><div>Role: '+esc(r.category||'—')+'</div><div>Type: '+esc(r.type)+'</div><div>Valid: '+esc(r.expiry||'—')+'</div><div>Captured: '+esc(r.timestampDisplay)+'</div><div>Location: '+esc(r.location?.label||'—')+'</div></div></div><div class="wm">'+esc(r.seal||'INDUCTED · GUARDIAN EHS')+'</div><div class="foot"><span>Evidence ID: '+esc(r.id.slice(-10))+'</span><span>Guardian EHS</span></div></div>';
+    document.body.classList.add('ind-printing');setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('ind-printing'),500)},80);
+  }
+  function resetPerson(){indEvidence=[];indPhoto='';$('#indPhotoPreview').removeAttribute('src');$('#indRetake').style.display='none';$('#indSave').disabled=true;$('#indPrintCard').disabled=true}
+  function initInduction(){
+    if($('#inductionView').dataset.ready)return;$('#inductionView').dataset.ready='1';
+    $('#indVideoFile').onchange=e=>{const f=e.target.files[0];if(f)setVideo(URL.createObjectURL(f),f.name)};
+    $('#indVideoUrl').onchange=e=>{const u=e.target.value.trim();if(u)setVideo(u,'video URL')};
+    $('#indMarkWatched').onclick=()=>{$('#indWatchStatus').dataset.watched='1';$('#indWatchStatus').textContent='Confirmed watched ✓';refreshIndButtons()};
+    $('#indCamStart').onclick=startCam;
+    $('#indCapture').onclick=()=>{indPhoto=captureCanvas();if(!indPhoto)return;$('#indPhotoPreview').src=indPhoto;$('#indRetake').style.display='';refreshIndButtons();toastMsg('Attendance photo captured with watermark and timestamp.')};
+    $('#indRetake').onclick=()=>{indPhoto='';$('#indPhotoPreview').removeAttribute('src');$('#indCapture').disabled=!indStream};
+    $('#indLogo').onchange=e=>loadLogo(e.target.files[0]);
+    $('#indEvidence').onchange=e=>{indEvidence=Array.from(e.target.files||[]).map(f=>({name:f.name,type:f.type,size:f.size}));};
+    ['indName','indEmp','indOrg','indRole','indType','indExpiry','indSeal'].forEach(id=>$('#'+id).addEventListener('input',refreshIndButtons));
+    $('#indSave').onclick=()=>{
+      if(!inductionReady())return;const t=clock();const finish=(loc)=>{const rows=inductionRecords();const r={id:'IND-'+Date.now().toString(36).toUpperCase(),name:$('#indName').value.trim(),employeeId:$('#indEmp').value.trim(),organization:$('#indOrg').value.trim(),category:$('#indRole').value.trim(),type:$('#indType').value,expiry:$('#indExpiry').value,seal:$('#indSeal').value.trim(),photo:indPhoto,timestamp:t.iso,timestampDisplay:t.display,location:loc,videoWatched:true,evidence:indEvidence};rows.push(r);write(STORE_KEY,rows);const dt=t.iso.slice(0,10);const de=state.daily[dt]||{};de.inductions=(+de.inductions||0)+1;de.inductionEvidenceCount=(+de.inductionEvidenceCount||0)+1;state.daily[dt]=de;persistDaily();renderInduction();printIndCard(r);toastMsg('Induction record saved and ID card sent to print.');resetPerson();indEvidence=[];const ef=$('#indEvidence');if(ef)ef.value='';};getLocation(finish);
+    };
+    $('#indPrintCard').onclick=()=>{if(!inductionReady())return;const t=clock();printIndCard({id:'PREVIEW-'+Date.now(),name:$('#indName').value.trim(),employeeId:$('#indEmp').value.trim(),organization:$('#indOrg').value.trim(),category:$('#indRole').value.trim(),type:$('#indType').value,expiry:$('#indExpiry').value,seal:$('#indSeal').value.trim(),photo:indPhoto,timestamp:t.iso,timestampDisplay:t.display,location:{label:$('#indGeo').textContent}})};
+    renderInduction();getLocation(g=>{$('#indGeo').textContent='Location: '+g.label});
+  }
+
+  // Evidence-first home dashboard
+  function dateParts(){const now=new Date();const iso=now.toISOString().slice(0,10);return {now,iso};}
+  function rowsBetween(days){const out=[];const now=new Date();for(let i=days-1;i>=0;i--){const d=new Date(now);d.setHours(0,0,0,0);d.setDate(d.getDate()-i);const k=d.toISOString().slice(0,10);out.push([k,state.daily[k]||{}]);}return out}
+  function sumRows(rows,key){return rows.reduce((a,x)=>a+(+x[1][key]||0),0)}
+  function avgRows(rows,key){return rows.length?sumRows(rows,key)/rows.length:0}
+  function rangeRows(mode){
+    const all=Object.keys(state.daily).sort().map(k=>[k,state.daily[k]]);const now=new Date();
+    if(mode==='life')return all;
+    if(mode==='year')return all.filter(x=>new Date(x[0]).getFullYear()===now.getFullYear());
+    if(mode==='month')return all.filter(x=>{const d=new Date(x[0]);return d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth()});
+    if(mode==='week'){const d=new Date(now);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);const start=d.toISOString().slice(0,10);return all.filter(x=>x[0]>=start&&x[0]<=now.toISOString().slice(0,10));}
+    return all.filter(x=>x[0]===now.toISOString().slice(0,10));
+  }
+  function chartData(mode){const rows=rangeRows(mode);if(!rows.length)return [];
+    if(mode==='life'||mode==='year'){const map={};rows.forEach(([d,e])=>{const x=mode==='year'?d.slice(5,7):d.slice(0,4);map[x]=(map[x]||0)+(+e.manhours||0)});return Object.entries(map)}
+    return rows.map(([d,e])=>[d.slice(5),+e.manhours||0]);
+  }
+  function svgTrend(data){if(!data.length)return '<div class="mp-empty">No man-hour records for this period.</div>';const W=760,H=230,pad=32,max=Math.max(1,...data.map(x=>x[1])),step=(W-pad*2)/Math.max(1,data.length-1);const pts=data.map((x,i)=>[pad+i*step,H-pad-(x[1]/max)*(H-pad*2)]);return '<svg class="line-chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+(W-pad)+'" y2="'+(H-pad)+'" stroke="currentColor" opacity=".16"/><line x1="'+pad+'" y1="'+pad+'" x2="'+pad+'" y2="'+(H-pad)+'" stroke="currentColor" opacity=".12"/><polyline fill="none" stroke="currentColor" stroke-width="3" points="'+pts.map(p=>p.join(',')).join(' ')+'" opacity=".85"/>'+pts.map((p,i)=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.2" fill="currentColor"/><text x="'+p[0]+'" y="'+(H-9)+'" text-anchor="middle" class="axis-text">'+esc(data[i][0])+'</text>').join('')+'<text x="4" y="16" class="axis-text">'+fmt(max)+'</text><text x="8" y="'+(H-pad+3)+'" class="axis-text">0</text></svg>'}
+  function donutHTML(values){const total=values.reduce((a,x)=>a+x[1],0)||1;let cur=0;const colors=['var(--accent)','var(--r-med)','var(--r-low)','var(--mandatory,#1F6FB2)'];const vars=[];values.forEach((x,i)=>{cur+=x[1]/total*100;vars.push(cur)});return '<div class="pie-wrap"><div class="donut" style="--p1:'+vars[0]+'%;--p2:'+(vars[1]||vars[0])+'%;--p3:'+(vars[2]||vars[1]||vars[0])+'%"></div><div class="pie-list">'+values.map((x,i)=>'<div class="pie-item"><i style="--c:'+colors[i]+'"></i><span>'+esc(x[0])+' <b>'+fmt(x[1])+'</b></span></div>').join('')+'</div></div>'}
+  function renderHomeIntelligence(){
+    if(!cloud.user){setView('chat');return}const body=$('#homeBody');if(!body)return;const name=(cloud.user.user_metadata&&cloud.user.user_metadata.full_name)||(cloud.user.email||'').split('@')[0]||'EHS team';const now=new Date();const mode=body.dataset.period||'month';const rows=rangeRows(mode);const life=rangeRows('life');const mp=rows.reduce((a,x)=>a+(+x[1].manpower||0),0);const mh=sumRows(rows,'manhours');const inds=sumRows(rows,'inductions');const obs=sumRows(rows,'obsRaised');const closed=sumRows(rows,'obsClosed');const nm=sumRows(rows,'nearmiss');const permits=sumRows(rows,'permits');const tbt=sumRows(rows,'tbt');const trainings=sumRows(rows,'trainings');
+    const periodLabel={day:'Today',week:'This week',month:'This month',year:'This year',life:'Life to date'}[mode]||'This month';
+    const latest=Object.keys(state.daily).sort().pop();const latestEntry=latest?state.daily[latest]:null;
+    const allInd=inductionRecords();if($('#indGeo')&&$('#indGeo').textContent==='Location pending')getLocation(g=>{$('#indGeo').textContent='Location: '+g.label;});
+    const activities=[['Toolbox talks',tbt],['Inductions',inds],['Trainings',trainings],['Inspections',sumRows(rows,'inspections')],['Audits',sumRows(rows,'audits')],['Observations',obs]].filter(x=>x[1]>0);
+    const chart=chartData(mode);const maxBar=Math.max(1,...chart.map(x=>x[1]));
+    body.innerHTML='<div class="ehs-home"><div class="ehs-head"><div class="ehs-title"><h1>Guardian EHS command centre</h1><p>Evidence-led site intelligence · '+esc(periodLabel)+' · '+esc(name)+'</p></div><div class="ehs-live"><span class="live-chip">🕒 '+esc(now.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}))+'</span><span class="live-chip">📍 '+esc($('#indGeo')?.textContent?.replace('Location: ','')||'Browser location on request')+'</span></div></div><div class="period-tabs">'+[['day','Daily'],['week','Weekly'],['month','Monthly'],['year','Yearly'],['life','Life']].map(x=>'<button class="period-tab '+(mode===x[0]?'active':'')+'" data-period="'+x[0]+'">'+x[1]+'</button>').join('')+'</div><div class="ehs-kpis"><div class="ehs-kpi"><div class="n">'+fmt(mh)+'</div><div class="l">Man-hours</div><div class="s">'+periodLabel+'</div></div><div class="ehs-kpi"><div class="n">'+fmt(sumRows(rows,'manpower'))+'</div><div class="l">Peak manpower</div><div class="s">Avg/day '+fmt(Math.round(avgRows(rows,'manpower')))+' </div></div><div class="ehs-kpi"><div class="n">'+fmt(inds)+'</div><div class="l">Inductions</div><div class="s">'+allInd.length+' evidence records total</div></div><div class="ehs-kpi"><div class="n">'+fmt(obs)+'</div><div class="l">Observations raised</div><div class="s">'+fmt(closed)+' closed</div></div><div class="ehs-kpi"><div class="n">'+fmt(nm)+'</div><div class="l">Near misses</div><div class="s">Report & learn</div></div><div class="ehs-kpi"><div class="n">'+fmt(permits)+'</div><div class="l">Permits</div><div class="s">Issued in period</div></div></div><div class="ehs-grid"><div class="chart-card"><h3>Man-hours trend</h3><div class="chart-sub">Daily / weekly / monthly / yearly roll-up based on the daily register</div><div class="chart-scroll">'+svgTrend(chart)+'</div></div><div class="chart-card"><h3>EHS activity mix</h3><div class="chart-sub">Evidence-producing activity volume</div>'+(activities.length?donutHTML(activities):'<div class="mp-empty">No activities recorded for this period.</div>')+'</div></div><div class="ehs-grid"><div class="chart-card"><h3>Man-hours by period</h3><div class="chart-sub">Power BI-style comparative bars</div><div class="bar-grid">'+chart.map(x=>'<div class="period-bar" style="--h:'+Math.max(3,(x[1]/maxBar)*175)+'px" title="'+esc(x[0])+' · '+fmt(x[1])+' man-hours"><span>'+esc(x[0])+'</span></div>').join('')+'</div></div><div class="chart-card"><h3>Evidence health</h3><div class="chart-sub">Records that support audit-ready reporting</div><div class="pie-list" style="margin-top:18px"><div class="evidence-pill">✓ '+allInd.length+' induction records with photo evidence</div><div class="evidence-pill">✓ '+Object.keys(state.daily).length+' dated daily registers</div><div class="evidence-pill">'+(latestEntry?'✓ Latest register: '+latest:'! No daily register yet')+'</div><div class="evidence-pill">'+(allInd.length?'✓ Webcam attendance evidence available':'! Start with Induction centre')+'</div></div></div></div><div class="chart-card"><h3>Evidence-first workflow</h3><div class="chart-sub">The dashboard should show not only numbers, but where the evidence sits.</div><div class="evidence-strip"><button class="pbtn" id="homeGoDaily">Daily register →</button><button class="pbtn" id="homeGoInd">Induction centre →</button><button class="pbtn" id="homeGoAudit">Audits &amp; evidence →</button><button class="pbtn" id="homeGoIncident">Incident / near miss →</button></div></div></div>';
+    body.querySelectorAll('.period-tab').forEach(b=>b.onclick=()=>{body.dataset.period=b.dataset.period;renderHomeIntelligence()});$('#homeGoDaily').onclick=()=>setView('daily');$('#homeGoInd').onclick=()=>setView('induction');$('#homeGoAudit').onclick=()=>setView('audit');$('#homeGoIncident').onclick=()=>setView('incident');
+  }
+  // Override the previous role-only home renderer with the intelligence dashboard.
+  renderHome=renderHomeIntelligence;
+  const _setViewGuardian=setView;
+  setView=function(v){
+    if($('#inductionView'))$('#inductionView').style.display=v==='induction'?'flex':'none';
+    if($('#inductionNav'))$('#inductionNav').classList.toggle('active',v==='induction');
+    _setViewGuardian(v);
+    if(v==='induction'){document.querySelectorAll('#modes .mode').forEach(x=>x.classList.remove('active'));$('#ctxTitle').textContent='Induction centre';$('#ctxSub').textContent='Watch · capture · verify · issue induction evidence';initInduction();}
+    if(v==='home'){renderHomeIntelligence();}
+  };
+  $('#inductionNav').onclick=()=>{if(typeof guestGate==='function'&&guestGate('The induction and attendance evidence module'))return;setView('induction');closeNav();};
+  window.addEventListener('beforeunload',stopCam);
+})();
+
 </script>
 </body>
 </html>
