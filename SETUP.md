@@ -35,7 +35,7 @@ these to the repository **root** (not a subfolder):
 | `promo.html` | Animated tour |
 | `post.html` | Reads published journal articles from the database |
 | `projects.html`, `team.html`, `blog.html`, `post-permit-workflow.html`, `post-offline-ehs.html` | Site pages |
-| `site.css` | Shared stylesheet |
+| `web/assets/css/home.css` | Homepage stylesheet |
 | `sw.js` | Offline launch for the marketing pages |
 | `og.png`, `img-*.png`, `blog-*.png` | Images |
 | `robots.txt`, `sitemap.xml` | Indexing |

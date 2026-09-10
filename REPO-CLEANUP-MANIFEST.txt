@@ -1,0 +1,45 @@
+Guardian canonical layout
+
+index.html                    public home
+404.html                     canonical GitHub Pages 404
+web/                         public website source + assistant
+app/                         authenticated Guardian application
+monitor/                     Ghost realtime monitor
+supabase/                    migrations + Edge Functions
+cloudflare/                  WAF/Worker
+
+Removed upload-conflict duplicates:
+- 404 (12).html
+- app (11).html
+- blog (1).html
+- README (16).md
+- README (8).md
+- ghost-integration-ehs (14).js
+- guardian-cloud-config (10).js
+- index (13).html
+- post (2).html
+- post-bengaluru-garbage (3).html
+- post-offline-ehs (4).html
+- post-permit-workflow (5).html
+- projects (6).html
+- promo (7).html
+- sw (15).js
+- team (9).html
+
+Obsolete root implementation copies removed in favor of canonical folders:
+- ghost-integration-ehs.js -> app/ghost-integration-ehs.js
+- guardian-cloud-config.js -> app/guardian-cloud-config.js
+- guardian-assistant.css -> web/assets/css/guardian-assistant.css
+- guardian-assistant.js -> web/assets/js/guardian-assistant.js
+- guardian-chat.js -> web/assets/js/guardian-chat.js
+- home.css -> web/assets/css/home.css
+- home.js -> web/assets/js/home.js
+- guardian-mark.svg -> web/components/guardian-mark.svg
+- worker.js / wrangler.toml -> cloudflare/
+- index.ts -> supabase/functions/ghost-webhook/index.ts
+- guardian-safety-graph.sql -> consolidated Supabase migration
+- sw.js -> app/sw.js
+- guardian-cloud-config.example.js -> app/ config documentation
+
+Legacy public URLs remain as tiny redirect stubs:
+/app.html, /blog.html, /projects.html, /team.html, /promo.html, /post.html and the three named post pages.
