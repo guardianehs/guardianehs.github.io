@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://arunwilliams.github.io/guardian/</loc>
+    <loc>https://guardianehs.github.io/</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/app/</loc>
+    <loc>https://guardianehs.github.io/app/</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/projects.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/projects.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/blog.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/blog.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/post-permit-workflow.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/post-permit-workflow.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/post-offline-ehs.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/post-offline-ehs.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/team.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/team.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/promo.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/promo.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://arunwilliams.github.io/guardian/web/pages/web/pages/post.html</loc>
+    <loc>https://guardianehs.github.io/web/pages/post.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
