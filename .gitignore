@@ -1,0 +1,16 @@
+# Internal / ops — never publish to the public site repo
+*.sql
+wrangler.toml
+worker.js
+WAF-RULES.md
+GUARDIAN-2.0-ARCHITECTURE.md
+LOCAL-SUPABASE-GHOST.md
+REPO-CLEANUP*.md
+REPO-CLEANUP*.txt
+SETUP.md
+GITHUB-PAGES-OAUTH.md
+admin.html
+studio.html
+guardian-ghost-admin-panel.html
+ghost-monitor.html
+"README (*.md
