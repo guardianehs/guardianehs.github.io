@@ -1,6 +1,0 @@
-name = "guardian-ghost-webhook"
-main = "worker.js"
-compatibility_date = "2026-09-01"
-
-[vars]
-# Set SUPABASE_FUNCTION_URL and GUARDIAN_GHOST_WEBHOOK_SECRET with `wrangler secret put`.
